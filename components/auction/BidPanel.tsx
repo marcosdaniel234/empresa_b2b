@@ -1,211 +1,250 @@
 "use client";
-
-import { useMemo, useState } from "react";
-import { Building2, Clock, Gavel, RefreshCcw, TimerReset } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Clock3, Info, ArrowRight } from "lucide-react";
 import { Asset } from "@/lib/data";
-import { formatCurrencyFull, formatDateTimeWithZone, getCountdownParts } from "@/lib/format";
+import { formatCurrencyFull, formatDateTimeWithZone } from "@/lib/format";
+import { validateDemoBid } from "@/lib/money";
 import { Button } from "@/components/ui/Button";
-import { CountdownClock } from "./CountdownClock";
+import { CountdownClock, useDemoClock } from "./CountdownClock";
 import { BidPhase, BidReviewModal } from "./BidReviewModal";
 
-const CLOSED_RESULT: Record<string, { title: string; tone: string; description: string }> = {
-  encerrado_vencedor: {
-    title: "Encerrado — resultado confirmado",
-    tone: "bg-success-surface text-success-text",
-    description: "Este leilão foi encerrado e o resultado já foi confirmado pela plataforma.",
-  },
-  encerrado_sem_vencedor: {
-    title: "Encerrado sem vencedor",
-    tone: "bg-surface-subtle text-text-secondary",
-    description: "Este leilão foi encerrado sem lances válidos suficientes.",
-  },
-  cancelado: {
-    title: "Leilão cancelado",
-    tone: "bg-surface-subtle text-text-secondary",
-    description: "O vendedor cancelou este leilão antes do início dos lances.",
-  },
-};
-
 export function BidPanel({ asset }: { asset: Asset }) {
-  const hasBid = asset.currentBid !== null;
-  const nextMinimum = hasBid ? (asset.currentBid as number) + asset.minIncrement : asset.startingBid;
-
-  const [bidInput, setBidInput] = useState<string>(String(nextMinimum));
+  const minimum =
+    asset.currentBid !== null
+      ? asset.currentBid + asset.minIncrement
+      : asset.startingBid;
+  const [input, setInput] = useState(minimum.toFixed(2).replace(".", ","));
   const [phase, setPhase] = useState<BidPhase | null>(null);
+  const [amount, setAmount] = useState(minimum);
   const [receiptTime, setReceiptTime] = useState<string>();
-  const [confirmedValue, setConfirmedValue] = useState<number>(nextMinimum);
-  const [error, setError] = useState<string>();
+  const [error, setError] = useState("");
+  const [visible, setVisible] = useState(true);
+  const panel = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const sending = useRef(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const now = useDemoClock();
+  const isOpen = asset.status === "aberto" || asset.status === "encerrando";
+  const expired = now > 0 && now >= Date.parse(asset.deadlineIso);
+  const canReview = isOpen && !expired && now > 0;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0 },
+    );
+    if (panel.current) observer.observe(panel.current);
+    return () => {
+      observer.disconnect();
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
 
-  const isPast = useMemo(() => getCountdownParts(asset.deadlineIso).isPast, [asset.deadlineIso]);
-  const isOpenState = asset.status === "aberto" || asset.status === "encerrando";
-  const closedInfo = CLOSED_RESULT[asset.status];
-
-  function openReview() {
-    const numeric = Number(bidInput.replace(/[^\d]/g, ""));
-    if (!numeric || numeric < nextMinimum) {
-      setError(`O valor deve ser de pelo menos ${formatCurrencyFull(nextMinimum)}.`);
+  function review() {
+    if (!canReview || Date.now() >= Date.parse(asset.deadlineIso)) {
+      setError("O prazo desta demonstração foi atingido.");
       return;
     }
-    setError(undefined);
-    setConfirmedValue(numeric);
+    const result = validateDemoBid(input, minimum);
+    if (result.error || result.cents === null) {
+      setError(result.error ?? "Confira o valor informado.");
+      panel.current?.scrollIntoView({ block: "center" });
+      inputRef.current?.focus({ preventScroll: true });
+      return;
+    }
+    setError("");
+    setAmount(result.cents / 100);
     setPhase("review");
   }
-
   function confirm() {
+    if (sending.current) return;
+    if (Date.now() >= Date.parse(asset.deadlineIso)) {
+      setPhase("uncertain");
+      return;
+    }
+    sending.current = true;
     setPhase("confirming");
-    // Simulação de latência de rede — nenhuma chamada real ocorre neste MVP.
-    setTimeout(() => {
+    timer.current = setTimeout(() => {
       setReceiptTime(new Date().toISOString());
       setPhase("accepted");
-    }, 900);
+      sending.current = false;
+    }, 600);
   }
-
-  function closeModal() {
-    setPhase(null);
-  }
-
   return (
     <div>
-      <div className="rounded-card border border-border-subtle bg-surface-card p-6 shadow-card">
-        <div className="flex items-center gap-2">
-          <Gavel className="h-5 w-5 text-action" aria-hidden="true" />
-          <span className="text-label font-medium text-text-secondary">
-            {isOpenState ? "Leilão aberto" : "Estado do leilão"}
+      <div
+        ref={panel}
+        id="painel-lance"
+        className="overflow-hidden rounded-[16px] border border-border-subtle bg-white shadow-card"
+      >
+        <div className="flex items-center justify-between border-b bg-surface-page px-6 py-4">
+          <p className="text-label font-semibold">Informações do leilão</p>
+          <span className="text-caption text-text-secondary">
+            Lote {asset.id.toUpperCase()}
           </span>
         </div>
-
-        {isOpenState ? (
-          <>
-            <div className="mt-4">
-              <span className="block text-caption text-text-secondary">{hasBid ? "Lance atual" : "Lance inicial"}</span>
-              <span className="text-value text-text-primary tabular">
-                {formatCurrencyFull(hasBid ? (asset.currentBid as number) : asset.startingBid)}
-              </span>
-            </div>
-
-            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-metadata text-text-secondary">
-              <span>
-                Próximo mínimo: <strong className="text-text-primary tabular">{formatCurrencyFull(nextMinimum)}</strong>
-              </span>
-              <span>
-                Incremento: <span className="tabular">{formatCurrencyFull(asset.minIncrement)}</span>
-              </span>
-            </div>
-
-            <p className="mt-2 text-metadata text-text-secondary">
-              {asset.bidCount} lance{asset.bidCount === 1 ? "" : "s"} válido{asset.bidCount === 1 ? "" : "s"} até agora
-            </p>
-
-            <div className="mt-4 flex items-center gap-2 rounded-control bg-surface-subtle p-3 text-metadata text-text-primary">
-              <Clock className="h-4 w-4 flex-shrink-0 text-text-secondary" aria-hidden="true" />
-              <div>
-                <p>{formatDateTimeWithZone(asset.deadlineIso)}</p>
-                <p className="mt-0.5">
-                  Tempo restante: <CountdownClock deadlineIso={asset.deadlineIso} className="font-semibold" />
+        <div className="p-6">
+          <p className="text-metadata text-text-secondary">
+            {asset.status === "encerrado_vencedor"
+              ? "Valor final do exemplo"
+              : asset.currentBid !== null
+                ? "Lance atual"
+                : "Lance inicial"}
+          </p>
+          <p className="mt-1 break-words text-value tracking-tight tabular">
+            {formatCurrencyFull(asset.currentBid ?? asset.startingBid)}
+          </p>
+          {isOpen && (
+            <>
+              <dl className="mt-5 space-y-2 border-t pt-4 text-metadata">
+                <div className="flex flex-wrap justify-between gap-2">
+                  <dt className="text-text-secondary">Próximo mínimo</dt>
+                  <dd className="font-semibold tabular">
+                    {formatCurrencyFull(minimum)}
+                  </dd>
+                </div>
+                <div className="flex flex-wrap justify-between gap-2">
+                  <dt className="text-text-secondary">Incremento mínimo</dt>
+                  <dd className="tabular">
+                    {formatCurrencyFull(asset.minIncrement)}
+                  </dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-text-secondary">Lances no exemplo</dt>
+                  <dd>{asset.bidCount}</dd>
+                </div>
+              </dl>
+              <div className="my-5 rounded-control bg-surface-subtle p-4">
+                <p className="flex items-center gap-2 text-label">
+                  <Clock3 size={17} aria-hidden="true" /> Encerramento do
+                  exemplo
+                </p>
+                <p className="mt-2 text-metadata text-text-secondary">
+                  {formatDateTimeWithZone(asset.deadlineIso)}
+                </p>
+                <p className="mt-2 text-title-card">
+                  <CountdownClock deadlineIso={asset.deadlineIso} />
                 </p>
               </div>
-            </div>
-
-            {asset.antiSniping && (
-              <p className="mt-3 flex items-start gap-2 text-caption text-text-secondary">
-                <TimerReset className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                Lances recebidos nos últimos minutos do prazo podem prorrogar o encerramento automaticamente.
-              </p>
-            )}
-
-            <div className="mt-5 border-t border-border-subtle pt-5">
-              {isPast ? (
-                <div className="rounded-control bg-warning-surface p-3 text-body text-warning-text">
-                  Prazo atingido. Confirmando o encerramento.
-                </div>
-              ) : (
-                <>
-                  <label htmlFor="valor-lance" className="text-label font-medium text-text-primary">
-                    Seu lance (R$)
+              {canReview ? (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    review();
+                  }}
+                >
+                  <label
+                    htmlFor="valor-lance"
+                    className="text-label font-semibold"
+                  >
+                    Valor para simular (R$)
                   </label>
                   <input
+                    ref={inputRef}
                     id="valor-lance"
-                    type="number"
-                    inputMode="numeric"
-                    min={nextMinimum}
-                    step={asset.minIncrement}
-                    value={bidInput}
-                    onChange={(e) => setBidInput(e.target.value)}
-                    aria-describedby={error ? "erro-lance" : "ajuda-lance"}
-                    aria-invalid={error ? true : undefined}
-                    className={`mt-2 h-12 w-full rounded-control border bg-surface-card px-3 text-body text-text-primary tabular focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus-ring ${
-                      error ? "border-danger-text" : "border-border-control"
-                    }`}
+                    inputMode="decimal"
+                    type="text"
+                    autoComplete="off"
+                    maxLength={24}
+                    value={input}
+                    onChange={(e) => {
+                      setInput(e.target.value);
+                      setError("");
+                    }}
+                    aria-invalid={!!error}
+                    aria-describedby="ajuda-lance"
+                    className={`mt-2 h-12 w-full rounded-control border bg-white px-3 text-body tabular ${error ? "border-danger-text" : "border-border-control"}`}
                   />
-                  {error ? (
-                    <p id="erro-lance" className="mt-1 text-caption text-danger-text">
-                      {error}
-                    </p>
-                  ) : (
-                    <p id="ajuda-lance" className="mt-1 text-caption text-text-secondary">
-                      Mínimo de {formatCurrencyFull(nextMinimum)}, em incrementos de {formatCurrencyFull(asset.minIncrement)}.
-                    </p>
-                  )}
-                  <Button fullWidth className="mt-4" onClick={openReview}>
-                    Revisar lance
-                  </Button>
-                  <p className="mt-3 flex items-center gap-1.5 text-caption text-text-secondary">
-                    <Building2 className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
-                    Protótipo de demonstração: este MVP ainda não autentica empresas nem organizações representadas.
+                  <p
+                    id="ajuda-lance"
+                    className={`mt-2 text-metadata ${error ? "text-danger-text" : "text-text-secondary"}`}
+                    role={error ? "alert" : undefined}
+                  >
+                    {error ||
+                      `A partir de ${formatCurrencyFull(minimum)}. Você revisa antes de concluir.`}
                   </p>
-                </>
+                  <Button type="submit" fullWidth className="mt-4">
+                    Revisar simulação{" "}
+                    <ArrowRight size={17} aria-hidden="true" />
+                  </Button>
+                </form>
+              ) : (
+                <p className="rounded-control bg-warning-surface p-4 text-metadata text-warning-text">
+                  {expired
+                    ? "O prazo desta demonstração foi atingido. Explore outros ativos do catálogo."
+                    : "Carregando o prazo da demonstração…"}
+                </p>
               )}
+            </>
+          )}
+          {!isOpen && (
+            <div className="mt-5 rounded-control bg-surface-subtle p-4 text-metadata">
+              <p className="font-semibold">
+                {asset.status === "agendado"
+                  ? "Leilão agendado"
+                  : asset.status === "cancelado"
+                    ? "Leilão cancelado"
+                    : "Leilão encerrado"}
+              </p>
+              <p className="mt-2 text-text-secondary">
+                {asset.status === "agendado"
+                  ? `Início previsto: ${formatDateTimeWithZone(asset.startsAtIso ?? asset.deadlineIso)}.`
+                  : "Este lote faz parte do catálogo de demonstração e não recebe lances."}
+              </p>
+              <Link href="/resultados?status=aberto" className="text-link mt-3">
+                Ver leilões abertos <ArrowRight size={15} aria-hidden="true" />
+              </Link>
             </div>
-
-            <p className="mt-4 flex items-center gap-1.5 text-caption text-text-secondary">
-              <RefreshCcw className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
-              Dados de demonstração — não atualizados em tempo real.
+          )}
+          <p className="mt-5 flex items-start gap-2 text-metadata text-text-secondary">
+            <Info size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+            Modo demonstração. Não há envio de lance, cobrança ou atualização em
+            tempo real.
+          </p>
+          {receiptTime && !phase && (
+            <p
+              role="status"
+              className="mt-4 rounded-control bg-success-surface p-3 text-metadata text-success-text"
+            >
+              Última simulação: {formatCurrencyFull(amount)}. Nenhum lance foi
+              registrado.
             </p>
-          </>
-        ) : (
-          closedInfo && (
-            <div className="mt-4">
-              <span className={`inline-flex rounded-full px-3 py-1 text-caption font-medium ${closedInfo.tone}`}>
-                {closedInfo.title}
-              </span>
-              <p className="mt-3 text-body text-text-secondary">{closedInfo.description}</p>
-              {asset.status === "encerrado_vencedor" && hasBid && (
-                <div className="mt-4">
-                  <span className="block text-caption text-text-secondary">Valor final</span>
-                  <span className="text-value text-text-primary tabular">{formatCurrencyFull(asset.currentBid as number)}</span>
-                </div>
-              )}
-            </div>
-          )
-        )}
+          )}
+        </div>
       </div>
-
-      {isOpenState && !isPast && (
+      {canReview && !visible && (
         <div
-          className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border-subtle bg-surface-card p-4 md:hidden"
+          className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t bg-white p-4 md:hidden"
           style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 16px)" }}
         >
           <div className="min-w-0 flex-1">
-            <span className="block text-caption text-text-secondary">Próximo mínimo</span>
-            <span className="block truncate text-title-card text-text-primary tabular">{formatCurrencyFull(nextMinimum)}</span>
+            <p className="text-caption text-text-secondary">Próximo mínimo</p>
+            <p className="text-label font-semibold tabular">
+              {formatCurrencyFull(minimum)}
+            </p>
           </div>
-          <Button onClick={openReview} className="flex-shrink-0">
-            Revisar lance
+          <Button
+            onClick={() => {
+              panel.current?.scrollIntoView({ block: "center" });
+              inputRef.current?.focus({ preventScroll: true });
+            }}
+          >
+            Revisar valor
           </Button>
         </div>
       )}
-
       {phase && (
         <BidReviewModal
           asset={asset}
           phase={phase}
-          bidValue={confirmedValue}
+          bidValue={amount}
           receiptTime={receiptTime}
-          onClose={closeModal}
+          onClose={() => setPhase(null)}
           onConfirm={confirm}
-          onBackToBoard={closeModal}
+          onBackToBoard={() => setPhase(null)}
         />
       )}
     </div>
   );
 }
+

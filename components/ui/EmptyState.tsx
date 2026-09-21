@@ -18,8 +18,11 @@ export function EmptyState({
         <Icon className="h-6 w-6" aria-hidden="true" />
       </div>
       <h2 className="text-title-card text-text-primary">{title}</h2>
-      <p className="max-w-md text-metadata text-text-secondary">{description}</p>
+      <p className="max-w-md text-metadata text-text-secondary">
+        {description}
+      </p>
       {action}
     </div>
   );
 }
+

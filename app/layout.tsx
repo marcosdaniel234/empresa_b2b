@@ -13,19 +13,23 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ATIVOS B2B — Ativos que movem novos negócios",
+    default: "ATIVOS B2B | Leilões de ativos corporativos",
     template: "%s · ATIVOS B2B",
   },
   description:
     "Marketplace de leilão de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body className="flex min-h-screen flex-col font-sans">
         <Header />
-        <main id="conteudo-principal" className="flex-1 pb-16 md:pb-0">
+        <main id="conteudo-principal" className="flex-1 pb-24 md:pb-0">
           {children}
         </main>
         <Footer />
@@ -34,3 +38,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
