@@ -18,17 +18,17 @@
 
   ::selection {
     background-color: #d9ed92;
-    color: #182822;
+    color: #16211d;
   }
 
-  /* Foco visível consistente: anel azul sobre superfícies claras */
+  /* Foco visível consistente: anel azul sobre superfícies claras. */
   :focus-visible {
     outline: 2px solid #225cbe;
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 3px;
   }
 
-  /* Sobre o cabeçalho escuro o anel de foco é branco (ver FUNDACAO_ESTETICA §5) */
+  /* Sobre superfícies escuras o anel de foco passa a ser branco. */
   .on-dark :focus-visible,
   .on-dark:focus-visible {
     outline-color: #ffffff;
@@ -41,54 +41,97 @@
   .tabular {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Compensa o cabeçalho fixo ao pular para uma âncora. */
+  [id] {
+    scroll-margin-top: 136px;
+  }
+
+  input[type="checkbox"] {
+    accent-color: #17624b;
+  }
 }
 
 @layer utilities {
   .container-content {
-    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-content px-4 sm:px-5 lg:px-8;
   }
 
   .skip-link {
-    @apply absolute left-4 top-[-100px] z-[100] rounded-control bg-brand-900 px-4 py-3 text-text-inverse transition-[top] duration-quick focus:top-4;
+    @apply absolute left-4 top-[-100px] z-[100] rounded-control bg-brand-900 px-4 py-3 text-text-inverse transition-[top] duration-quick focus:top-3;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+  /* Trilho horizontal usado pela navegação de categorias no mobile. */
+  .scroll-rail {
+    @apply flex overflow-x-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scroll-rail::-webkit-scrollbar {
+    display: none;
   }
 }
 
 @layer components {
+  /* ---------- Ações ---------- */
   .primary-link {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-control bg-action px-5 text-label font-semibold text-white transition-colors hover:bg-action-hover;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-colors duration-quick hover:bg-action-hover active:bg-action-pressed;
+  }
+  .secondary-link {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
   }
   .text-link {
-    @apply inline-flex min-h-11 shrink-0 items-center gap-2 text-label font-semibold text-action hover:underline;
+    @apply inline-flex min-h-11 shrink-0 items-center gap-1.5 text-label font-semibold text-action hover:underline;
   }
   .header-link {
-    @apply min-h-11 items-center gap-2 rounded-control px-3 text-label text-text-secondary transition-colors hover:bg-surface-subtle hover:text-action;
+    @apply inline-flex min-h-11 items-center gap-2 rounded-control px-2.5 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action;
   }
-  .eyebrow {
-    @apply text-[11px] font-semibold uppercase tracking-[.14em] text-action;
-  }
-  .hero-layout {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-  }
-  .category-tile {
-    @apply rounded-card border border-border-subtle bg-white p-5 transition-colors duration-quick hover:border-action hover:bg-surface-subtle;
+
+  /* ---------- Estrutura de página ---------- */
+  .panel {
+    @apply rounded-card border border-border-subtle bg-white;
   }
   .section-heading {
     @apply flex flex-wrap items-end justify-between gap-3;
   }
+  .section-title {
+    @apply text-title-section-mobile md:text-title-section;
+  }
+  .eyebrow {
+    @apply text-micro font-semibold uppercase tracking-[.13em] text-action;
+  }
+  .rule-top {
+    @apply border-t border-border-subtle;
+  }
+
+  /* ---------- Catálogo ---------- */
+  .lot-tag {
+    @apply inline-flex items-center rounded-[3px] bg-surface-raised px-1.5 py-0.5 text-micro font-semibold uppercase tracking-[.08em] text-text-secondary tabular;
+  }
+  .chip {
+    @apply inline-flex min-h-9 items-center gap-1.5 rounded-full border border-border-subtle bg-white px-3 text-label text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
+  }
+  .chip-active {
+    @apply border-brand-800 bg-brand-800 text-white hover:border-brand-800 hover:text-white;
+  }
+  .category-tile {
+    @apply flex items-center gap-3 rounded-card border border-border-subtle bg-white p-4 transition-colors duration-quick hover:border-action hover:bg-surface-subtle;
+  }
+  .stat-block {
+    @apply flex flex-col gap-0.5 border-l-2 border-accent-strong pl-3;
+  }
+
+  /* ---------- Formulários ---------- */
+  .field {
+    @apply h-11 w-full min-w-0 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary placeholder:text-text-secondary;
+  }
+  .field-label {
+    @apply text-label font-semibold text-text-primary;
+  }
+
+  /* ---------- Empresa ---------- */
   .company-monogram {
-    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-control text-lg font-semibold;
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-control text-base font-bold;
     background: #e7eadf;
     color: #36533c;
   }
@@ -100,6 +143,16 @@
     background: #f0e5db;
     color: #815536;
   }
+  .company-tone-3 {
+    background: #e6ecea;
+    color: #2f5750;
+  }
+  .company-tone-4 {
+    background: #edeade;
+    color: #5d5a2c;
+  }
+
+  /* ---------- Diálogos ---------- */
   .app-dialog {
     @apply fixed m-auto max-w-[560px] rounded-modal border border-border-subtle bg-white p-5 text-text-primary shadow-modal sm:p-6;
     width: calc(100% - 32px);
@@ -111,12 +164,13 @@
     animation: dialog-enter 180ms cubic-bezier(0.2, 0, 0, 1);
   }
   .app-dialog::backdrop {
-    background: rgba(18, 40, 34, 0.55);
+    background: rgba(15, 46, 42, 0.55);
   }
   .app-dialog.wide-dialog {
-    max-width: 850px;
+    max-width: 900px;
   }
 }
+
 @keyframes dialog-enter {
   from {
     opacity: 0;
@@ -127,16 +181,14 @@
     transform: translateY(0);
   }
 }
-@media (max-width: 767px) {
-  .hero-layout {
-    grid-template-columns: 1fr;
-  }
-}
-@layer base {
-  [id] {
-    scroll-margin-top: 150px;
-  }
-  input[type="checkbox"] {
-    accent-color: #17624b;
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

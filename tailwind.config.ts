@@ -1,12 +1,23 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Tokens do ATIVOS B2B. A direção é de catálogo industrial: superfícies claras,
+ * verde-petróleo como cor de ação, acento verde-limão e geometria compacta
+ * (raios curtos, sombras quase imperceptíveis, bordas discretas).
+ */
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
         brand: {
-          900: "#123C36",
+          900: "#0F2E2A",
+          800: "#123C36",
+          700: "#17514A",
         },
         action: {
           DEFAULT: "#17624B",
@@ -15,20 +26,23 @@ const config: Config = {
         },
         accent: {
           soft: "#D9ED92",
+          strong: "#B9D64A",
         },
         surface: {
-          page: "#F6F7F4",
+          page: "#F4F6F3",
           card: "#FFFFFF",
-          subtle: "#EDF2EE",
+          subtle: "#EDF1EC",
+          raised: "#E4EAE3",
         },
         text: {
-          primary: "#182822",
-          secondary: "#52635A",
+          primary: "#16211D",
+          secondary: "#4F6158",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#D7DFD9",
-          control: "#73877B",
+          subtle: "#DDE3DE",
+          control: "#6E8377",
+          strong: "#C3CCC5",
         },
         focus: {
           ring: "#225CBE",
@@ -38,8 +52,8 @@ const config: Config = {
           surface: "#E8F3EC",
         },
         warning: {
-          text: "#815000",
-          surface: "#FFF3D7",
+          text: "#7A4B00",
+          surface: "#FDF0D5",
         },
         danger: {
           text: "#A62C2C",
@@ -54,32 +68,36 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        display: ["40px", { lineHeight: "48px", fontWeight: "700" }],
-        "display-mobile": ["28px", { lineHeight: "36px", fontWeight: "700" }],
-        "title-page": ["32px", { lineHeight: "40px", fontWeight: "700" }],
-        "title-page-mobile": ["26px", { lineHeight: "34px", fontWeight: "700" }],
-        "title-section": ["24px", { lineHeight: "32px", fontWeight: "600" }],
-        "title-section-mobile": ["22px", { lineHeight: "30px", fontWeight: "600" }],
-        "title-card": ["18px", { lineHeight: "26px", fontWeight: "600" }],
-        value: ["32px", { lineHeight: "40px", fontWeight: "700" }],
-        "value-mobile": ["30px", { lineHeight: "38px", fontWeight: "700" }],
-        body: ["16px", { lineHeight: "24px", fontWeight: "400" }],
+        display: ["40px", { lineHeight: "46px", fontWeight: "700" }],
+        "display-mobile": ["30px", { lineHeight: "36px", fontWeight: "700" }],
+        "title-page": ["30px", { lineHeight: "38px", fontWeight: "700" }],
+        "title-page-mobile": ["24px", { lineHeight: "31px", fontWeight: "700" }],
+        "title-section": ["21px", { lineHeight: "28px", fontWeight: "700" }],
+        "title-section-mobile": [
+          "19px",
+          { lineHeight: "26px", fontWeight: "700" },
+        ],
+        "title-card": ["16px", { lineHeight: "22px", fontWeight: "600" }],
+        value: ["28px", { lineHeight: "34px", fontWeight: "700" }],
+        "value-mobile": ["26px", { lineHeight: "32px", fontWeight: "700" }],
+        body: ["15px", { lineHeight: "23px", fontWeight: "400" }],
         label: ["14px", { lineHeight: "20px", fontWeight: "500" }],
-        metadata: ["14px", { lineHeight: "20px", fontWeight: "400" }],
-        caption: ["12px", { lineHeight: "18px", fontWeight: "400" }],
+        metadata: ["13px", { lineHeight: "19px", fontWeight: "400" }],
+        caption: ["12px", { lineHeight: "17px", fontWeight: "400" }],
+        micro: ["11px", { lineHeight: "15px", fontWeight: "500" }],
       },
       borderRadius: {
-        control: "8px",
-        card: "12px",
-        modal: "16px",
+        control: "6px",
+        card: "6px",
+        modal: "10px",
       },
       boxShadow: {
-        card: "0 2px 8px rgba(18, 40, 34, 0.06)",
-        elevated: "0 8px 24px rgba(18, 40, 34, 0.12)",
-        modal: "0 16px 48px rgba(18, 40, 34, 0.18)",
+        card: "0 1px 2px rgba(15, 46, 42, 0.05)",
+        elevated: "0 2px 10px rgba(15, 46, 42, 0.09)",
+        modal: "0 18px 48px rgba(15, 46, 42, 0.22)",
       },
       maxWidth: {
-        content: "1280px",
+        content: "1400px",
       },
       transitionDuration: {
         micro: "100ms",
@@ -107,4 +125,3 @@ const config: Config = {
 };
 
 export default config;
-
