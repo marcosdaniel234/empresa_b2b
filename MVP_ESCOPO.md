@@ -75,3 +75,4 @@ Ordem recomendada, cada fase dependendo da anterior:
 10. **Validação formal.** Auditoria de acessibilidade na interface real implementada (teclado, leitor de tela, zoom 200%) e sessões de usabilidade com compradores e vendedores reais, conforme roteiro de `HANDOFF_DESIGN.md` §6.
 
 Cada fase deve manter os tokens, componentes e padrões de interação já estabelecidos neste MVP — a base visual não precisa ser refeita, apenas alimentada por dados e regras reais.
+

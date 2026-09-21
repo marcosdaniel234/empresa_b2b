@@ -23,13 +23,18 @@ export function ComingSoon({
         <span className="mt-4 block text-caption font-semibold uppercase tracking-wide text-text-secondary">
           {eyebrow}
         </span>
-        <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">{title}</h1>
+        <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
+          {title}
+        </h1>
         <p className="mt-3 text-body text-text-secondary">{description}</p>
 
         <ul className="mt-6 space-y-2 text-left text-metadata text-text-secondary">
           {points.map((point) => (
             <li key={point} className="flex gap-2">
-              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-action" aria-hidden="true" />
+              <span
+                className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-action"
+                aria-hidden="true"
+              />
               {point}
             </li>
           ))}
@@ -39,7 +44,7 @@ export function ComingSoon({
           href="/resultados"
           className="mt-8 inline-flex h-12 items-center justify-center rounded-control bg-action px-6 text-label font-medium text-text-inverse hover:bg-action-hover"
         >
-          Explorar ativos enquanto isso
+          Explorar o catálogo
         </Link>
       </div>
     </div>

@@ -194,3 +194,4 @@ Condições de venda, retirada, taxas e documentação devem refletir o leilão 
 ## 10. Limites desta versão
 
 Direção visual, tokens e especificações estão propostos. Ainda não houve teste de usabilidade com compradores ou vendedores, inspeção de interface implementada, auditoria de teclado, ensaio de motion em navegador nem validação de marca. O próximo trabalho de design é transformar estas especificações em frames editáveis e testar as jornadas, caso solicitado.
+

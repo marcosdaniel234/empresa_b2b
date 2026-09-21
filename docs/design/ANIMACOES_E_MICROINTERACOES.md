@@ -101,3 +101,4 @@ Leitor de tela recebe mensagens de confirmação/erro uma vez por tentativa, sem
 Preferir opacidade/transformação para efeitos decorativos; componentes mantêm área reservada. Nenhuma dependência pesada de animação é exigida por este plano. Testar em aparelho intermediário, teclado, zoom, rede lenta e preferência de movimento reduzido.
 
 Critérios de aceite: sem saltos de layout do valor/CTA; sem loop de urgência; sem foco perdido; sem dado financeiro interpolado; cliques rápidos não empilham transições; modal nunca habilita envio duplicado; todos os estados compreensíveis em captura estática.
+

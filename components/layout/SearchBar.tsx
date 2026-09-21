@@ -1,7 +1,5 @@
 "use client";
-
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useId } from "react";
 import { Search } from "lucide-react";
 
 export function SearchBar({
@@ -13,36 +11,33 @@ export function SearchBar({
   compact?: boolean;
   defaultValue?: string;
 }) {
-  const router = useRouter();
-  const [value, setValue] = useState(defaultValue);
-
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    const params = new URLSearchParams();
-    if (value.trim()) params.set("q", value.trim());
-    router.push(`/resultados${params.toString() ? `?${params.toString()}` : ""}`);
-  }
-
+  const id = useId();
   return (
-    <form onSubmit={handleSubmit} role="search" className={`relative w-full ${className}`}>
-      <label htmlFor="site-search" className="sr-only">
+    <form
+      action="/resultados"
+      role="search"
+      aria-label="Buscar ativos"
+      className={`relative flex w-full ${className}`}
+    >
+      <label htmlFor={id} className="sr-only">
         O que sua empresa procura?
       </label>
-      <Search
-        className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-text-secondary"
-        aria-hidden="true"
-      />
       <input
-        id="site-search"
+        id={id}
         type="search"
         name="q"
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        placeholder="O que sua empresa procura?"
-        className={`w-full rounded-control border border-border-subtle bg-surface-card py-3 pl-11 pr-4 text-body text-text-primary placeholder:text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring ${
-          compact ? "h-11" : "h-12"
-        }`}
+        defaultValue={defaultValue}
+        maxLength={160}
+        placeholder="Busque por ativo, categoria ou empresa"
+        className={`min-w-0 w-full rounded-control border border-border-subtle bg-surface-page pl-4 pr-14 text-label text-text-primary placeholder:text-text-secondary ${compact ? "h-11" : "h-12"}`}
       />
+      <button
+        type="submit"
+        aria-label="Buscar ativos"
+        className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-r-control text-action hover:bg-surface-subtle"
+      >
+        <Search size={20} aria-hidden="true" />
+      </button>
     </form>
   );
 }

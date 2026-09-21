@@ -7,9 +7,9 @@ export default function EntrarPage() {
   return (
     <ComingSoon
       icon={LogIn}
-      eyebrow="Ainda não disponível neste MVP"
-      title="Conta e login de empresa"
-      description="Este MVP demonstra a descoberta de ativos e o fluxo de revisão de lance como protótipo de interface. Autenticação real, cadastro de empresa e permissões de equipe fazem parte do roteiro descrito no README."
+      eyebrow="ACESSO DA EMPRESA"
+      title="Sua empresa, em um só lugar."
+      description="A área da empresa está em preparação. Por enquanto, você pode explorar o catálogo e salvar seus favoritos sem criar uma conta."
       points={[
         "Cadastro de empresa com CNPJ e verificação de contato.",
         "Convite e papéis para membros da equipe.",

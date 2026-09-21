@@ -1,12 +1,12 @@
-# ATIVOS B2B — MVP
+# ATIVOS B2B
 
-Marketplace de leilão de ativos corporativos entre empresas (máquinas, veículos, tecnologia e mobiliário). Este repositório contém o **MVP de front-end** do produto: um protótipo navegável, com dados de demonstração, que implementa a fundação estética e as telas centrais da jornada de descoberta e lance descritas nos documentos de design do projeto.
+Marketplace de leilão de ativos corporativos entre empresas, com máquinas, veículos, tecnologia e mobiliário. Este repositório contém uma demonstração navegável da interface, com dados fictícios, que implementa a fundação estética e as telas centrais da jornada de descoberta e simulação de lance.
 
 > **"ATIVOS B2B" é um identificador temporário de projeto.** Nome, marca e logotipo definitivos ainda não foram definidos (ver [`docs/design/FUNDACAO_ESTETICA.md`](./docs/design/FUNDACAO_ESTETICA.md)).
 
-Os quatro documentos originais de design que fundamentam este MVP estão preservados em [`docs/design/`](./docs/design/): `FUNDACAO_ESTETICA.md` (tokens e identidade), `TELAS_E_JORNADAS.md` (arquitetura de telas), `ANIMACOES_E_MICROINTERACOES.md` (movimento) e `HANDOFF_DESIGN.md` (validação e organização futura). Este README e o `MVP_ESCOPO.md` referenciam esses arquivos diretamente.
+Os quatro documentos originais que fundamentam o produto estão preservados em [`docs/design/`](./docs/design/): `FUNDACAO_ESTETICA.md` (tokens e identidade), `TELAS_E_JORNADAS.md` (arquitetura de telas), `ANIMACOES_E_MICROINTERACOES.md` (movimento) e `HANDOFF_DESIGN.md` (validação e organização futura). A revisão profissional aplicada à interface está registrada em [`REVISAO_PROFISSIONAL.md`](./docs/design/REVISAO_PROFISSIONAL.md).
 
-## O que este MVP é — e o que não é
+## O que esta demonstração é e o que ainda não é
 
 Este é um **protótipo de interface (frontend-only)**, sem backend, sem autenticação e sem persistência real de dados. Ele existe para:
 
@@ -14,7 +14,7 @@ Este é um **protótipo de interface (frontend-only)**, sem backend, sem autenti
 - demonstrar a jornada principal de comprador: buscar → analisar → revisar → confirmar um lance;
 - servir de base de código para a implementação incremental do produto completo.
 
-Todos os ativos, empresas e valores exibidos são **fictícios**, gerados em `lib/data.ts` apenas para preencher a interface. Nenhum lance dado no protótipo é registrado em lugar nenhum — veja o aviso permanente no modal de revisão de lance.
+Todos os ativos, empresas e valores exibidos são **fictícios**, gerados em `lib/data.ts` apenas para preencher a interface. Nenhuma simulação é registrada. O aviso permanente no painel e na revisão reforça esse limite.
 
 Para o inventário completo do que **não** foi construído e o roteiro sugerido de próximos passos, leia **[`MVP_ESCOPO.md`](./MVP_ESCOPO.md)**.
 
@@ -47,7 +47,7 @@ app/                       Rotas (App Router)
   leilao/[slug]/            Página de leilão + painel de lance (T03/T04)
   loja/[slug]/               Loja da empresa (T05)
   favoritos/                 Favoritos (client-side, localStorage)
-  como-funciona/              Explicação do fluxo + limites do MVP
+  como-funciona/              Explicação do fluxo e limites atuais
   entrar/ anunciar/           Placeholders honestos ("ainda não implementado")
   termos/ privacidade/ ajuda/  Páginas institucionais mínimas
   not-found.tsx               404 (T12)
@@ -64,15 +64,15 @@ lib/
   format.ts                 Formatação de moeda, data/hora e contagem regressiva
 ```
 
-## Decisões de design herdadas dos documentos originais
+## Decisões de design
 
 - **Tokens de cor, tipografia, espaçamento, raio e sombra** replicados exatamente como especificado em `FUNDACAO_ESTETICA.md` (`tailwind.config.ts`).
 - **Painel de lance** segue a ordem obrigatória de informação definida em `TELAS_E_JORNADAS.md` §4 (status → valor → mínimo/incremento → contagem de lances → prazo → regra de prorrogação → campo de valor).
 - **Modal de revisão de lance** segue o storyboard de `ANIMACOES_E_MICROINTERACOES.md` §4: revisão → confirmando → aceito/incerto, sem fechamento automático, sem duplo envio, com foco gerenciado.
 - **Movimento**: sem confete, sem som, sem parallax; skeleton estático (sem shimmer); preferência por movimento reduzido respeitada globalmente em `app/globals.css`.
-- **Fotografia**: como o MVP não possui fotos reais de ativos, cada ativo recebe uma composição ilustrativa por categoria (ícone + padrão de pontos), em vez de imagens fotorrealistas geradas por IA — evita que uma demonstração seja confundida com um anúncio real (ver `HANDOFF_DESIGN.md` §3).
+- **Imagem**: como a demonstração não possui fotos reais, os ativos recebem ilustrações editoriais por categoria, claramente identificadas. Isso evita confundir material de exemplo com um anúncio real.
 
-## Simplificações assumidas neste MVP
+## Simplificações atuais
 
 Documentadas em detalhe em `MVP_ESCOPO.md`, resumidamente:
 

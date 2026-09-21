@@ -120,3 +120,4 @@ Registrar tempo, hesitações, erros de interpretação, confiança declarada e 
 A prancha foi criada com a ferramenta integrada ImageGen, modo de geração de imagem nova, usando a skill imagegen para produzir e inspecionar um mockup raster. O prompt exato está em PROMPT_VISUAL.txt. A saída foi copiada para a pasta de entregas do projeto; não depende do arquivo temporário da ferramenta.
 
 Nome, dados de ativos e imagens são demonstrativos. O modelo foi gerado para definir aparência, não para demonstrar uma aplicação existente.
+

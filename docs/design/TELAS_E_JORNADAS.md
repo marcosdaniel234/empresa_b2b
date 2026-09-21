@@ -130,3 +130,4 @@ Páginas 403/404 são coerentes com política de não revelar objeto privado; me
 Referências desktop: 1440×1024 px e 1280×900 px; mobile: 390×844 px, estreito 320 px; tablet: 768×1024 px. Conteúdo pode exceder viewport; alturas não devem comprimir textos para caber na apresentação.
 
 Cada T01–T12 terá default + loading + empty/error aplicável + mobile. T03/T04 adicionam estados de participação, conexão e resposta de lance. Frames devem manter nomes e IDs desta especificação para que revisão de design e testes usem o mesmo vocabulário.
+
