@@ -43,17 +43,23 @@ export function BidReviewModal({
           compromisso de compra.
         </p>
       </div>
-      <dl className="space-y-3 text-metadata">
-        <div>
-          <dt className="text-text-secondary">Ativo</dt>
-          <dd className="mt-1 font-semibold">{asset.title}</dd>
+      <dl className="divide-y divide-border-subtle border-y border-border-subtle text-metadata">
+        <div className="flex items-baseline justify-between gap-4 py-2.5">
+          <dt className="text-text-secondary">Lote</dt>
+          <dd className="lot-tag">{asset.lot}</dd>
         </div>
-        <div>
-          <dt className="text-text-secondary">Empresa do catálogo</dt>
-          <dd className="mt-1">{company?.name}</dd>
+        <div className="flex items-baseline justify-between gap-4 py-2.5">
+          <dt className="shrink-0 text-text-secondary">Ativo</dt>
+          <dd className="text-right font-semibold text-text-primary">
+            {asset.title}
+          </dd>
+        </div>
+        <div className="flex items-baseline justify-between gap-4 py-2.5">
+          <dt className="shrink-0 text-text-secondary">Empresa do catálogo</dt>
+          <dd className="text-right text-text-primary">{company?.name}</dd>
         </div>
       </dl>
-      <div className="my-5 rounded-card border bg-surface-page p-5">
+      <div className="my-4 rounded-card border border-border-subtle bg-surface-page p-4">
         <p className="text-label text-text-secondary">Valor da simulação</p>
         <p className="mt-1 break-words text-value tabular">
           {formatCurrencyFull(bidValue)}

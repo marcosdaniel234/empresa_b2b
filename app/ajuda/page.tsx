@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export const metadata = { title: "Central de ajuda" };
+
 const questions = [
   [
     "Posso comprar ou vender nesta versão?",
@@ -8,7 +10,7 @@ const questions = [
   ],
   [
     "Como encontro um ativo?",
-    "Busque pelo nome, categoria, empresa ou cidade. Nos resultados, refine por categoria, localização, situação e faixa de valor. Você também pode ordenar os ativos pelo valor ou encerramento.",
+    "Busque pelo nome, categoria, empresa ou cidade. Nos resultados, refine por categoria, localização, situação e faixa de valor. Você também pode ordenar os lotes pelo valor ou encerramento.",
   ],
   [
     "Onde ficam meus favoritos?",
@@ -30,31 +32,48 @@ const questions = [
 
 export default function AjudaPage() {
   return (
-    <div className="container-content max-w-3xl py-12 md:py-16">
-      <p className="eyebrow">PODEMOS AJUDAR</p>
-      <h1 className="mt-3 text-title-page-mobile md:text-title-page">
-        Dúvidas, sem complicação.
-      </h1>
-      <p className="mt-4 text-body text-text-secondary">
-        Entenda o catálogo e experimente os recursos com tranquilidade.
-      </p>
-      <div className="mt-8 divide-y divide-border-subtle rounded-card border border-border-subtle bg-white px-5 sm:px-7">
-        {questions.map(([question, answer]) => (
-          <details key={question} className="group py-5">
-            <summary className="cursor-pointer py-2 text-body font-semibold marker:text-action">
-              {question}
-            </summary>
-            <p className="mt-3 pb-2 text-body text-text-secondary">{answer}</p>
-          </details>
-        ))}
-      </div>
-      <div className="mt-8 flex flex-wrap gap-4">
-        <Link href="/como-funciona" className="primary-link">
-          Conhecer a experiência
+    <div className="container-content py-5 md:py-8">
+      <nav
+        aria-label="Trilha de navegação"
+        className="text-caption text-text-secondary"
+      >
+        <Link href="/" className="hover:text-action hover:underline">
+          Início
         </Link>
-        <Link href="/resultados" className="text-link">
-          Explorar os ativos
-        </Link>
+        <span aria-hidden="true"> / </span>
+        <span>Central de ajuda</span>
+      </nav>
+
+      <div className="max-w-3xl">
+        <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
+          Perguntas frequentes
+        </h1>
+        <p className="mt-2 text-body text-text-secondary">
+          Entenda o catálogo e experimente os recursos com tranquilidade.
+        </p>
+
+        <div className="panel mt-5 divide-y divide-border-subtle px-4 sm:px-5">
+          {questions.map(([question, answer]) => (
+            <details key={question} className="group py-1">
+              <summary className="flex min-h-12 cursor-pointer items-center py-2 text-body font-semibold text-text-primary marker:text-action">
+                {question}
+              </summary>
+              <p className="pb-4 pt-1 text-metadata text-text-secondary">
+                {answer}
+              </p>
+            </details>
+          ))}
+        </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <Link href="/como-funciona" className="primary-link">
+            Como funciona
+            <ArrowRight size={17} aria-hidden="true" />
+          </Link>
+          <Link href="/resultados" className="text-link">
+            Explorar o catálogo
+          </Link>
+        </div>
       </div>
     </div>
   );

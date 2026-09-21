@@ -18,13 +18,18 @@ export function MobileFilterSheet({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-control border border-border-control bg-white text-label font-medium"
+        className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-control border border-border-strong bg-white text-label font-semibold text-text-primary"
       >
-        <SlidersHorizontal size={18} aria-hidden="true" /> Filtrar{" "}
-        {activeCount > 0 && `(${activeCount})`}
+        <SlidersHorizontal size={17} aria-hidden="true" />
+        Filtrar
+        {activeCount > 0 && (
+          <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-action px-1.5 text-micro font-semibold text-white tabular">
+            {activeCount}
+          </span>
+        )}
       </button>
       {open && (
-        <Dialog title="Filtrar resultados" onClose={() => setOpen(false)}>
+        <Dialog title="Filtrar catálogo" onClose={() => setOpen(false)}>
           <FiltersForm initial={initial} onApplied={() => setOpen(false)} />
         </Dialog>
       )}

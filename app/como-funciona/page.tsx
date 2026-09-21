@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  ArrowRight,
   Search,
   ClipboardCheck,
   Gavel,
@@ -15,13 +16,13 @@ const STEPS = [
     icon: Search,
     title: "Buscar",
     description:
-      "Encontre ativos por categoria, localização ou faixa de valor no catálogo público.",
+      "Encontre lotes por categoria, localização ou faixa de valor no catálogo público.",
   },
   {
     icon: ClipboardCheck,
     title: "Analisar",
     description:
-      "Veja ficha técnica, condição, avarias, documentos disponíveis e condições de retirada.",
+      "Veja ficha técnica, condição, avarias, documentos previstos e condições de retirada.",
   },
   {
     icon: Gavel,
@@ -45,26 +46,35 @@ const STEPS = [
 
 export default function ComoFuncionaPage() {
   return (
-    <div className="container-content py-8 md:py-10">
-      <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
-        Como funciona
+    <div className="container-content py-5 md:py-8">
+      <nav
+        aria-label="Trilha de navegação"
+        className="text-caption text-text-secondary"
+      >
+        <Link href="/" className="hover:text-action hover:underline">
+          Início
+        </Link>
+        <span aria-hidden="true"> / </span>
+        <span>Como funciona</span>
+      </nav>
+
+      <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
+        Como funciona o ATIVOS B2B
       </h1>
-      <p className="mt-3 max-w-2xl text-body text-text-secondary">
-        Um espaço para empresas encontrarem equipamentos e anunciarem ativos.
-        Conheça a jornada prevista para participar de um leilão.
+      <p className="mt-2 max-w-2xl text-body text-text-secondary">
+        Um catálogo onde empresas encontram equipamentos e anunciam os ativos
+        que já cumpriram seu papel. Conheça a jornada prevista para participar
+        de um leilão.
       </p>
 
-      <ol className="mt-10 space-y-6">
+      <ol className="mt-6 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
         {STEPS.map((step, i) => (
-          <li
-            key={step.title}
-            className="flex gap-4 rounded-card border border-border-subtle bg-surface-card p-5"
-          >
-            <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-brand-900 text-text-inverse">
-              <step.icon className="h-5 w-5" aria-hidden="true" />
-            </div>
+          <li key={step.title} className="panel flex gap-3 p-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-control bg-surface-subtle text-action">
+              <step.icon size={18} aria-hidden="true" />
+            </span>
             <div>
-              <span className="text-caption font-medium uppercase tracking-wide text-text-secondary">
+              <span className="text-micro font-semibold uppercase tracking-[.1em] text-text-secondary">
                 Etapa {i + 1}
               </span>
               <h2 className="text-title-card text-text-primary">
@@ -78,31 +88,28 @@ export default function ComoFuncionaPage() {
         ))}
       </ol>
 
-      <div className="mt-10 flex gap-3 rounded-card border border-border-subtle bg-surface-subtle p-5">
+      <div className="mt-6 flex gap-3 rounded-card border border-border-subtle bg-surface-subtle p-4">
         <ShieldAlert
-          className="h-5 w-5 flex-shrink-0 text-warning-text"
+          size={20}
+          className="mt-0.5 shrink-0 text-warning-text"
           aria-hidden="true"
         />
         <div>
           <h2 className="text-title-card text-text-primary">
             Experimente com tranquilidade
           </h2>
-          <p className="mt-1 max-w-2xl text-metadata text-text-secondary">
-            Você está em um ambiente de demonstração. Pode explorar ativos,
+          <p className="mt-1 max-w-3xl text-metadata text-text-secondary">
+            Você está em um ambiente de demonstração. Pode explorar lotes,
             salvar favoritos e experimentar a revisão de um lance. Não há
             cadastro, pagamento ou compromisso de compra.
           </p>
         </div>
       </div>
 
-      <div className="mt-10">
-        <Link
-          href="/resultados"
-          className="text-label font-medium text-action hover:underline"
-        >
-          Explorar ativos disponíveis →
-        </Link>
-      </div>
+      <Link href="/resultados" className="primary-link mt-6">
+        Explorar o catálogo
+        <ArrowRight size={17} aria-hidden="true" />
+      </Link>
     </div>
   );
 }

@@ -13,22 +13,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-control font-medium text-label transition-colors duration-quick ease-standard disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-control text-label font-semibold transition-colors duration-quick ease-standard disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-action text-text-inverse hover:bg-action-hover active:bg-action-pressed",
+    "bg-action text-white hover:bg-action-hover active:bg-action-pressed",
   secondary:
-    "bg-surface-card text-action border border-action hover:bg-surface-subtle",
+    "border border-border-strong bg-white text-text-primary hover:border-action hover:text-action",
   tertiary:
     "bg-transparent text-action underline-offset-4 hover:underline px-1",
   destructive:
-    "bg-danger-text text-text-inverse hover:brightness-95 active:brightness-90",
+    "bg-danger-text text-white hover:brightness-95 active:brightness-90",
 };
 
 const sizes: Record<Size, string> = {
-  default: "h-12 px-5",
-  compact: "h-10 px-4",
+  default: "min-h-11 px-4",
+  compact: "min-h-10 px-3",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

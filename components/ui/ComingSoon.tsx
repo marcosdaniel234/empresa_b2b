@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LucideIcon } from "lucide-react";
+import { ArrowRight, LucideIcon } from "lucide-react";
 
 export function ComingSoon({
   icon: Icon,
@@ -15,24 +15,25 @@ export function ComingSoon({
   points: string[];
 }) {
   return (
-    <div className="container-content flex justify-center py-16 md:py-24">
-      <div className="max-w-xl text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-surface-subtle text-action">
-          <Icon className="h-7 w-7" aria-hidden="true" />
+    <div className="container-content py-10 md:py-14">
+      <div className="panel mx-auto max-w-2xl p-6 sm:p-8">
+        <div className="flex h-11 w-11 items-center justify-center rounded-control bg-surface-subtle text-action">
+          <Icon size={21} aria-hidden="true" />
         </div>
-        <span className="mt-4 block text-caption font-semibold uppercase tracking-wide text-text-secondary">
-          {eyebrow}
-        </span>
-        <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
+        <p className="eyebrow mt-4">{eyebrow}</p>
+        <h1 className="mt-1.5 text-title-page-mobile text-text-primary md:text-title-page">
           {title}
         </h1>
-        <p className="mt-3 text-body text-text-secondary">{description}</p>
+        <p className="mt-2 text-body text-text-secondary">{description}</p>
 
-        <ul className="mt-6 space-y-2 text-left text-metadata text-text-secondary">
+        <ul className="mt-5 divide-y divide-border-subtle border-y border-border-subtle">
           {points.map((point) => (
-            <li key={point} className="flex gap-2">
+            <li
+              key={point}
+              className="flex gap-2.5 py-3 text-metadata text-text-secondary"
+            >
               <span
-                className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-action"
+                className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-strong"
                 aria-hidden="true"
               />
               {point}
@@ -40,11 +41,9 @@ export function ComingSoon({
           ))}
         </ul>
 
-        <Link
-          href="/resultados"
-          className="mt-8 inline-flex h-12 items-center justify-center rounded-control bg-action px-6 text-label font-medium text-text-inverse hover:bg-action-hover"
-        >
+        <Link href="/resultados" className="primary-link mt-5">
           Explorar o catálogo
+          <ArrowRight size={17} aria-hidden="true" />
         </Link>
       </div>
     </div>

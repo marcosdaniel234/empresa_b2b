@@ -33,6 +33,8 @@ export interface Company {
 
 export interface Asset {
   id: string;
+  /** Código público do lote, exibido no card, no detalhe e no painel de lance. */
+  lot: string;
   slug: string;
   title: string;
   category: Category;
@@ -119,6 +121,7 @@ const days = (d: number) =>
 export const ASSETS: Asset[] = [
   {
     id: "a1",
+    lot: "LT-1042",
     slug: "empilhadeira-eletrica-2021",
     title: "Empilhadeira elétrica, capacidade 2,5 t",
     category: "maquinas",
@@ -151,6 +154,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a2",
+    lot: "LT-1058",
     slug: "furgao-de-carga-2020",
     title: "Furgão de carga, motor 2.3",
     category: "veiculos",
@@ -187,6 +191,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a3",
+    lot: "LT-1067",
     slug: "mobiliario-corporativo-sala-reuniao",
     title: "Conjunto de mobiliário para sala de reunião",
     category: "mobiliario",
@@ -218,6 +223,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a4",
+    lot: "LT-1073",
     slug: "servidores-rack-42u",
     title: "Lote de servidores em rack 42U",
     category: "tecnologia",
@@ -252,6 +258,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a5",
+    lot: "LT-1088",
     slug: "trator-agricola-2019",
     title: "Trator agrícola, 110 cv",
     category: "maquinas",
@@ -283,6 +290,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a6",
+    lot: "LT-1094",
     slug: "vans-utilitarias-lote",
     title: "Van utilitária, motor 1.4",
     category: "veiculos",
@@ -313,6 +321,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a7",
+    lot: "LT-1101",
     slug: "estacoes-trabalho-lote-20",
     title: "Lote de 20 estações de trabalho",
     category: "tecnologia",
@@ -342,6 +351,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a8",
+    lot: "LT-1115",
     slug: "cadeiras-diretoria-lote-8",
     title: "Lote de 8 cadeiras de diretoria",
     category: "mobiliario",
@@ -371,6 +381,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a9",
+    lot: "LT-1127",
     slug: "gerador-diesel-150kva",
     title: "Gerador a diesel, 150 kVA",
     category: "maquinas",
@@ -402,6 +413,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a10",
+    lot: "LT-1130",
     slug: "colheitadeira-2017",
     title: "Colheitadeira, plataforma 20 pés",
     category: "maquinas",
@@ -429,6 +441,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a11",
+    lot: "LT-1146",
     slug: "furgao-refrigerado-2021",
     title: "Furgão refrigerado, câmara isotérmica",
     category: "veiculos",
@@ -464,6 +477,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a12",
+    lot: "LT-1152",
     slug: "notebooks-corporativos-lote-15",
     title: "Lote de 15 notebooks corporativos",
     category: "tecnologia",

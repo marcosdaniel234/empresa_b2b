@@ -32,11 +32,33 @@ Zero dependências com vulnerabilidades conhecidas (`npm audit` limpo no momento
 
 ```bash
 npm install
-npm run dev       # ambiente de desenvolvimento em http://localhost:3000
-npm run build     # build de produção
-npm run start     # serve o build de produção
-npx eslint .       # lint
+npm run dev        # ambiente de desenvolvimento em http://localhost:3000
+npm run build      # gera o site estático em out/
+npm run typecheck  # tsc --noEmit
+npm run lint       # eslint
+npm test           # testes de domínio (Node test runner)
 ```
+
+O build usa `output: "export"`: o resultado é um site estático em `out/`, que pode
+ser servido por qualquer hospedagem de arquivos.
+
+## Publicação
+
+O site é publicado no GitHub Pages pelo workflow
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml), que roda as
+checagens, gera o export estático e envia para o Pages.
+
+Como o Pages serve o projeto em um subdiretório, o build aceita a variável
+`NEXT_PUBLIC_BASE_PATH` (o workflow preenche automaticamente com o caminho do
+Pages). Para reproduzir a publicação localmente:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/empresa_b2b npm run build
+```
+
+O workflow também roda uma vez por dia. Isso é proposital: as datas dos leilões
+de demonstração são calculadas a partir do momento do build, então a
+reconstrução diária mantém os prazos do catálogo sempre válidos.
 
 ## Estrutura do projeto
 
@@ -53,10 +75,11 @@ app/                       Rotas (App Router)
   not-found.tsx               404 (T12)
 
 components/
-  layout/                   Header, busca, navegação mobile, rodapé
-  catalog/                  Card de ativo, filtros, favoritos, abas de loja
+  layout/                   Header, busca, navegação de categorias, rodapé, tab bar
+  catalog/                  Card de ativo (grade/lista), navegador do catálogo,
+                            filtros, favoritos, vitrines e abas de loja
   auction/                  Galeria, painel de lance, modal de revisão, relógio
-  ui/                       Botão, chip de status, estado vazio, placeholder visual
+  ui/                       Botão, chip de status, estado vazio, ilustração de ativo
 
 lib/
   data.ts                   Dados de demonstração (ativos e empresas fictícios)
@@ -64,9 +87,36 @@ lib/
   format.ts                 Formatação de moeda, data/hora e contagem regressiva
 ```
 
+## Direção visual: catálogo industrial
+
+A interface segue a lógica de um marketplace industrial B2B maduro: densidade de
+catálogo, navegação por categorias e busca dominante, em vez de uma página de
+campanha. Na prática:
+
+- **Cabeçalho em três níveis**: faixa utilitária (atendimento, idioma/moeda,
+  favoritos e entrar), barra principal com a busca no centro, e barra de
+  categorias com um painel acessível de "todas as categorias". No mobile, a
+  barra de categorias vira um trilho horizontal rolável.
+- **Primeira dobra da home** é busca + catálogo: título direto, busca em
+  evidência, categorias em chips e um lote em destaque com status e prazo reais
+  dos dados. Em seguida vêm as vitrines de lotes, categorias e empresas.
+- **Cards informativos**: lote, categoria, título, empresa, localização, prazo e
+  valor ficam visíveis sem abrir o detalhe. O catálogo alterna entre grade e
+  lista.
+- **Geometria compacta**: raios curtos (4–8 px), bordas discretas, sombras quase
+  imperceptíveis e contêiner central de até 1400 px.
+- Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`; os
+  componentes não usam cores soltas.
+
+A identidade (verde-petróleo de ação, acento verde-limão, tipografia Inter)
+continua sendo a do ATIVOS B2B, derivada de `FUNDACAO_ESTETICA.md`.
+
 ## Decisões de design
 
-- **Tokens de cor, tipografia, espaçamento, raio e sombra** replicados exatamente como especificado em `FUNDACAO_ESTETICA.md` (`tailwind.config.ts`).
+- **Filtros do catálogo são resolvidos no navegador** (`CatalogBrowser`), lendo
+  `useSearchParams`. Isso mantém links como `/resultados/?categoria=maquinas`
+  funcionando na exportação estática, onde `searchParams` não chega ao servidor.
+- **Tokens de cor, tipografia, espaçamento, raio e sombra** centralizados em `tailwind.config.ts`, a partir de `FUNDACAO_ESTETICA.md`.
 - **Painel de lance** segue a ordem obrigatória de informação definida em `TELAS_E_JORNADAS.md` §4 (status → valor → mínimo/incremento → contagem de lances → prazo → regra de prorrogação → campo de valor).
 - **Modal de revisão de lance** segue o storyboard de `ANIMACOES_E_MICROINTERACOES.md` §4: revisão → confirmando → aceito/incerto, sem fechamento automático, sem duplo envio, com foco gerenciado.
 - **Movimento**: sem confete, sem som, sem parallax; skeleton estático (sem shimmer); preferência por movimento reduzido respeitada globalmente em `app/globals.css`.
@@ -78,5 +128,7 @@ Documentadas em detalhe em `MVP_ESCOPO.md`, resumidamente:
 
 - Sem autenticação: o painel de lance funciona como protótipo de interface aberto a qualquer visitante, com aviso explícito, em vez de implementar os estados de elegibilidade (visitante/sem empresa/pendente) do documento de telas.
 - Favoritos persistem apenas no `localStorage` do navegador, não em conta de usuário.
-- Contagem de categorias nos filtros é estática (não recalculada por combinação de filtros já aplicados).
-- Barra fixa de lance no mobile é sempre visível na página de leilão, em vez de aparecer apenas quando o resumo sai da viewport (simplificação da regra de `TELAS_E_JORNADAS.md` §4).
+- Os códigos de lote (`LT-****`) são fixos nos dados de demonstração; em produção
+  viriam do cadastro do ativo.
+- O catálogo não tem paginação: os lotes de demonstração cabem em uma tela de
+  resultados.

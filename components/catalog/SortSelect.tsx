@@ -1,7 +1,7 @@
 "use client";
 
 import { useId } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SortKey } from "@/lib/filters";
 
 const OPTIONS: { value: SortKey; label: string }[] = [
@@ -13,10 +13,11 @@ const OPTIONS: { value: SortKey; label: string }[] = [
 
 export function SortSelect({ current }: { current: SortKey }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const id = useId();
 
   function handleChange(value: string) {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams.toString());
     if (value === "relevantes") params.delete("sort");
     else params.set("sort", value);
     router.push(
@@ -28,7 +29,7 @@ export function SortSelect({ current }: { current: SortKey }) {
     <div className="flex items-center gap-2">
       <label
         htmlFor={id}
-        className="hidden text-label text-text-secondary sm:block"
+        className="hidden shrink-0 text-metadata text-text-secondary lg:block"
       >
         Ordenar por
       </label>
@@ -37,7 +38,7 @@ export function SortSelect({ current }: { current: SortKey }) {
         aria-label="Ordenar resultados"
         value={current}
         onChange={(e) => handleChange(e.target.value)}
-        className="h-11 min-w-0 w-full rounded-control border border-border-control bg-surface-card px-3 text-body text-text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-focus-ring"
+        className="field h-11 w-full md:w-auto"
       >
         {OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>

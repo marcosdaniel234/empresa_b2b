@@ -7,7 +7,7 @@ export default function EntrarPage() {
   return (
     <ComingSoon
       icon={LogIn}
-      eyebrow="ACESSO DA EMPRESA"
+      eyebrow="Acesso da empresa"
       title="Sua empresa, em um só lugar."
       description="A área da empresa está em preparação. Por enquanto, você pode explorar o catálogo e salvar seus favoritos sem criar uma conta."
       points={[

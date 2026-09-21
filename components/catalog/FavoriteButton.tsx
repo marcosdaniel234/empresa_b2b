@@ -82,7 +82,9 @@ export function FavoriteButton({
             ? `Remover ${title} dos favoritos`
             : `Adicionar ${title} aos favoritos`
         }
-        className={`relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/95 shadow-card transition-colors hover:bg-white ${className}`}
+        // A posição vem de quem usa o botão: sobre a imagem no card em grade,
+        // no fluxo normal na lista. Aqui ficam apenas aparência e empilhamento.
+        className={`z-10 flex h-11 w-11 items-center justify-center rounded-full border border-border-subtle bg-white/95 shadow-card transition-colors duration-quick hover:border-action hover:bg-white ${className}`}
       >
         <Heart
           className={

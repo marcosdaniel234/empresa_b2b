@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Clock3, Info, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock3, Gavel, Info } from "lucide-react";
 import { Asset } from "@/lib/data";
 import { formatCurrencyFull, formatDateTimeWithZone } from "@/lib/format";
 import { validateDemoBid } from "@/lib/money";
@@ -28,6 +28,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
   const isOpen = asset.status === "aberto" || asset.status === "encerrando";
   const expired = now > 0 && now >= Date.parse(asset.deadlineIso);
   const canReview = isOpen && !expired && now > 0;
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setVisible(entry.isIntersecting),
@@ -56,6 +57,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
     setAmount(result.cents / 100);
     setPhase("review");
   }
+
   function confirm() {
     if (sending.current) return;
     if (Date.now() >= Date.parse(asset.deadlineIso)) {
@@ -70,20 +72,19 @@ export function BidPanel({ asset }: { asset: Asset }) {
       sending.current = false;
     }, 600);
   }
+
   return (
     <div>
-      <div
-        ref={panel}
-        id="painel-lance"
-        className="overflow-hidden rounded-[16px] border border-border-subtle bg-white shadow-card"
-      >
-        <div className="flex items-center justify-between border-b bg-surface-page px-6 py-4">
-          <p className="text-label font-semibold">Informações do leilão</p>
-          <span className="text-caption text-text-secondary">
-            Lote {asset.id.toUpperCase()}
-          </span>
+      <div ref={panel} id="painel-lance" className="panel overflow-hidden">
+        <div className="flex items-center justify-between gap-2 border-b border-border-subtle bg-surface-subtle px-4 py-2.5">
+          <p className="inline-flex items-center gap-2 text-label font-semibold text-text-primary">
+            <Gavel size={16} aria-hidden="true" className="text-action" />
+            Informações do leilão
+          </p>
+          <span className="lot-tag">{asset.lot}</span>
         </div>
-        <div className="p-6">
+
+        <div className="p-4">
           <p className="text-metadata text-text-secondary">
             {asset.status === "encerrado_vencedor"
               ? "Valor final do exemplo"
@@ -91,41 +92,46 @@ export function BidPanel({ asset }: { asset: Asset }) {
                 ? "Lance atual"
                 : "Lance inicial"}
           </p>
-          <p className="mt-1 break-words text-value tracking-tight tabular">
+          <p className="mt-0.5 break-words text-value tracking-tight text-text-primary tabular">
             {formatCurrencyFull(asset.currentBid ?? asset.startingBid)}
           </p>
+
           {isOpen && (
             <>
-              <dl className="mt-5 space-y-2 border-t pt-4 text-metadata">
-                <div className="flex flex-wrap justify-between gap-2">
+              <dl className="mt-4 divide-y divide-border-subtle border-y border-border-subtle text-metadata">
+                <div className="flex flex-wrap items-baseline justify-between gap-2 py-2">
                   <dt className="text-text-secondary">Próximo mínimo</dt>
-                  <dd className="font-semibold tabular">
+                  <dd className="font-semibold text-text-primary tabular">
                     {formatCurrencyFull(minimum)}
                   </dd>
                 </div>
-                <div className="flex flex-wrap justify-between gap-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-2 py-2">
                   <dt className="text-text-secondary">Incremento mínimo</dt>
-                  <dd className="tabular">
+                  <dd className="text-text-primary tabular">
                     {formatCurrencyFull(asset.minIncrement)}
                   </dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex items-baseline justify-between gap-2 py-2">
                   <dt className="text-text-secondary">Lances no exemplo</dt>
-                  <dd>{asset.bidCount}</dd>
+                  <dd className="text-text-primary tabular">
+                    {asset.bidCount}
+                  </dd>
                 </div>
               </dl>
-              <div className="my-5 rounded-control bg-surface-subtle p-4">
-                <p className="flex items-center gap-2 text-label">
-                  <Clock3 size={17} aria-hidden="true" /> Encerramento do
-                  exemplo
+
+              <div className="my-4 rounded-control bg-surface-subtle p-3">
+                <p className="flex items-center gap-2 text-label font-semibold text-text-primary">
+                  <Clock3 size={16} aria-hidden="true" />
+                  Encerramento do exemplo
                 </p>
-                <p className="mt-2 text-metadata text-text-secondary">
+                <p className="mt-1.5 text-metadata text-text-secondary">
                   {formatDateTimeWithZone(asset.deadlineIso)}
                 </p>
-                <p className="mt-2 text-title-card">
+                <p className="mt-1.5 text-title-section text-text-primary">
                   <CountdownClock deadlineIso={asset.deadlineIso} />
                 </p>
               </div>
+
               {canReview ? (
                 <form
                   onSubmit={(e) => {
@@ -133,10 +139,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
                     review();
                   }}
                 >
-                  <label
-                    htmlFor="valor-lance"
-                    className="text-label font-semibold"
-                  >
+                  <label htmlFor="valor-lance" className="field-label">
                     Valor para simular (R$)
                   </label>
                   <input
@@ -153,58 +156,63 @@ export function BidPanel({ asset }: { asset: Asset }) {
                     }}
                     aria-invalid={!!error}
                     aria-describedby="ajuda-lance"
-                    className={`mt-2 h-12 w-full rounded-control border bg-white px-3 text-body tabular ${error ? "border-danger-text" : "border-border-control"}`}
+                    className={`field mt-1.5 h-12 text-body tabular ${
+                      error ? "border-danger-text" : ""
+                    }`}
                   />
                   <p
                     id="ajuda-lance"
-                    className={`mt-2 text-metadata ${error ? "text-danger-text" : "text-text-secondary"}`}
+                    className={`mt-1.5 text-metadata ${error ? "text-danger-text" : "text-text-secondary"}`}
                     role={error ? "alert" : undefined}
                   >
                     {error ||
                       `A partir de ${formatCurrencyFull(minimum)}. Você revisa antes de concluir.`}
                   </p>
-                  <Button type="submit" fullWidth className="mt-4">
-                    Revisar simulação{" "}
+                  <Button type="submit" fullWidth className="mt-3">
+                    Revisar simulação
                     <ArrowRight size={17} aria-hidden="true" />
                   </Button>
                 </form>
               ) : (
-                <p className="rounded-control bg-warning-surface p-4 text-metadata text-warning-text">
+                <p className="rounded-control bg-warning-surface p-3 text-metadata text-warning-text">
                   {expired
-                    ? "O prazo desta demonstração foi atingido. Explore outros ativos do catálogo."
+                    ? "O prazo desta demonstração foi atingido. Explore outros lotes do catálogo."
                     : "Carregando o prazo da demonstração…"}
                 </p>
               )}
             </>
           )}
+
           {!isOpen && (
-            <div className="mt-5 rounded-control bg-surface-subtle p-4 text-metadata">
-              <p className="font-semibold">
+            <div className="mt-4 rounded-control bg-surface-subtle p-3 text-metadata">
+              <p className="font-semibold text-text-primary">
                 {asset.status === "agendado"
                   ? "Leilão agendado"
                   : asset.status === "cancelado"
                     ? "Leilão cancelado"
                     : "Leilão encerrado"}
               </p>
-              <p className="mt-2 text-text-secondary">
+              <p className="mt-1.5 text-text-secondary">
                 {asset.status === "agendado"
                   ? `Início previsto: ${formatDateTimeWithZone(asset.startsAtIso ?? asset.deadlineIso)}.`
                   : "Este lote faz parte do catálogo de demonstração e não recebe lances."}
               </p>
-              <Link href="/resultados?status=aberto" className="text-link mt-3">
+              <Link href="/resultados?status=aberto" className="text-link mt-2">
                 Ver leilões abertos <ArrowRight size={15} aria-hidden="true" />
               </Link>
             </div>
           )}
-          <p className="mt-5 flex items-start gap-2 text-metadata text-text-secondary">
-            <Info size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
+
+          <p className="mt-4 flex items-start gap-2 text-caption text-text-secondary">
+            <Info size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
             Modo demonstração. Não há envio de lance, cobrança ou atualização em
             tempo real.
           </p>
+
           {receiptTime && !phase && (
             <p
               role="status"
-              className="mt-4 rounded-control bg-success-surface p-3 text-metadata text-success-text"
+              className="mt-3 rounded-control bg-success-surface p-3 text-metadata text-success-text"
             >
               Última simulação: {formatCurrencyFull(amount)}. Nenhum lance foi
               registrado.
@@ -212,14 +220,17 @@ export function BidPanel({ asset }: { asset: Asset }) {
           )}
         </div>
       </div>
+
       {canReview && !visible && (
         <div
-          className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t bg-white p-4 md:hidden"
-          style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 16px)" }}
+          className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-border-subtle bg-white p-3 shadow-elevated md:hidden"
+          style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 12px)" }}
         >
           <div className="min-w-0 flex-1">
-            <p className="text-caption text-text-secondary">Próximo mínimo</p>
-            <p className="text-label font-semibold tabular">
+            <p className="text-caption text-text-secondary">
+              Próximo mínimo · {asset.lot}
+            </p>
+            <p className="truncate text-title-card text-text-primary tabular">
               {formatCurrencyFull(minimum)}
             </p>
           </div>
@@ -229,10 +240,11 @@ export function BidPanel({ asset }: { asset: Asset }) {
               inputRef.current?.focus({ preventScroll: true });
             }}
           >
-            Revisar valor
+            Simular lance
           </Button>
         </div>
       )}
+
       {phase && (
         <BidReviewModal
           asset={asset}

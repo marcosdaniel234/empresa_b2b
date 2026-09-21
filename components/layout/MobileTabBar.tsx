@@ -12,22 +12,20 @@ const TABS = [
 ];
 
 /**
- * Barra fixa inferior (T01/T03). Na página de leilão, o painel de lance
- * substitui esta barra para evitar duas ações fixas competindo (TELAS_E_JORNADAS §1).
+ * Barra fixa inferior do mobile. Na página de leilão ela dá lugar à ação do
+ * painel de lance, para não competirem duas barras fixas.
  */
 export function MobileTabBar() {
   const pathname = usePathname();
-  // Na página de leilão, a barra fixa do painel de lance assume o lugar
-  // desta navegação para evitar duas barras fixas competindo (T03).
   if (pathname.startsWith("/leilao/")) return null;
 
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-40 flex min-h-16 items-stretch border-t border-border-subtle bg-surface-card md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-border-subtle bg-white md:hidden"
       style={{
         paddingBottom: "env(safe-area-inset-bottom)",
-        minHeight: "calc(64px + env(safe-area-inset-bottom))",
+        minHeight: "calc(60px + env(safe-area-inset-bottom))",
       }}
     >
       {TABS.map(({ href, label, icon: Icon }) => {
@@ -40,12 +38,12 @@ export function MobileTabBar() {
             key={href}
             href={href}
             className={`flex flex-1 flex-col items-center justify-center gap-1 text-caption ${
-              active ? "text-action" : "text-text-secondary"
+              active ? "font-semibold text-action" : "text-text-secondary"
             }`}
             aria-current={active ? "page" : undefined}
           >
             <Icon
-              className="h-6 w-6"
+              size={21}
               strokeWidth={active ? 2 : 1.75}
               aria-hidden="true"
             />

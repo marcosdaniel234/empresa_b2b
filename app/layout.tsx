@@ -13,11 +13,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "ATIVOS B2B | Leilões de ativos corporativos",
+    default: "ATIVOS B2B | Leilão de ativos industriais entre empresas",
     template: "%s · ATIVOS B2B",
   },
   description:
-    "Marketplace de leilão de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário.",
+    "Catálogo de leilão de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário, com ficha técnica, localização e prazo de cada lote.",
 };
 
 export default function RootLayout({

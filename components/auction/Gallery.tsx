@@ -19,15 +19,21 @@ export function Gallery({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="relative block w-full overflow-hidden rounded-card border"
+        className="group relative block w-full overflow-hidden rounded-card border border-border-subtle bg-white"
         aria-label={`Ampliar ilustração: ${title}`}
       >
-        <AssetVisual category={category} className="aspect-[4/3] w-full" />
-        <span className="absolute bottom-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-card">
-          <Expand size={20} aria-hidden="true" />
+        <AssetVisual
+          category={category}
+          showLabel={false}
+          rounded=""
+          className="aspect-[16/10] w-full"
+        />
+        <span className="absolute bottom-3 right-3 inline-flex min-h-11 items-center gap-2 rounded-control border border-border-subtle bg-white px-3 text-label font-semibold text-text-primary shadow-card">
+          <Expand size={17} aria-hidden="true" />
+          Ampliar
         </span>
       </button>
-      <p className="mt-3 text-caption text-text-secondary">
+      <p className="mt-2 text-caption text-text-secondary">
         Ilustração da categoria. Fotografias do ativo ainda não foram
         adicionadas.
       </p>
@@ -37,7 +43,11 @@ export function Gallery({
           onClose={() => setOpen(false)}
           className="wide-dialog"
         >
-          <AssetVisual category={category} className="aspect-[4/3] w-full" />
+          <AssetVisual
+            category={category}
+            showLabel={false}
+            className="aspect-[16/10] w-full"
+          />
           <p className="mt-3 text-metadata text-text-secondary">
             Imagem ilustrativa, sem vínculo com um equipamento real.
           </p>
