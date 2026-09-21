@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border-subtle;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-surface-page text-text-primary antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    background-color: #d9ed92;
+    color: #182822;
+  }
+
+  /* Foco visível consistente: anel azul sobre superfícies claras */
+  :focus-visible {
+    outline: 2px solid #225cbe;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Sobre o cabeçalho escuro o anel de foco é branco (ver FUNDACAO_ESTETICA §5) */
+  .on-dark :focus-visible {
+    outline-color: #ffffff;
+  }
+
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+
+  .skip-link {
+    @apply absolute left-4 top-[-100px] z-[100] rounded-control bg-brand-900 px-4 py-3 text-text-inverse transition-[top] duration-quick focus:top-4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
