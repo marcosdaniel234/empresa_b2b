@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { MapPin, Clock, Gavel } from "lucide-react";
-import { Asset, CATEGORY_LABELS, getCompanyBySlug } from "@/lib/data";
+import { Clock, Gavel, MapPin } from "lucide-react";
+import {
+  Asset,
+  CATEGORY_SHORT,
+  getCompanyBySlug,
+  getSubcategoryLabel,
+} from "@/lib/data";
 import { formatCurrencyCard } from "@/lib/format";
 import { DeadlineLabel } from "@/components/auction/CountdownClock";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { AssetVisual } from "@/components/ui/AssetVisual";
+import { ImageSlot } from "@/components/ui/ImageSlot";
 import { FavoriteButton } from "./FavoriteButton";
 
 const CLOSED: Asset["status"][] = [
@@ -14,30 +19,32 @@ const CLOSED: Asset["status"][] = [
 ];
 
 function priceLabel(asset: Asset) {
-  if (asset.status === "encerrado_vencedor") return "Valor final do exemplo";
+  if (asset.status === "encerrado_vencedor") return "Valor final";
   return asset.currentBid !== null ? "Lance atual" : "Lance inicial";
 }
 
-/**
- * Card de catálogo industrial. A variante `grid` prioriza o visual do lote;
- * a variante `list` mostra a mesma informação em uma linha comparável.
- */
+/** Duas especificações de maior peso, exibidas direto no card. */
+function keySpecs(asset: Asset) {
+  return asset.specs.slice(0, 2);
+}
+
 export function AssetCard({
   asset,
-  index = 0,
   variant = "grid",
 }: {
   asset: Asset;
+  /** `index` é aceito para compatibilidade com as listagens existentes. */
   index?: number;
   variant?: "grid" | "list";
 }) {
   const company = getCompanyBySlug(asset.companySlug);
   const isClosed = CLOSED.includes(asset.status);
   const amount = asset.currentBid ?? asset.startingBid;
+  const subcategory = getSubcategoryLabel(asset.category, asset.subcategory);
 
   const deadline = !isClosed && (
     <span className="inline-flex items-center gap-1.5 text-metadata text-text-secondary">
-      <Clock size={14} aria-hidden="true" />
+      <Clock size={13} aria-hidden="true" />
       {asset.status === "agendado" ? (
         "Início em breve"
       ) : (
@@ -46,33 +53,21 @@ export function AssetCard({
     </span>
   );
 
-  const bids = asset.bidCount > 0 && (
-    <span className="inline-flex items-center gap-1.5 text-metadata text-text-secondary">
-      <Gavel size={14} aria-hidden="true" />
-      {asset.bidCount} {asset.bidCount === 1 ? "lance" : "lances"}
-    </span>
-  );
-
   if (variant === "list") {
     return (
-      <article className="group relative flex gap-4 border-b border-border-subtle bg-white p-3 transition-colors duration-quick last:border-b-0 hover:bg-surface-subtle sm:p-4">
-        <div className="relative w-28 shrink-0 sm:w-44">
-          <AssetVisual
-            category={asset.category}
-            index={index}
-            rounded="rounded-[4px]"
-            showLabel={false}
-            className="aspect-[4/3] w-full border border-border-subtle"
-          />
+      <article className="group relative flex gap-3 border-b border-border-subtle bg-white p-3 transition-colors duration-quick last:border-b-0 hover:bg-surface-subtle">
+        <div className="relative w-24 shrink-0 sm:w-40">
+          <ImageSlot size="sm" className="w-full" />
           <StatusChip status={asset.status} className="absolute left-1 top-1" />
         </div>
 
-        <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:gap-6">
+        <div className="flex min-w-0 flex-1 flex-col gap-1 sm:flex-row sm:gap-5">
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap items-center gap-1.5">
               <span className="lot-tag">{asset.lot}</span>
-              <span className="text-micro font-semibold uppercase tracking-[.09em] text-text-secondary">
-                {CATEGORY_LABELS[asset.category]}
+              <span className="text-micro uppercase tracking-[.07em] text-text-muted">
+                {CATEGORY_SHORT[asset.category]}
+                {subcategory ? ` · ${subcategory}` : ""}
               </span>
             </div>
             <h3 className="mt-1 text-title-card text-text-primary">
@@ -83,25 +78,30 @@ export function AssetCard({
                 {asset.title}
               </Link>
             </h3>
-            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-metadata text-text-secondary">
+            <dl className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5">
+              {keySpecs(asset).map((spec) => (
+                <div key={spec.label} className="flex gap-1 text-caption">
+                  <dt className="text-text-muted">{spec.label}:</dt>
+                  <dd className="text-text-secondary">{spec.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-metadata text-text-secondary">
               {company && <span className="truncate">{company.name}</span>}
               <span className="inline-flex items-center gap-1">
-                <MapPin size={14} aria-hidden="true" />
+                <MapPin size={13} aria-hidden="true" />
                 {asset.city} · {asset.state}
               </span>
-            </p>
-            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
               {deadline}
-              {bids}
             </p>
           </div>
 
-          <div className="flex shrink-0 items-end justify-between gap-3 sm:w-44 sm:flex-col sm:items-end sm:justify-center">
+          <div className="flex shrink-0 items-end justify-between gap-3 sm:w-40 sm:flex-col sm:items-end sm:justify-center">
             <div className="sm:text-right">
-              <span className="block text-caption text-text-secondary">
+              <span className="block text-caption text-text-muted">
                 {priceLabel(asset)}
               </span>
-              <span className="text-[19px] font-bold leading-6 text-text-primary tabular">
+              <span className="text-[17px] font-bold leading-6 text-text-primary tabular">
                 {formatCurrencyCard(amount)}
               </span>
             </div>
@@ -117,14 +117,11 @@ export function AssetCard({
   }
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-card border border-border-subtle bg-white transition-colors duration-quick hover:border-border-control">
-      <div className="relative border-b border-border-subtle">
-        <AssetVisual
-          category={asset.category}
-          index={index}
-          rounded=""
-          showLabel={false}
-          className="aspect-[4/3] w-full"
+    <article className="group relative flex flex-col border border-border-subtle bg-white transition-colors duration-quick hover:border-border-control">
+      <div className="relative">
+        <ImageSlot
+          ratio="aspect-[16/10]"
+          className="w-full border-0 border-b border-border-subtle"
         />
         <StatusChip status={asset.status} className="absolute left-2 top-2" />
         <FavoriteButton
@@ -134,11 +131,11 @@ export function AssetCard({
         />
       </div>
 
-      <div className="flex flex-1 flex-col p-3.5">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-1 flex-col p-3">
+        <div className="flex flex-wrap items-center gap-1.5">
           <span className="lot-tag">{asset.lot}</span>
-          <span className="text-micro font-semibold uppercase tracking-[.09em] text-text-secondary">
-            {CATEGORY_LABELS[asset.category]}
+          <span className="truncate text-micro uppercase tracking-[.07em] text-text-muted">
+            {CATEGORY_SHORT[asset.category]}
           </span>
         </div>
 
@@ -151,24 +148,41 @@ export function AssetCard({
           </Link>
         </h3>
 
-        <p className="mt-1 truncate text-metadata text-text-secondary">
-          {company?.name}
-        </p>
-        <p className="mt-0.5 flex items-center gap-1 text-metadata text-text-secondary">
-          <MapPin size={14} className="shrink-0" aria-hidden="true" />
+        <dl className="mt-1.5 border-t border-border-subtle pt-1.5">
+          {keySpecs(asset).map((spec) => (
+            <div
+              key={spec.label}
+              className="flex items-baseline justify-between gap-2 text-caption"
+            >
+              <dt className="truncate text-text-muted">{spec.label}</dt>
+              <dd className="shrink-0 text-text-secondary">{spec.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <p className="mt-1.5 flex items-center gap-1 truncate text-metadata text-text-secondary">
+          <MapPin size={13} className="shrink-0" aria-hidden="true" />
           {asset.city} · {asset.state}
         </p>
 
-        <div className="mt-3 flex items-end justify-between gap-2 border-t border-border-subtle pt-2.5">
+        <div className="mt-auto flex items-end justify-between gap-2 border-t border-border-subtle pt-2">
           <div>
-            <span className="block text-caption text-text-secondary">
+            <span className="block text-caption text-text-muted">
               {priceLabel(asset)}
             </span>
-            <span className="text-[19px] font-bold leading-6 text-text-primary tabular">
+            <span className="text-[17px] font-bold leading-6 text-text-primary tabular">
               {formatCurrencyCard(amount)}
             </span>
           </div>
-          <div className="pb-0.5 text-right">{deadline}</div>
+          <div className="pb-0.5 text-right">
+            {deadline}
+            {asset.bidCount > 0 && (
+              <span className="mt-0.5 flex items-center justify-end gap-1 text-caption text-text-muted">
+                <Gavel size={12} aria-hidden="true" />
+                {asset.bidCount}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </article>

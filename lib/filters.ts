@@ -1,9 +1,17 @@
-import { ASSETS, Asset, CATEGORY_LABELS, COMPANIES, Category } from "./data";
+import {
+  ASSETS,
+  Asset,
+  CATEGORY_LABELS,
+  COMPANIES,
+  Category,
+  SUBCATEGORIES,
+} from "./data";
 
 export type StatusFilter = "aberto" | "encerrando" | "agendado" | "encerrado";
 export type SortKey = "relevantes" | "encerrando" | "valor_asc" | "valor_desc";
 export interface FilterState {
   categorias: Category[];
+  subcategorias: string[];
   status: StatusFilter[];
   uf: string;
   cidade: string;
@@ -14,6 +22,7 @@ export interface FilterState {
 }
 export const EMPTY_FILTERS: FilterState = {
   categorias: [],
+  subcategorias: [],
   status: [],
   uf: "",
   cidade: "",
@@ -22,6 +31,9 @@ export const EMPTY_FILTERS: FilterState = {
   q: "",
   sort: "relevantes",
 };
+const KNOWN_SUBCATEGORIES = new Set(
+  Object.values(SUBCATEGORIES).flatMap((list) => list.map((s) => s.slug)),
+);
 export const AVAILABLE_UFS = Array.from(
   new Set(ASSETS.map((a) => a.state)),
 ).sort();
@@ -68,6 +80,9 @@ export function parseFilters(
     categorias: many("categoria").filter((v): v is Category =>
       Object.hasOwn(CATEGORY_LABELS, v),
     ),
+    subcategorias: many("subcategoria").filter((v) =>
+      KNOWN_SUBCATEGORIES.has(v),
+    ),
     status: many("status").filter((v): v is StatusFilter =>
       statuses.includes(v as StatusFilter),
     ),
@@ -87,6 +102,8 @@ export function filtersToQueryString(filters: FilterState): string {
   const params = new URLSearchParams();
   if (filters.categorias.length)
     params.set("categoria", filters.categorias.join(","));
+  if (filters.subcategorias.length)
+    params.set("subcategoria", filters.subcategorias.join(","));
   if (filters.status.length) params.set("status", filters.status.join(","));
   for (const key of ["uf", "cidade", "valorMin", "valorMax", "q"] as const)
     if (filters[key]) params.set(key, filters[key]);
@@ -98,6 +115,11 @@ export function applyFilters(filters: FilterState): Asset[] {
   const result = ASSETS.filter((a) => {
     if (a.status === "cancelado") return false;
     if (filters.categorias.length && !filters.categorias.includes(a.category))
+      return false;
+    if (
+      filters.subcategorias.length &&
+      !filters.subcategorias.includes(a.subcategory)
+    )
       return false;
     if (
       filters.status.length &&
@@ -171,6 +193,7 @@ export function applyFilters(filters: FilterState): Asset[] {
 export function countActiveFilters(f: FilterState): number {
   return (
     f.categorias.length +
+    f.subcategorias.length +
     f.status.length +
     ["uf", "cidade", "valorMin", "valorMax"].filter(
       (key) => !!f[key as keyof FilterState],

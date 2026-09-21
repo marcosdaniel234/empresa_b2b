@@ -23,7 +23,7 @@ const {
   filtersToQueryString,
   EMPTY_FILTERS,
 } = require("../lib/filters.ts");
-const { ASSETS } = require("../lib/data.ts");
+const { ASSETS, SUBCATEGORIES } = require("../lib/data.ts");
 const { getCountdownParts, formatCurrencyFull } = require("../lib/format.ts");
 
 test("Brazilian amounts preserve cents", () => {
@@ -147,4 +147,37 @@ test("deadline expires at exact boundary and countdown never goes negative", () 
     [after.days, after.hours, after.minutes, after.seconds],
     [0, 0, 0, 0],
   );
+});
+
+test("subcategory filter narrows within a category and survives the URL", () => {
+  const base = { ...EMPTY_FILTERS, categorias: ["maquinas"] };
+  const all = applyFilters(base);
+  const narrowed = applyFilters({ ...base, subcategorias: ["agricolas"] });
+  assert.ok(narrowed.length > 0);
+  assert.ok(narrowed.length < all.length);
+  assert.ok(narrowed.every((a) => a.subcategory === "agricolas"));
+  assert.deepEqual(
+    parseFilters(
+      Object.fromEntries(
+        new URLSearchParams(
+          filtersToQueryString({ ...base, subcategorias: ["agricolas"] }),
+        ),
+      ),
+    ).subcategorias,
+    ["agricolas"],
+  );
+  assert.deepEqual(
+    parseFilters({ subcategoria: "nao-existe" }).subcategorias,
+    [],
+  );
+});
+
+test("every lot points at a subcategory that exists in the taxonomy", () => {
+  const known = new Set(
+    Object.values(SUBCATEGORIES).flatMap((list) => list.map((s) => s.slug)),
+  );
+  for (const asset of ASSETS)
+    assert.ok(known.has(asset.subcategory), `${asset.lot}: ${asset.subcategory}`);
+  const lots = ASSETS.map((a) => a.lot);
+  assert.equal(new Set(lots).size, lots.length, "códigos de lote duplicados");
 });

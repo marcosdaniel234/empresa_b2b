@@ -3,45 +3,37 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronDown, LayoutGrid } from "lucide-react";
 import {
-  Armchair,
-  ChevronDown,
-  Factory,
-  LayoutGrid,
-  Server,
-  Truck,
-} from "lucide-react";
-import { ASSETS, CATEGORY_LABELS, COMPANIES, Category } from "@/lib/data";
+  ASSETS,
+  CATEGORY_SHORT,
+  Category,
+  SUBCATEGORIES,
+} from "@/lib/data";
 
-const CATEGORY_ICONS: Record<Category, typeof Factory> = {
-  maquinas: Factory,
-  veiculos: Truck,
-  tecnologia: Server,
-  mobiliario: Armchair,
-};
+const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
-const CATEGORY_NOTES: Record<Category, string> = {
-  maquinas: "Equipamentos de produção, movimentação e geração",
-  veiculos: "Utilitários, furgões e veículos de frota",
-  tecnologia: "Servidores, estações de trabalho e notebooks",
-  mobiliario: "Mobiliário corporativo e de escritório",
-};
-
-const CATEGORIES = Object.keys(CATEGORY_LABELS) as Category[];
-
-/** Quantidade real de lotes ativos por categoria no catálogo de demonstração. */
-function countIn(category: Category) {
-  return ASSETS.filter((a) => a.category === category && a.status !== "cancelado")
-    .length;
-}
-
-const SHORTCUTS = [
-  { label: "Leilões abertos", href: "/resultados?status=aberto" },
-  { label: "Encerram em até 24h", href: "/resultados?status=encerrando" },
-  { label: "Agendados", href: "/resultados?status=agendado" },
-  { label: "Maior valor", href: "/resultados?sort=valor_desc" },
+const NAV_LINKS = [
+  { href: "/leiloes", label: "Leilões" },
+  { href: "/resultados", label: "Catálogo" },
+  { href: "/anunciar", label: "Vender" },
+  { href: "/como-funciona", label: "Como funciona" },
+  { href: "/ajuda", label: "Ajuda" },
 ];
 
+function lotsIn(category: Category, subcategory?: string) {
+  return ASSETS.filter(
+    (asset) =>
+      asset.status !== "cancelado" &&
+      asset.category === category &&
+      (!subcategory || asset.subcategory === subcategory),
+  ).length;
+}
+
+/**
+ * Barra de categorias com painel de taxonomia completa. O painel abre por
+ * clique (não por hover), fecha com Escape, clique fora ou troca de página.
+ */
 export function CategoryNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -49,7 +41,6 @@ export function CategoryNav() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  // Ao trocar de página, o painel se fecha junto — ajuste durante a renderização.
   if (lastPath !== pathname) {
     setLastPath(pathname);
     setOpen(false);
@@ -83,8 +74,8 @@ export function CategoryNav() {
     <div className="relative border-t border-border-subtle bg-white">
       <div className="container-content">
         <nav
-          aria-label="Categorias do catálogo"
-          className="scroll-rail items-center gap-1 py-1"
+          aria-label="Categorias e seções"
+          className="scroll-rail items-stretch"
         >
           <button
             ref={buttonRef}
@@ -92,50 +83,43 @@ export function CategoryNav() {
             onClick={() => setOpen((value) => !value)}
             aria-expanded={open}
             aria-controls="painel-categorias"
-            className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-control px-3 text-label font-semibold text-text-primary transition-colors duration-quick hover:bg-surface-subtle hover:text-action"
+            className={`inline-flex min-h-11 shrink-0 items-center gap-2 border-r border-border-subtle px-3 text-label font-bold uppercase tracking-[.04em] transition-colors duration-quick ${
+              open
+                ? "bg-brand-900 text-white"
+                : "bg-surface-subtle text-text-primary hover:text-action"
+            }`}
           >
-            <LayoutGrid size={17} aria-hidden="true" />
-            <span className="hidden sm:inline">Ver todas as categorias</span>
-            <span className="sm:hidden">Categorias</span>
+            <LayoutGrid size={16} aria-hidden="true" />
+            Todas as categorias
             <ChevronDown
-              size={15}
+              size={14}
               aria-hidden="true"
               className={`transition-transform duration-quick ${open ? "rotate-180" : ""}`}
             />
           </button>
-          <span
-            aria-hidden="true"
-            className="mx-1 hidden h-5 w-px shrink-0 bg-border-subtle sm:block"
-          />
-          {CATEGORIES.map((category) => {
-            const Icon = CATEGORY_ICONS[category];
-            return (
-              <Link
-                key={category}
-                href={`/resultados?categoria=${category}`}
-                className="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-control px-3 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action"
-              >
-                <Icon size={16} strokeWidth={1.75} aria-hidden="true" />
-                {CATEGORY_LABELS[category]}
-              </Link>
-            );
-          })}
-          <span
-            aria-hidden="true"
-            className="mx-1 hidden h-5 w-px shrink-0 bg-border-subtle lg:block"
-          />
-          <Link
-            href="/resultados?status=encerrando"
-            className="hidden min-h-11 shrink-0 items-center gap-2 rounded-control px-3 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action lg:inline-flex"
-          >
-            Encerrando em breve
-          </Link>
-          <Link
-            href="/como-funciona"
-            className="ml-auto hidden min-h-11 shrink-0 items-center rounded-control px-3 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action lg:inline-flex"
-          >
-            Como funciona
-          </Link>
+
+          {CATEGORIES.map((category) => (
+            <Link
+              key={category}
+              href={`/resultados?categoria=${category}`}
+              className="inline-flex min-h-11 shrink-0 items-center gap-1.5 border-r border-border-subtle px-3 text-label text-text-primary transition-colors duration-quick hover:bg-surface-subtle hover:text-action"
+            >
+              {CATEGORY_SHORT[category]}
+              <span className="text-caption text-text-muted tabular">
+                {lotsIn(category)}
+              </span>
+            </Link>
+          ))}
+
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="inline-flex min-h-11 shrink-0 items-center px-3 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action"
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
       </div>
 
@@ -143,75 +127,40 @@ export function CategoryNav() {
         <div
           ref={panelRef}
           id="painel-categorias"
-          className="absolute inset-x-0 top-full z-40 border-y border-border-subtle bg-white shadow-elevated"
+          className="absolute inset-x-0 top-full z-40 border-y border-border-strong bg-white shadow-elevated"
         >
-          <div className="container-content grid gap-x-8 gap-y-6 py-6 lg:grid-cols-[2fr_1fr]">
-            <div>
-              <h2 className="eyebrow">Categorias</h2>
-              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
-                {CATEGORIES.map((category) => {
-                  const Icon = CATEGORY_ICONS[category];
-                  return (
-                    <li key={category}>
-                      <Link
-                        href={`/resultados?categoria=${category}`}
-                        className="category-tile"
-                      >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-control bg-surface-subtle text-action">
-                          <Icon size={19} strokeWidth={1.75} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="flex items-baseline gap-2">
-                            <span className="text-title-card text-text-primary">
-                              {CATEGORY_LABELS[category]}
-                            </span>
-                            <span className="text-caption text-text-secondary tabular">
-                              {countIn(category)} lotes
-                            </span>
+          <div className="container-content grid gap-x-6 gap-y-5 py-5 md:grid-cols-2 lg:grid-cols-4">
+            {CATEGORIES.map((category) => (
+              <div key={category}>
+                <Link
+                  href={`/resultados?categoria=${category}`}
+                  className="flex items-baseline justify-between gap-2 border-b border-border-strong pb-1.5 text-label font-bold uppercase tracking-[.05em] text-text-primary hover:text-action"
+                >
+                  {CATEGORY_SHORT[category]}
+                  <span className="text-caption font-normal text-text-muted tabular">
+                    {lotsIn(category)} lotes
+                  </span>
+                </Link>
+                <ul className="mt-1.5">
+                  {SUBCATEGORIES[category].map((sub) => {
+                    const total = lotsIn(category, sub.slug);
+                    return (
+                      <li key={sub.slug}>
+                        <Link
+                          href={`/resultados?categoria=${category}&subcategoria=${sub.slug}`}
+                          className="flex min-h-9 items-baseline justify-between gap-2 text-metadata text-text-secondary hover:text-action hover:underline"
+                        >
+                          {sub.label}
+                          <span className="text-caption text-text-muted tabular">
+                            {total}
                           </span>
-                          <span className="mt-0.5 block text-metadata text-text-secondary">
-                            {CATEGORY_NOTES[category]}
-                          </span>
-                        </span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <h2 className="eyebrow">Atalhos</h2>
-                <ul className="mt-3 space-y-0.5">
-                  {SHORTCUTS.map((shortcut) => (
-                    <li key={shortcut.href}>
-                      <Link
-                        href={shortcut.href}
-                        className="flex min-h-10 items-center text-metadata text-text-secondary hover:text-action hover:underline"
-                      >
-                        {shortcut.label}
-                      </Link>
-                    </li>
-                  ))}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
-              <div>
-                <h2 className="eyebrow">Empresas que anunciam</h2>
-                <ul className="mt-3 space-y-0.5">
-                  {COMPANIES.slice(0, 4).map((company) => (
-                    <li key={company.slug}>
-                      <Link
-                        href={`/loja/${company.slug}`}
-                        className="flex min-h-10 items-center text-metadata text-text-secondary hover:text-action hover:underline"
-                      >
-                        {company.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       )}

@@ -15,11 +15,70 @@ export type AuctionStatus =
   | "cancelado";
 
 export const CATEGORY_LABELS: Record<Category, string> = {
+  maquinas: "Máquinas e equipamentos",
+  veiculos: "Veículos e frota",
+  tecnologia: "Tecnologia e TI",
+  mobiliario: "Mobiliário corporativo",
+};
+
+/** Rótulo curto, para barras de navegação e trilhas. */
+export const CATEGORY_SHORT: Record<Category, string> = {
   maquinas: "Máquinas",
   veiculos: "Veículos",
   tecnologia: "Tecnologia",
   mobiliario: "Mobiliário",
 };
+
+export interface Subcategory {
+  slug: string;
+  label: string;
+}
+
+/** Taxonomia do catálogo. Nem toda subcategoria tem lote publicado. */
+export const SUBCATEGORIES: Record<Category, Subcategory[]> = {
+  maquinas: [
+    { slug: "movimentacao", label: "Movimentação e elevação" },
+    { slug: "geracao", label: "Geração e energia" },
+    { slug: "agricolas", label: "Máquinas agrícolas" },
+    { slug: "usinagem", label: "Usinagem e metalurgia" },
+    { slug: "compressores", label: "Compressores e bombas" },
+    { slug: "embalagem", label: "Embalagem e envase" },
+  ],
+  veiculos: [
+    { slug: "utilitarios", label: "Utilitários e furgões" },
+    { slug: "refrigerados", label: "Transporte refrigerado" },
+    { slug: "caminhoes", label: "Caminhões e cavalos mecânicos" },
+    { slug: "implementos", label: "Implementos rodoviários" },
+    { slug: "passeio", label: "Veículos de passeio" },
+  ],
+  tecnologia: [
+    { slug: "servidores", label: "Servidores e datacenter" },
+    { slug: "estacoes", label: "Estações de trabalho" },
+    { slug: "notebooks", label: "Notebooks corporativos" },
+    { slug: "redes", label: "Redes e conectividade" },
+    { slug: "impressao", label: "Impressão e digitalização" },
+  ],
+  mobiliario: [
+    { slug: "reuniao", label: "Salas de reunião" },
+    { slug: "assentos", label: "Cadeiras e assentos" },
+    { slug: "estacoes-trabalho", label: "Estações e bancadas" },
+    { slug: "armazenagem", label: "Armazenagem e arquivo" },
+  ],
+};
+
+const SUBCATEGORY_INDEX = new Map(
+  (Object.entries(SUBCATEGORIES) as [Category, Subcategory[]][]).flatMap(
+    ([category, list]) =>
+      list.map((sub) => [`${category}/${sub.slug}`, sub] as const),
+  ),
+);
+
+export function getSubcategoryLabel(
+  category: Category,
+  slug: string,
+): string | undefined {
+  return SUBCATEGORY_INDEX.get(`${category}/${slug}`)?.label;
+}
 
 export interface Company {
   slug: string;
@@ -38,6 +97,7 @@ export interface Asset {
   slug: string;
   title: string;
   category: Category;
+  subcategory: string;
   companySlug: string;
   city: string;
   state: string;
@@ -121,6 +181,7 @@ const days = (d: number) =>
 export const ASSETS: Asset[] = [
   {
     id: "a1",
+    subcategory: "movimentacao",
     lot: "LT-1042",
     slug: "empilhadeira-eletrica-2021",
     title: "Empilhadeira elétrica, capacidade 2,5 t",
@@ -154,6 +215,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a2",
+    subcategory: "utilitarios",
     lot: "LT-1058",
     slug: "furgao-de-carga-2020",
     title: "Furgão de carga, motor 2.3",
@@ -191,6 +253,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a3",
+    subcategory: "reuniao",
     lot: "LT-1067",
     slug: "mobiliario-corporativo-sala-reuniao",
     title: "Conjunto de mobiliário para sala de reunião",
@@ -223,6 +286,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a4",
+    subcategory: "servidores",
     lot: "LT-1073",
     slug: "servidores-rack-42u",
     title: "Lote de servidores em rack 42U",
@@ -258,6 +322,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a5",
+    subcategory: "agricolas",
     lot: "LT-1088",
     slug: "trator-agricola-2019",
     title: "Trator agrícola, 110 cv",
@@ -290,6 +355,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a6",
+    subcategory: "utilitarios",
     lot: "LT-1094",
     slug: "vans-utilitarias-lote",
     title: "Van utilitária, motor 1.4",
@@ -321,6 +387,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a7",
+    subcategory: "estacoes",
     lot: "LT-1101",
     slug: "estacoes-trabalho-lote-20",
     title: "Lote de 20 estações de trabalho",
@@ -351,6 +418,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a8",
+    subcategory: "assentos",
     lot: "LT-1115",
     slug: "cadeiras-diretoria-lote-8",
     title: "Lote de 8 cadeiras de diretoria",
@@ -381,6 +449,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a9",
+    subcategory: "geracao",
     lot: "LT-1127",
     slug: "gerador-diesel-150kva",
     title: "Gerador a diesel, 150 kVA",
@@ -413,6 +482,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a10",
+    subcategory: "agricolas",
     lot: "LT-1130",
     slug: "colheitadeira-2017",
     title: "Colheitadeira, plataforma 20 pés",
@@ -441,6 +511,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a11",
+    subcategory: "refrigerados",
     lot: "LT-1146",
     slug: "furgao-refrigerado-2021",
     title: "Furgão refrigerado, câmara isotérmica",
@@ -477,6 +548,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a12",
+    subcategory: "notebooks",
     lot: "LT-1152",
     slug: "notebooks-corporativos-lote-15",
     title: "Lote de 15 notebooks corporativos",

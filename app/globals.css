@@ -7,10 +7,6 @@
     @apply border-border-subtle;
   }
 
-  html {
-    @apply scroll-smooth;
-  }
-
   body {
     @apply bg-surface-page text-text-primary antialiased;
     font-feature-settings: "cv11", "ss01";
@@ -18,17 +14,14 @@
 
   ::selection {
     background-color: #d9ed92;
-    color: #16211d;
+    color: #15201c;
   }
 
-  /* Foco visível consistente: anel azul sobre superfícies claras. */
   :focus-visible {
     outline: 2px solid #225cbe;
-    outline-offset: 2px;
-    border-radius: 3px;
+    outline-offset: 1px;
   }
 
-  /* Sobre superfícies escuras o anel de foco passa a ser branco. */
   .on-dark :focus-visible,
   .on-dark:focus-visible {
     outline-color: #ffffff;
@@ -42,9 +35,8 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Compensa o cabeçalho fixo ao pular para uma âncora. */
   [id] {
-    scroll-margin-top: 136px;
+    scroll-margin-top: 150px;
   }
 
   input[type="checkbox"] {
@@ -54,14 +46,13 @@
 
 @layer utilities {
   .container-content {
-    @apply mx-auto w-full max-w-content px-4 sm:px-5 lg:px-8;
+    @apply mx-auto w-full max-w-content px-3 sm:px-4 lg:px-6;
   }
 
   .skip-link {
     @apply absolute left-4 top-[-100px] z-[100] rounded-control bg-brand-900 px-4 py-3 text-text-inverse transition-[top] duration-quick focus:top-3;
   }
 
-  /* Trilho horizontal usado pela navegação de categorias no mobile. */
   .scroll-rail {
     @apply flex overflow-x-auto;
     scrollbar-width: none;
@@ -75,53 +66,81 @@
 @layer components {
   /* ---------- Ações ---------- */
   .primary-link {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-colors duration-quick hover:bg-action-hover active:bg-action-pressed;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-colors duration-quick hover:bg-action-hover active:bg-action-pressed;
   }
   .secondary-link {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
   }
   .text-link {
-    @apply inline-flex min-h-11 shrink-0 items-center gap-1.5 text-label font-semibold text-action hover:underline;
+    @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action hover:underline;
   }
   .header-link {
-    @apply inline-flex min-h-11 items-center gap-2 rounded-control px-2.5 text-label text-text-secondary transition-colors duration-quick hover:bg-surface-subtle hover:text-action;
+    @apply inline-flex min-h-10 items-center gap-2 px-2.5 text-label text-text-secondary transition-colors duration-quick hover:text-action;
   }
 
-  /* ---------- Estrutura de página ---------- */
+  /* ---------- Blocos ---------- */
   .panel {
     @apply rounded-card border border-border-subtle bg-white;
   }
+  .panel-head {
+    @apply flex items-center justify-between gap-3 border-b border-border-subtle bg-surface-subtle px-3 py-2;
+  }
+  .panel-title {
+    @apply text-label font-bold uppercase tracking-[.06em] text-text-primary;
+  }
   .section-heading {
-    @apply flex flex-wrap items-end justify-between gap-3;
+    @apply flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-brand-900 pb-2;
   }
   .section-title {
     @apply text-title-section-mobile md:text-title-section;
   }
   .eyebrow {
-    @apply text-micro font-semibold uppercase tracking-[.13em] text-action;
+    @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
   }
 
   /* ---------- Catálogo ---------- */
   .lot-tag {
-    @apply inline-flex items-center rounded-[3px] bg-surface-raised px-1.5 py-0.5 text-micro font-semibold uppercase tracking-[.08em] text-text-secondary tabular;
+    @apply inline-flex items-center rounded-[2px] border border-border-subtle bg-surface-subtle px-1.5 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
   }
-  /* Alvo de toque de 44px, padrão do projeto (FUNDACAO_ESTETICA §8). */
   .chip {
-    @apply inline-flex min-h-11 items-center gap-1.5 rounded-full border border-border-subtle bg-white px-3.5 text-label text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
+    @apply inline-flex min-h-10 items-center gap-1.5 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
   }
   .chip-active {
-    @apply border-brand-800 bg-brand-800 text-white hover:border-brand-800 hover:text-white;
+    @apply border-brand-900 bg-brand-900 text-white hover:border-brand-900 hover:text-white;
   }
-  .category-tile {
-    @apply flex items-center gap-3 rounded-card border border-border-subtle bg-white p-4 transition-colors duration-quick hover:border-action hover:bg-surface-subtle;
+
+  /* Tabela de dados: cabeçalho fixo em cinza, linhas zebradas discretas. */
+  .data-table {
+    @apply w-full border-collapse text-left;
   }
-  .stat-block {
-    @apply flex flex-col gap-0.5 border-l-2 border-accent-strong pl-3;
+  .data-table thead th {
+    @apply border-b border-border-strong bg-surface-subtle px-3 py-2 text-micro font-bold uppercase tracking-[.06em] text-text-secondary;
+  }
+  .data-table tbody td {
+    @apply border-b border-border-subtle px-3 py-2.5 text-metadata align-middle;
+  }
+  .data-table tbody tr:hover {
+    @apply bg-surface-subtle;
+  }
+
+  /* Ficha técnica: pares rótulo/valor zebrados. */
+  .spec-table {
+    @apply w-full border-collapse text-left;
+  }
+  .spec-table th {
+    @apply w-1/2 border-b border-border-subtle px-3 py-2 text-metadata font-normal text-text-secondary;
+  }
+  .spec-table td {
+    @apply border-b border-border-subtle px-3 py-2 text-metadata font-semibold text-text-primary;
+  }
+  .spec-table tr:nth-child(odd) th,
+  .spec-table tr:nth-child(odd) td {
+    @apply bg-surface-subtle/60;
   }
 
   /* ---------- Formulários ---------- */
   .field {
-    @apply h-11 w-full min-w-0 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary placeholder:text-text-secondary;
+    @apply h-10 w-full min-w-0 rounded-control border border-border-strong bg-white px-2.5 text-label text-text-primary placeholder:text-text-muted;
   }
   .field-label {
     @apply text-label font-semibold text-text-primary;
@@ -129,7 +148,7 @@
 
   /* ---------- Empresa ---------- */
   .company-monogram {
-    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-control text-base font-bold;
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border-subtle text-label font-bold;
     background: #e7eadf;
     color: #36533c;
   }
@@ -152,31 +171,17 @@
 
   /* ---------- Diálogos ---------- */
   .app-dialog {
-    @apply fixed m-auto max-w-[560px] rounded-modal border border-border-subtle bg-white p-5 text-text-primary shadow-modal sm:p-6;
+    @apply fixed m-auto max-w-[560px] rounded-modal border border-border-strong bg-white p-4 text-text-primary shadow-modal sm:p-5;
     width: calc(100% - 32px);
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  .app-dialog[open] {
-    animation: dialog-enter 180ms cubic-bezier(0.2, 0, 0, 1);
-  }
   .app-dialog::backdrop {
-    background: rgba(15, 46, 42, 0.55);
+    background: rgba(14, 43, 39, 0.55);
   }
   .app-dialog.wide-dialog {
     max-width: 900px;
-  }
-}
-
-@keyframes dialog-enter {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 

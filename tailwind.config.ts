@@ -1,9 +1,9 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tokens do ATIVOS B2B. A direção é de catálogo industrial: superfícies claras,
- * verde-petróleo como cor de ação, acento verde-limão e geometria compacta
- * (raios curtos, sombras quase imperceptíveis, bordas discretas).
+ * Tokens do ATIVOS B2B. Direção de portal de leilão industrial: superfícies
+ * claras e neutras, cor de ação em verde-petróleo, acento verde-limão,
+ * geometria reta (raios de 2-4px) e bordas de aço bem definidas.
  */
 const config: Config = {
   content: [
@@ -15,7 +15,7 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#0F2E2A",
+          900: "#0E2B27",
           800: "#123C36",
           700: "#17514A",
         },
@@ -26,98 +26,87 @@ const config: Config = {
         },
         accent: {
           soft: "#D9ED92",
-          strong: "#B9D64A",
+          strong: "#B3D23F",
         },
         surface: {
-          page: "#F4F6F3",
+          page: "#F2F4F2",
           card: "#FFFFFF",
-          subtle: "#EDF1EC",
-          raised: "#E4EAE3",
+          subtle: "#E9EDE9",
+          raised: "#DFE5DF",
         },
         text: {
-          primary: "#16211D",
-          secondary: "#4F6158",
+          primary: "#15201C",
+          secondary: "#4B5C54",
+          muted: "#6B7C73",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#DDE3DE",
-          control: "#6E8377",
-          strong: "#C3CCC5",
+          subtle: "#D5DCD7",
+          strong: "#B9C3BC",
+          control: "#69796F",
         },
         focus: {
           ring: "#225CBE",
         },
         success: {
           text: "#166044",
-          surface: "#E8F3EC",
+          surface: "#E6F2EB",
         },
         warning: {
           text: "#7A4B00",
-          surface: "#FDF0D5",
+          surface: "#FCEFD2",
         },
         danger: {
           text: "#A62C2C",
-          surface: "#FCEBEC",
+          surface: "#FBE9EA",
         },
         info: {
-          text: "#2457A6",
-          surface: "#EDF3FD",
+          text: "#22508F",
+          surface: "#EAF1FB",
         },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       fontSize: {
-        display: ["40px", { lineHeight: "46px", fontWeight: "700" }],
-        "display-mobile": ["30px", { lineHeight: "36px", fontWeight: "700" }],
-        "title-page": ["30px", { lineHeight: "38px", fontWeight: "700" }],
-        "title-page-mobile": ["24px", { lineHeight: "31px", fontWeight: "700" }],
-        "title-section": ["21px", { lineHeight: "28px", fontWeight: "700" }],
+        "title-page": ["26px", { lineHeight: "32px", fontWeight: "700" }],
+        "title-page-mobile": ["21px", { lineHeight: "27px", fontWeight: "700" }],
+        "title-section": ["18px", { lineHeight: "24px", fontWeight: "700" }],
         "title-section-mobile": [
-          "19px",
-          { lineHeight: "26px", fontWeight: "700" },
+          "16px",
+          { lineHeight: "22px", fontWeight: "700" },
         ],
-        "title-card": ["16px", { lineHeight: "22px", fontWeight: "600" }],
-        value: ["28px", { lineHeight: "34px", fontWeight: "700" }],
-        "value-mobile": ["26px", { lineHeight: "32px", fontWeight: "700" }],
-        body: ["15px", { lineHeight: "23px", fontWeight: "400" }],
-        label: ["14px", { lineHeight: "20px", fontWeight: "500" }],
+        "title-card": ["15px", { lineHeight: "20px", fontWeight: "600" }],
+        value: ["24px", { lineHeight: "30px", fontWeight: "700" }],
+        "value-mobile": ["22px", { lineHeight: "28px", fontWeight: "700" }],
+        body: ["14px", { lineHeight: "21px", fontWeight: "400" }],
+        label: ["13px", { lineHeight: "18px", fontWeight: "500" }],
         metadata: ["13px", { lineHeight: "19px", fontWeight: "400" }],
         caption: ["12px", { lineHeight: "17px", fontWeight: "400" }],
         micro: ["11px", { lineHeight: "15px", fontWeight: "500" }],
       },
       borderRadius: {
-        control: "6px",
-        card: "6px",
-        modal: "10px",
+        control: "3px",
+        card: "3px",
+        modal: "4px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(15, 46, 42, 0.05)",
-        elevated: "0 2px 10px rgba(15, 46, 42, 0.09)",
-        modal: "0 18px 48px rgba(15, 46, 42, 0.22)",
+        card: "0 1px 2px rgba(14, 43, 39, 0.06)",
+        elevated: "0 4px 14px rgba(14, 43, 39, 0.12)",
+        modal: "0 18px 48px rgba(14, 43, 39, 0.24)",
       },
       maxWidth: {
-        content: "1400px",
+        content: "1440px",
       },
       transitionDuration: {
         micro: "100ms",
-        quick: "160ms",
-        standard: "220ms",
-        panel: "280ms",
-        emphasis: "600ms",
+        quick: "140ms",
+        standard: "200ms",
+        panel: "260ms",
       },
       transitionTimingFunction: {
         standard: "cubic-bezier(0.2, 0, 0, 1)",
         exit: "cubic-bezier(0.4, 0, 1, 1)",
-      },
-      keyframes: {
-        "value-flash": {
-          "0%": { backgroundColor: "#E8F3EC" },
-          "100%": { backgroundColor: "transparent" },
-        },
-      },
-      animation: {
-        "value-flash": "value-flash 600ms linear",
       },
     },
   },

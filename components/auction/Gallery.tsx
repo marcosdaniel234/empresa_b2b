@@ -1,58 +1,52 @@
 "use client";
 import { useState } from "react";
-import { Expand } from "lucide-react";
-import { AssetVisual } from "@/components/ui/AssetVisual";
-import { Dialog } from "@/components/ui/Dialog";
-import { Category } from "@/lib/data";
+import { ImageSlot } from "@/components/ui/ImageSlot";
 
-export function Gallery({
-  category,
-  title,
-}: {
-  category: Category;
-  count: number;
-  title: string;
-}) {
-  const [open, setOpen] = useState(false);
+/**
+ * Galeria do lote. As fotografias ainda não existem no catálogo de
+ * demonstração, então as posições ficam reservadas — uma principal e as
+ * miniaturas — na quantidade prevista para o lote.
+ */
+export function Gallery({ count, title }: { count: number; title: string }) {
+  const total = Math.max(count, 1);
+  const [active, setActive] = useState(0);
+
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="group relative block w-full overflow-hidden rounded-card border border-border-subtle bg-white"
-        aria-label={`Ampliar ilustração: ${title}`}
+      <ImageSlot
+        ratio="aspect-[16/10]"
+        size="lg"
+        label={`Foto ${active + 1} de ${total}`}
+        className="w-full"
       >
-        <AssetVisual
-          category={category}
-          showLabel={false}
-          rounded=""
-          className="aspect-[16/10] w-full"
-        />
-        <span className="absolute bottom-3 right-3 inline-flex min-h-11 items-center gap-2 rounded-control border border-border-subtle bg-white px-3 text-label font-semibold text-text-primary shadow-card">
-          <Expand size={17} aria-hidden="true" />
-          Ampliar
+        <span className="absolute bottom-2 left-2 rounded-[2px] bg-white/90 px-2 py-0.5 text-micro font-semibold uppercase tracking-[.08em] text-text-secondary">
+          {active + 1} / {total}
         </span>
-      </button>
-      <p className="mt-2 text-caption text-text-secondary">
-        Ilustração da categoria. Fotografias do ativo ainda não foram
-        adicionadas.
-      </p>
-      {open && (
-        <Dialog
-          title={title}
-          onClose={() => setOpen(false)}
-          className="wide-dialog"
-        >
-          <AssetVisual
-            category={category}
-            showLabel={false}
-            className="aspect-[16/10] w-full"
-          />
-          <p className="mt-3 text-metadata text-text-secondary">
-            Imagem ilustrativa, sem vínculo com um equipamento real.
-          </p>
-        </Dialog>
+      </ImageSlot>
+
+      {total > 1 && (
+        <div className="mt-2 grid grid-cols-6 gap-1.5">
+          {Array.from({ length: total }).map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setActive(i)}
+              aria-current={active === i}
+              aria-label={`Selecionar posição de foto ${i + 1} de ${total}: ${title}`}
+              className={`border ${
+                active === i ? "border-action" : "border-transparent"
+              }`}
+            >
+              <ImageSlot ratio="aspect-square" size="sm" className="w-full" />
+            </button>
+          ))}
+        </div>
       )}
+
+      <p className="mt-2 text-caption text-text-muted">
+        Espaços reservados para as fotografias do lote. Nenhuma imagem foi
+        publicada neste catálogo de demonstração.
+      </p>
     </div>
   );
 }
