@@ -1,28 +1,30 @@
 "use client";
-
-import { useMemo, useSyncExternalStore } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { Heart } from "lucide-react";
-
+import { parseFavorites } from "@/lib/preferences";
 const STORAGE_KEY = "ativos-b2b:favoritos";
 const CHANGE_EVENT = "ativos-b2b:favoritos-changed";
-
-function readFavoritesRaw(): string {
+let memory = "[]";
+let unavailable = false;
+function readRaw() {
+  if (unavailable) return memory;
   try {
     return window.localStorage.getItem(STORAGE_KEY) ?? "[]";
   } catch {
-    return "[]";
+    return memory;
   }
 }
-
 function writeFavorites(slugs: string[]) {
+  memory = JSON.stringify(slugs);
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(slugs));
-    window.dispatchEvent(new CustomEvent(CHANGE_EVENT));
+    window.localStorage.setItem(STORAGE_KEY, memory);
+    unavailable = false;
   } catch {
-    // Armazenamento indisponível (ex.: navegação privada); favorito não persiste nesta sessão.
+    unavailable = true;
   }
+  window.dispatchEvent(new Event(CHANGE_EVENT));
+  return !unavailable;
 }
-
 function subscribe(callback: () => void) {
   window.addEventListener(CHANGE_EVENT, callback);
   window.addEventListener("storage", callback);
@@ -31,48 +33,70 @@ function subscribe(callback: () => void) {
     window.removeEventListener("storage", callback);
   };
 }
-
-function getServerSnapshot() {
-  return "[]";
-}
-
-/** Lista de favoritos sincronizada com o localStorage via useSyncExternalStore. */
+const server = () => "[]";
+const subscribeReady = () => () => {};
 export function useFavorites() {
-  const raw = useSyncExternalStore(subscribe, readFavoritesRaw, getServerSnapshot);
-  const favorites = useMemo<string[]>(() => {
-    try {
-      return JSON.parse(raw) as string[];
-    } catch {
-      return [];
-    }
-  }, [raw]);
-
-  return { favorites, ready: true };
+  const raw = useSyncExternalStore(subscribe, readRaw, server);
+  const ready = useSyncExternalStore(
+    subscribeReady,
+    () => true,
+    () => false,
+  );
+  return { favorites: useMemo(() => parseFavorites(raw), [raw]), ready };
 }
-
-export function FavoriteButton({ slug, title, className = "" }: { slug: string; title: string; className?: string }) {
+export function FavoriteButton({
+  slug,
+  title,
+  className = "",
+}: {
+  slug: string;
+  title: string;
+  className?: string;
+}) {
   const { favorites } = useFavorites();
-  const isFavorite = favorites.includes(slug);
-
-  function toggle(event: React.MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    const next = isFavorite ? favorites.filter((s) => s !== slug) : [...favorites, slug];
-    writeFavorites(next);
-  }
-
+  const [message, setMessage] = useState("");
+  const active = favorites.includes(slug);
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-pressed={isFavorite}
-      aria-label={isFavorite ? `Remover ${title} dos favoritos` : `Adicionar ${title} aos favoritos`}
-      className={`relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-surface-card/95 shadow-card transition-transform duration-quick hover:scale-[1.04] ${className}`}
-    >
-      <Heart
-        className={isFavorite ? "h-5 w-5 fill-danger-text text-danger-text" : "h-5 w-5 text-text-secondary"}
-        aria-hidden="true"
-      />
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const current = parseFavorites(readRaw());
+          const exists = current.includes(slug);
+          const persistent = writeFavorites(
+            exists ? current.filter((s) => s !== slug) : [...current, slug],
+          );
+          setMessage(
+            persistent
+              ? exists
+                ? "Removido dos favoritos."
+                : "Salvo nos favoritos deste navegador."
+              : "Salvo apenas nesta página. O navegador não permitiu guardar o favorito.",
+          );
+        }}
+        aria-pressed={active}
+        aria-label={
+          active
+            ? `Remover ${title} dos favoritos`
+            : `Adicionar ${title} aos favoritos`
+        }
+        className={`relative z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/95 shadow-card transition-colors hover:bg-white ${className}`}
+      >
+        <Heart
+          className={
+            active
+              ? "h-5 w-5 fill-action text-action"
+              : "h-5 w-5 text-text-secondary"
+          }
+          aria-hidden="true"
+        />
+      </button>
+      <span role="status" className="sr-only">
+        {message}
+      </span>
+    </>
   );
 }
+

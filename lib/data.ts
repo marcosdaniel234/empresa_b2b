@@ -1,6 +1,6 @@
 /**
- * Dados de demonstração do MVP. Nenhum valor aqui representa um ativo,
- * empresa, lance ou leilão real — servem apenas para exercitar o layout
+ * Dados de demonstração da interface. Nenhum valor aqui representa um ativo,
+ * empresa, lance ou leilão real; servem apenas para exercitar o layout
  * e os fluxos de interface (ver HANDOFF_DESIGN.md §3).
  */
 
@@ -45,6 +45,7 @@ export interface Asset {
   minIncrement: number;
   bidCount: number;
   deadlineIso: string;
+  startsAtIso?: string;
   extendedUntilIso?: string;
   antiSniping: boolean;
   specs: { label: string; value: string }[];
@@ -108,9 +109,12 @@ export const COMPANIES: Company[] = [
   },
 ];
 
-const now = Date.now();
+const now = Number(
+  process.env.NEXT_PUBLIC_DEMO_EPOCH ?? Date.UTC(2026, 8, 21, 12),
+);
 const hours = (h: number) => new Date(now + h * 60 * 60 * 1000).toISOString();
-const days = (d: number) => new Date(now + d * 24 * 60 * 60 * 1000).toISOString();
+const days = (d: number) =>
+  new Date(now + d * 24 * 60 * 60 * 1000).toISOString();
 
 export const ASSETS: Asset[] = [
   {
@@ -141,7 +145,8 @@ export const ASSETS: Asset[] = [
     description:
       "Empilhadeira elétrica utilizada em operação de armazém coberto. Bateria de lítio com autonomia declarada pelo vendedor, sem substituição registrada. Revisões periódicas em dia conforme manual do fabricante.",
     documents: ["Nota fiscal de compra", "Histórico de manutenção (12 meses)"],
-    pickup: "Retirada por conta do comprador, em Campinas/SP, em até 10 dias úteis após o fechamento.",
+    pickup:
+      "Retirada por conta do comprador, em Campinas/SP, em até 10 dias úteis após o fechamento.",
     gallery: 6,
   },
   {
@@ -171,8 +176,13 @@ export const ASSETS: Asset[] = [
       "Uso em rota urbana de distribuição. Lataria com marcas de uso compatíveis com a idade. Pneus dianteiros trocados há 8.000 km. Sem registro de sinistro.",
     description:
       "Veículo utilitário de frota própria, substituído dentro do ciclo padrão de renovação da empresa. Interior de carga com forração original, sem avarias estruturais visíveis.",
-    documents: ["CRLV atualizado", "Histórico de revisões", "Laudo de vistoria cautelar"],
-    pickup: "Retirada por conta do comprador, em São Paulo/SP, mediante transferência de documentação.",
+    documents: [
+      "CRLV atualizado",
+      "Histórico de revisões",
+      "Laudo de vistoria cautelar",
+    ],
+    pickup:
+      "Retirada por conta do comprador, em São Paulo/SP, mediante transferência de documentação.",
     gallery: 5,
   },
   {
@@ -202,7 +212,8 @@ export const ASSETS: Asset[] = [
     description:
       "Conjunto completo para sala de reunião de até 10 pessoas, proveniente de escritório corporativo com uso predominante em ambiente climatizado.",
     documents: ["Nota fiscal de compra original"],
-    pickup: "Retirada por conta do comprador, em Barueri/SP, com agendamento prévio por mensagem.",
+    pickup:
+      "Retirada por conta do comprador, em Barueri/SP, com agendamento prévio por mensagem.",
     gallery: 4,
   },
   {
@@ -231,8 +242,12 @@ export const ASSETS: Asset[] = [
       "Equipamentos desligados e higienizados. Discos formatados com apagamento seguro antes da fotografia. Sem garantia de fabricante ativa.",
     description:
       "Lote de infraestrutura de datacenter substituído em ciclo programado de renovação. Testado funcionalmente antes da publicação, sem carga de produção.",
-    documents: ["Relatório de apagamento seguro de dados", "Inventário técnico do lote"],
-    pickup: "Retirada por conta do comprador, em Curitiba/PR, com necessidade de veículo de carga.",
+    documents: [
+      "Relatório de apagamento seguro de dados",
+      "Inventário técnico do lote",
+    ],
+    pickup:
+      "Retirada por conta do comprador, em Curitiba/PR, com necessidade de veículo de carga.",
     gallery: 5,
   },
   {
@@ -249,6 +264,7 @@ export const ASSETS: Asset[] = [
     minIncrement: 2000,
     bidCount: 0,
     deadlineIso: days(4),
+    startsAtIso: days(2),
     antiSniping: true,
     specs: [
       { label: "Potência", value: "110 cv" },
@@ -287,8 +303,10 @@ export const ASSETS: Asset[] = [
       { label: "Câmbio", value: "Manual, 5 marchas" },
       { label: "Manutenção", value: "Em dia" },
     ],
-    condition: "Uso urbano leve. Lataria com pequenos riscos superficiais. Sem registro de sinistro.",
-    description: "Veículo de apoio administrativo, substituído por renovação programada de frota.",
+    condition:
+      "Uso urbano leve. Lataria com pequenos riscos superficiais. Sem registro de sinistro.",
+    description:
+      "Veículo de apoio administrativo, substituído por renovação programada de frota.",
     documents: ["CRLV atualizado", "Histórico de revisões"],
     pickup: "Retirada por conta do comprador, em São Paulo/SP.",
     gallery: 4,
@@ -314,8 +332,10 @@ export const ASSETS: Asset[] = [
       { label: "Memória", value: "8 GB por unidade" },
       { label: "Armazenamento", value: "SSD 240 GB, dados apagados" },
     ],
-    condition: "Equipamentos de escritório substituídos em ciclo de renovação. Testados individualmente.",
-    description: "Lote corporativo de estações de trabalho para revenda ou reaproveitamento interno.",
+    condition:
+      "Equipamentos de escritório substituídos em ciclo de renovação. Testados individualmente.",
+    description:
+      "Lote corporativo de estações de trabalho para revenda ou reaproveitamento interno.",
     documents: ["Relatório de apagamento seguro de dados"],
     pickup: "Retirada por conta do comprador, em Curitiba/PR.",
     gallery: 4,
@@ -341,8 +361,10 @@ export const ASSETS: Asset[] = [
       { label: "Regulagens", value: "Altura, apoio lombar e braços" },
       { label: "Estado de conservação", value: "Bom, com marcas de uso" },
     ],
-    condition: "Estofado sem rasgos. Mecanismo de regulagem funcional em todas as unidades testadas.",
-    description: "Cadeiras provenientes de sala de diretoria em processo de reforma do escritório.",
+    condition:
+      "Estofado sem rasgos. Mecanismo de regulagem funcional em todas as unidades testadas.",
+    description:
+      "Cadeiras provenientes de sala de diretoria em processo de reforma do escritório.",
     documents: ["Nota fiscal de compra original"],
     pickup: "Retirada por conta do comprador, em Barueri/SP.",
     gallery: 3,
@@ -369,10 +391,13 @@ export const ASSETS: Asset[] = [
       { label: "Cabine", value: "Acústica" },
       { label: "Ano de fabricação", value: "2020" },
     ],
-    condition: "Utilizado como backup industrial. Testado mensalmente conforme rotina de manutenção preventiva.",
-    description: "Gerador de backup substituído por unidade de maior potência no plano de expansão da planta.",
+    condition:
+      "Utilizado como backup industrial. Testado mensalmente conforme rotina de manutenção preventiva.",
+    description:
+      "Gerador de backup substituído por unidade de maior potência no plano de expansão da planta.",
     documents: ["Ficha de manutenção preventiva", "Nota fiscal de compra"],
-    pickup: "Retirada por conta do comprador, em Campinas/SP. Necessário transporte com capacidade adequada.",
+    pickup:
+      "Retirada por conta do comprador, em Campinas/SP. Necessário transporte com capacidade adequada.",
     gallery: 5,
   },
   {
@@ -396,9 +421,10 @@ export const ASSETS: Asset[] = [
       { label: "Horas de uso", value: "4.900 h" },
     ],
     condition: "Leilão cancelado pelo vendedor antes do início dos lances.",
-    description: "Leilão cancelado pelo vendedor. Equipamento pode ser republicado futuramente.",
+    description:
+      "Leilão cancelado pelo vendedor. Equipamento pode ser republicado futuramente.",
     documents: [],
-    pickup: "Não aplicável — leilão cancelado.",
+    pickup: "Não aplicável. Leilão cancelado.",
     gallery: 2,
   },
   {
@@ -420,11 +446,19 @@ export const ASSETS: Asset[] = [
       { label: "Ano/modelo", value: "2021/2021" },
       { label: "Câmara", value: "Isotérmica com unidade refrigerada" },
       { label: "Quilometragem", value: "67.000 km" },
-      { label: "Temperatura de operação", value: "-2°C a 8°C declarado pelo vendedor" },
+      {
+        label: "Temperatura de operação",
+        value: "-2°C a 8°C declarado pelo vendedor",
+      },
     ],
-    condition: "Unidade de refrigeração com manutenção registrada a cada 90 dias. Sem vazamentos aparentes.",
-    description: "Veículo de distribuição de produtos refrigerados, substituído por renovação de contrato.",
-    documents: ["CRLV atualizado", "Histórico de manutenção da unidade refrigerada"],
+    condition:
+      "Unidade de refrigeração com manutenção registrada a cada 90 dias. Sem vazamentos aparentes.",
+    description:
+      "Veículo de distribuição de produtos refrigerados, substituído por renovação de contrato.",
+    documents: [
+      "CRLV atualizado",
+      "Histórico de manutenção da unidade refrigerada",
+    ],
     pickup: "Retirada por conta do comprador, em São Paulo/SP.",
     gallery: 5,
   },
@@ -449,8 +483,10 @@ export const ASSETS: Asset[] = [
       { label: "Memória", value: "16 GB por unidade" },
       { label: "Armazenamento", value: "SSD 256 GB, dados apagados" },
     ],
-    condition: "Notebooks corporativos com marcas de uso normal. Baterias com autonomia reduzida em parte do lote.",
-    description: "Lote substituído em renovação de parque de notebooks corporativos.",
+    condition:
+      "Notebooks corporativos com marcas de uso normal. Baterias com autonomia reduzida em parte do lote.",
+    description:
+      "Lote substituído em renovação de parque de notebooks corporativos.",
     documents: ["Relatório de apagamento seguro de dados"],
     pickup: "Retirada por conta do comprador, em Curitiba/PR.",
     gallery: 4,
@@ -470,12 +506,20 @@ export function getAssetsByCompany(companySlug: string): Asset[] {
 }
 
 export function getClosingSoon(limit = 4): Asset[] {
-  return ASSETS.filter((a) => a.status === "aberto" || a.status === "encerrando")
+  return ASSETS.filter(
+    (a) => a.status === "aberto" || a.status === "encerrando",
+  )
     .slice()
-    .sort((a, b) => new Date(a.deadlineIso).getTime() - new Date(b.deadlineIso).getTime())
+    .sort(
+      (a, b) =>
+        new Date(a.deadlineIso).getTime() - new Date(b.deadlineIso).getTime(),
+    )
     .slice(0, limit);
 }
 
 export function getNewest(limit = 4): Asset[] {
-  return ASSETS.filter((a) => a.status === "aberto" || a.status === "agendado").slice(0, limit);
+  return ASSETS.filter(
+    (a) => a.status === "aberto" || a.status === "agendado",
+  ).slice(0, limit);
 }
+

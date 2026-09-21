@@ -8,14 +8,18 @@ import { useFavorites } from "@/components/catalog/FavoriteButton";
 
 export default function FavoritosPage() {
   const { favorites, ready } = useFavorites();
-  const favoriteAssets = ASSETS.filter((asset) => favorites.includes(asset.slug));
+  const favoriteAssets = ASSETS.filter((asset) =>
+    favorites.includes(asset.slug),
+  );
 
   return (
     <div className="container-content py-8 md:py-10">
-      <h1 className="text-title-page-mobile text-text-primary md:text-title-page">Favoritos</h1>
+      <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
+        Favoritos
+      </h1>
       <p className="mt-2 max-w-2xl text-body text-text-secondary">
-        Salvos neste navegador. Neste MVP, favoritos ficam guardados localmente no seu dispositivo — a versão com
-        contas de empresa sincronizará favoritos entre dispositivos (ver roteiro no README).
+        Sua seleção, em um só lugar. Os favoritos ficam salvos neste navegador
+        para você retomar a pesquisa.
       </p>
 
       <div className="mt-8">
@@ -36,3 +40,4 @@ export default function FavoritosPage() {
     </div>
   );
 }
+

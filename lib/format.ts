@@ -18,14 +18,16 @@ const currencyFormatterNoCents = new Intl.NumberFormat("pt-BR", {
   maximumFractionDigits: 0,
 });
 
-/** Sempre com centavos — uso obrigatório em revisão e recibo de lance. */
+/** Sempre com centavos, uso obrigatório em revisão e recibo de lance. */
 export function formatCurrencyFull(value: number): string {
   return currencyFormatter.format(value);
 }
 
 /** Sem centavos apenas quando o valor for redondo (ex.: cards de catálogo). */
 export function formatCurrencyCard(value: number): string {
-  return Number.isInteger(value) ? currencyFormatterNoCents.format(value) : currencyFormatter.format(value);
+  return Number.isInteger(value)
+    ? currencyFormatterNoCents.format(value)
+    : currencyFormatter.format(value);
 }
 
 const dateTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
@@ -40,7 +42,7 @@ const dateTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
 /** Data/hora completa para contexto de confirmação, com fuso explícito no texto. */
 export function formatDateTimeWithZone(iso: string): string {
   const formatted = dateTimeFormatter.format(new Date(iso)).replace(".", "");
-  return `${formatted} — horário de Brasília`;
+  return `${formatted} · horário de Brasília`;
 }
 
 const shortDateFormatter = new Intl.DateTimeFormat("pt-BR", {
@@ -62,7 +64,10 @@ export interface CountdownParts {
   isPast: boolean;
 }
 
-export function getCountdownParts(deadlineIso: string, nowMs: number = Date.now()): CountdownParts {
+export function getCountdownParts(
+  deadlineIso: string,
+  nowMs: number = Date.now(),
+): CountdownParts {
   const totalMs = new Date(deadlineIso).getTime() - nowMs;
   const isPast = totalMs <= 0;
   const clamped = Math.max(totalMs, 0);
@@ -74,8 +79,14 @@ export function getCountdownParts(deadlineIso: string, nowMs: number = Date.now(
 }
 
 /** Rótulo curto e estável para cards ("Encerra em 2 dias", "Encerra em 3h"). */
-export function formatDeadlineLabel(deadlineIso: string, nowMs: number = Date.now()): string {
-  const { days, hours, minutes, isPast } = getCountdownParts(deadlineIso, nowMs);
+export function formatDeadlineLabel(
+  deadlineIso: string,
+  nowMs: number = Date.now(),
+): string {
+  const { days, hours, minutes, isPast } = getCountdownParts(
+    deadlineIso,
+    nowMs,
+  );
   if (isPast) return "Prazo atingido";
   if (days >= 1) return `Encerra em ${days} dia${days > 1 ? "s" : ""}`;
   if (hours >= 1) return `Encerra em ${hours}h`;
@@ -85,3 +96,4 @@ export function formatDeadlineLabel(deadlineIso: string, nowMs: number = Date.no
 export function pad2(value: number): string {
   return value.toString().padStart(2, "0");
 }
+
