@@ -44,13 +44,20 @@ ser servido por qualquer hospedagem de arquivos.
 
 ## Publicação
 
-O site é publicado no GitHub Pages pelo workflow
-[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml), que roda as
-checagens, gera o export estático e envia para o Pages.
+O site é publicado no GitHub Pages a partir do branch `gh-pages`, que contém
+apenas o resultado do build. O workflow
+[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) roda as
+checagens, gera o export estático e atualiza esse branch a cada push.
+
+**Passo único de configuração** (só o dono do repositório pode fazer): em
+`Settings > Pages > Build and deployment`, escolher **Deploy from a branch**,
+branch `gh-pages`, pasta `/ (root)`. Feito isso, o site fica disponível em
+`https://<usuário>.github.io/empresa_b2b/` e passa a ser atualizado
+automaticamente.
 
 Como o Pages serve o projeto em um subdiretório, o build aceita a variável
-`NEXT_PUBLIC_BASE_PATH` (o workflow preenche automaticamente com o caminho do
-Pages). Para reproduzir a publicação localmente:
+`NEXT_PUBLIC_BASE_PATH` (o workflow preenche com o nome do repositório). Para
+reproduzir a publicação localmente:
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/empresa_b2b npm run build

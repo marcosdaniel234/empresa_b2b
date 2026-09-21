@@ -8,8 +8,8 @@ Um protótipo de front-end navegável, com dados fictícios, cobrindo a jornada 
 
 | Tela | Status | Observação |
 |---|---|---|
-| T01 — Home / Explorar | Construída | Hero, busca, categorias, seções "Encerrando em breve" / "Novos leilões" / "Empresas" |
-| T02 — Resultados e filtros | Construída | Filtros desktop e folha mobile, chips aplicados, ordenação, estado vazio |
+| T01 — Home / Explorar | Construída | Primeira dobra de busca e catálogo, lote em destaque, números do catálogo, vitrines de lotes, categorias e empresas |
+| T02 — Resultados e filtros | Construída | Filtros desktop e folha mobile, chips aplicados, ordenação, alternância grade/lista, estado vazio |
 | T03 — Página de leilão | Construída | Galeria com lightbox, ficha técnica, condição, documentos, retirada, painel de lance |
 | T04 — Revisão e confirmação de lance | Construída como protótipo interativo | Ver limitações na seção 2 — não há servidor validando o valor |
 | T05 — Loja da empresa | Construída (versão simplificada) | Capa, dados institucionais, abas de leilões |
@@ -17,7 +17,7 @@ Um protótipo de front-end navegável, com dados fictícios, cobrindo a jornada 
 | Favoritos | Construído como recurso client-side | `localStorage`, sem conta associada |
 | Como funciona | Construída | Página institucional explicando o fluxo e os limites do MVP |
 
-Todos os componentes seguem os tokens visuais, a tipografia, o espaçamento, os raios e as sombras definidos em `FUNDACAO_ESTETICA.md`, com contraste calculado a partir das mesmas cores semânticas validadas naquele documento. As microinterações implementadas (hover, foco, modal, skeleton² não aplicável pois dados são estáticos, contagem regressiva, favoritar) seguem os tempos e curvas de `ANIMACOES_E_MICROINTERACOES.md` e respeitam `prefers-reduced-motion`.
+A interface foi reorientada para a lógica de um marketplace industrial: cabeçalho em três níveis com busca dominante e navegação por categorias, cards de catálogo densos com código de lote, e geometria compacta. A identidade (verde-petróleo de ação, acento verde-limão, Inter) permanece a do ATIVOS B2B; os tokens continuam centralizados em `tailwind.config.ts` e `app/globals.css`, derivados de `FUNDACAO_ESTETICA.md`, com contraste calculado a partir das mesmas cores semânticas validadas naquele documento. As microinterações implementadas (hover, foco, modal, skeleton² não aplicável pois dados são estáticos, contagem regressiva, favoritar) seguem os tempos e curvas de `ANIMACOES_E_MICROINTERACOES.md` e respeitam `prefers-reduced-motion`.
 
 ## 2. O que não foi construído
 
@@ -54,8 +54,9 @@ Nenhuma das duas rodadas previstas em `HANDOFF_DESIGN.md` §6 (verificação de 
 Estas não são lacunas de escopo, mas decisões conscientes para manter o MVP coerente sem inventar comportamento de produto:
 
 - **Favoritos em `localStorage`**, não em conta — permite demonstrar a interação sem autenticação real.
-- **Contagem de categoria nos filtros é estática** (contagem total por categoria, não recalculada considerando os demais filtros já aplicados) — uma implementação com backend real calcularia isso a cada consulta.
-- **Barra fixa de lance no mobile é sempre visível** na página de leilão, em vez de aparecer somente quando o resumo financeiro sai da viewport (regra exata de `TELAS_E_JORNADAS.md` §4) — a versão final deve usar um `IntersectionObserver` sobre o resumo desktop-equivalente.
+- **Filtros resolvidos no navegador.** O catálogo lê os filtros da URL com `useSearchParams` em vez de recebê-los no servidor. Isso é o que mantém links como `/resultados/?categoria=maquinas` funcionando na exportação estática; com um backend real, a consulta voltaria a ser feita no servidor, com paginação.
+- **Sem paginação**: os lotes de demonstração cabem em uma única tela de resultados.
+- **Códigos de lote fixos** nos dados (`LT-****`); em produção viriam do cadastro do ativo.
 - **Estados de leilão sintéticos**: os 12 ativos de demonstração cobrem intencionalmente todos os status (agendado, aberto, encerrando, encerrado com/sem vencedor, cancelado) para que cada estado da interface seja visualmente verificável.
 - **Organização representada**: o modal de revisão de lance não exibe "Você está dando este lance em nome de [Empresa]" porque não há sessão de usuário; em vez disso, mostra um aviso de que essa informação virá com a autenticação.
 
