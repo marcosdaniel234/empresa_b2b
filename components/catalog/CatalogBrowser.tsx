@@ -161,7 +161,7 @@ export function CatalogBrowser() {
               <Link
                 href={chip.href}
                 aria-label={`Remover filtro ${chip.label}`}
-                className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-surface-raised px-3 text-metadata text-text-primary transition-colors duration-quick hover:bg-border-subtle"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-surface-raised px-3.5 text-metadata text-text-primary transition-colors duration-quick hover:bg-border-subtle"
               >
                 {chip.label}
                 <X size={13} aria-hidden="true" />

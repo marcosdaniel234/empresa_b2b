@@ -245,7 +245,7 @@ export default function HomePage() {
                 href={`/loja/${company.slug}`}
                 className="group flex items-start gap-3 rounded-card border border-border-subtle bg-white p-4 transition-colors duration-quick hover:border-action"
               >
-                <span className={`company-monogram company-tone-${i % 5}`}>
+                <span className={`company-monogram company-tone-${(i % 4) + 1}`}>
                   {company.name.slice(0, 2).toUpperCase()}
                 </span>
                 <span className="min-w-0 flex-1">
