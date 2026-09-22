@@ -1,29 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Bell, Heart, Scale } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { ImageSlot } from "@/components/ui/ImageSlot";
-
-const RECURSOS = [
-  {
-    icon: Heart,
-    label: "Favoritar lotes",
-    hint: "a lista fica salva neste navegador",
-  },
-  {
-    icon: Scale,
-    label: "Comparar até quatro",
-    hint: "ficha técnica lado a lado",
-  },
-  {
-    icon: Bell,
-    label: "Acompanhar prazos",
-    hint: "contagem regressiva por lote",
-  },
-];
 
 /**
  * Faixa de fechamento da home. Em vez de prometer o que a demonstração não
- * entrega, ela nomeia os três recursos que já funcionam de verdade no
- * protótipo e leva para a página que explica o limite atual do cadastro.
+ * entrega, ela apresenta os recursos disponíveis e leva para a página que
+ * explica o limite atual do cadastro.
  */
 export function AccountCta() {
   return (
@@ -33,29 +15,10 @@ export function AccountCta() {
           <h2 className="text-title-page-mobile text-text-primary md:text-title-page">
             Acompanhe os lotes que interessam
           </h2>
-          <p className="mt-2 max-w-lg text-body text-text-secondary">
+          <p className="mt-2 max-w-xl text-[17px] leading-7 text-text-secondary md:text-lg md:leading-8">
             Marque favoritos, compare fichas técnicas lado a lado e veja o prazo
             de cada leilão em um só lugar.
           </p>
-
-          <ul className="mt-4 space-y-2">
-            {RECURSOS.map((recurso) => (
-              <li key={recurso.label} className="flex items-start gap-2.5">
-                <span
-                  aria-hidden="true"
-                  className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-control border border-border-subtle bg-surface-subtle text-action"
-                >
-                  <recurso.icon size={14} />
-                </span>
-                <span className="text-metadata text-text-secondary">
-                  <strong className="font-semibold text-text-primary">
-                    {recurso.label}
-                  </strong>{" "}
-                  — {recurso.hint}
-                </span>
-              </li>
-            ))}
-          </ul>
 
           <Link
             href="/entrar"
