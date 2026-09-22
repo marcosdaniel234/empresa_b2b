@@ -139,7 +139,11 @@ export default async function LeilaoPage({ params }: PageProps) {
 
       <div className="mt-3 grid gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-5">
         <div className="min-w-0 lg:col-start-1 xl:max-w-[760px]">
-          <Gallery count={asset.gallery} title={asset.title} />
+          <Gallery
+            count={asset.gallery}
+            title={asset.title}
+            src={`/images/assets/${asset.slug}.png`}
+          />
         </div>
 
         <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-start lg:sticky lg:top-[140px]">

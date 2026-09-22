@@ -3,17 +3,17 @@ import { useState } from "react";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 
 /**
- * Galeria do lote. As fotografias ainda não existem no catálogo de
- * demonstração, então as posições ficam reservadas — uma principal e as
- * miniaturas — na quantidade prevista para o lote.
+ * Galeria do lote. A imagem principal é repetida nas posições da galeria para
+ * manter a navegação pronta enquanto o catálogo recebe fotos adicionais.
  */
-export function Gallery({ count, title }: { count: number; title: string }) {
+export function Gallery({ count, title, src }: { count: number; title: string; src: string }) {
   const total = Math.max(count, 1);
   const [active, setActive] = useState(0);
 
   return (
     <div>
       <ImageSlot
+        src={src}
         ratio="aspect-[16/10]"
         size="lg"
         label={`Foto ${active + 1} de ${total}`}
@@ -37,15 +37,14 @@ export function Gallery({ count, title }: { count: number; title: string }) {
                 active === i ? "border-action" : "border-transparent"
               }`}
             >
-              <ImageSlot ratio="aspect-square" size="sm" className="w-full" />
+              <ImageSlot src={src} ratio="aspect-square" size="sm" className="w-full" />
             </button>
           ))}
         </div>
       )}
 
       <p className="mt-2 text-caption text-text-muted">
-        Espaços reservados para as fotografias do lote. Nenhuma imagem foi
-        publicada neste catálogo de demonstração.
+        Imagem ilustrativa repetida nas posições da galeria deste lote.
       </p>
     </div>
   );

@@ -15,8 +15,8 @@ function HighlightCard({ event }: { event: AuctionEvent }) {
   return (
     <article className="card-lift group relative flex flex-col gap-3 border border-border-subtle bg-white p-3 sm:flex-row">
       <div className="grid w-full shrink-0 grid-cols-2 gap-1 sm:w-[42%]">
-        <ImageSlot ratio="aspect-[4/3]" className="w-full" />
-        <ImageSlot ratio="aspect-[4/3]" className="w-full" />
+        <ImageSlot src={`/images/assets/${event.lots[0].slug}.png`} ratio="aspect-[4/3]" className="w-full" />
+        <ImageSlot src={`/images/assets/${event.lots[0].slug}.png`} ratio="aspect-[4/3]" className="w-full" />
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">

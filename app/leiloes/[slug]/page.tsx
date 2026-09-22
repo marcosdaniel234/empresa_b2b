@@ -49,6 +49,7 @@ export default async function LeilaoEventoPage({ params }: PageProps) {
 
       <div className="mt-1.5 panel overflow-hidden">
         <ImageSlot
+          src={`/images/assets/${event.lots[0].slug}.png`}
           ratio="h-36 sm:h-44"
           label="Imagem do leilão"
           size="lg"
