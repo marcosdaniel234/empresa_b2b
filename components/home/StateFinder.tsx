@@ -4,6 +4,7 @@ import { getStateCounts } from "@/lib/data";
 const FLAGS: Record<string, string> = {
   SP: "/images/states/sp.svg", PR: "/images/states/pr.svg", GO: "/images/states/go.svg",
   ES: "/images/states/es.svg", PE: "/images/states/pe.svg", RS: "/images/states/rs.svg",
+  BA: "/images/states/ba.svg", MG: "/images/states/mg.svg", RJ: "/images/states/rj.svg", SC: "/images/states/sc.svg",
 };
 
 /**
