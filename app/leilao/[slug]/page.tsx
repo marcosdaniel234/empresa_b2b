@@ -15,6 +15,8 @@ import { Gallery } from "@/components/auction/Gallery";
 import { BidPanel } from "@/components/auction/BidPanel";
 import { LotTable } from "@/components/catalog/LotTable";
 import { StatusChip } from "@/components/ui/StatusChip";
+import { AdSlot } from "@/components/ads/AdSlot";
+import { RecordView } from "@/components/catalog/RecentlyViewed";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -72,6 +74,7 @@ export default async function LeilaoPage({ params }: PageProps) {
 
   return (
     <div className="container-content py-4 pb-24 md:pb-6">
+      <RecordView slug={asset.slug} />
       <nav
         aria-label="Trilha de navegação"
         className="flex flex-wrap items-center gap-1 text-caption text-text-muted"
@@ -141,6 +144,9 @@ export default async function LeilaoPage({ params }: PageProps) {
 
         <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-start lg:sticky lg:top-[140px]">
           <BidPanel key={asset.id} asset={asset} />
+          <div className="mt-4">
+            <AdSlot format="rectangle" slotId={`lote-${asset.lot}`} />
+          </div>
         </div>
 
         <div className="min-w-0 lg:col-start-1">
@@ -222,6 +228,10 @@ export default async function LeilaoPage({ params }: PageProps) {
             </section>
           </div>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <AdSlot format="leaderboard" slotId={`lote-${asset.lot}-rodape`} />
       </div>
 
       {related.length > 0 && event && (

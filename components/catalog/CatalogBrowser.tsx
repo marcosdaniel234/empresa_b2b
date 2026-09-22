@@ -18,6 +18,7 @@ import { MobileFilterSheet } from "@/components/catalog/MobileFilterSheet";
 import { SortSelect } from "@/components/catalog/SortSelect";
 import { LotTable } from "@/components/catalog/LotTable";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { AdSlot } from "@/components/ads/AdSlot";
 import { CATEGORY_SHORT, getSubcategoryLabel, Category } from "@/lib/data";
 import {
   applyFilters,
@@ -227,8 +228,9 @@ export function CatalogBrowser() {
 
       <div className="mt-3 grid gap-4 md:grid-cols-[232px_minmax(0,1fr)] lg:gap-6">
         <aside className="hidden md:block">
-          <div className="sticky top-[140px]">
+          <div className="sticky top-[140px] flex flex-col gap-4">
             <FiltersForm key={queryKey} initial={filters} />
+            <AdSlot format="skyscraper" slotId="catalogo-lateral" />
           </div>
         </aside>
 
@@ -254,9 +256,16 @@ export function CatalogBrowser() {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-              {visible.map((asset) => (
-                <AssetCard key={asset.id} asset={asset} />
-              ))}
+              {visible.flatMap((asset, i) => {
+                const card = <AssetCard key={asset.id} asset={asset} />;
+                if (i === 0 || i % 8 !== 0) return [card];
+                return [
+                  <div key={`ad-${asset.id}`} className="col-span-full">
+                    <AdSlot format="infeed" slotId={`catalogo-feed-${i}`} />
+                  </div>,
+                  card,
+                ];
+              })}
             </div>
           )}
 

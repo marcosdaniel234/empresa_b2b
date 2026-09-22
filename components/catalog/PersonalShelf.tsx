@@ -1,20 +1,22 @@
 "use client";
 import { useState } from "react";
-import { ArrowRight, Heart } from "lucide-react";
+import { ArrowRight, Heart, History } from "lucide-react";
 import Link from "next/link";
 import { Asset, CATEGORY_LABELS, Category } from "@/lib/data";
 import { AssetCard } from "./AssetCard";
 import { useFavorites } from "./FavoriteButton";
+import { useRecentlyViewed } from "./RecentlyViewed";
 
-type Selection = Category | "todos" | "favoritos";
+type Selection = Category | "todos" | "favoritos" | "recentes";
 
 /**
  * Segunda vitrine do catálogo: lotes disponíveis, refináveis por categoria,
- * com um atalho para os favoritos salvos neste navegador.
+ * com atalhos para favoritos e para os últimos lotes vistos neste navegador.
  */
 export function PersonalShelf({ assets }: { assets: Asset[] }) {
   const [selected, setSelected] = useState<Selection>("todos");
   const { favorites } = useFavorites();
+  const recentSlugs = useRecentlyViewed();
 
   const options: { id: Selection; label: string }[] = [
     { id: "todos", label: "Todos" },
@@ -22,19 +24,26 @@ export function PersonalShelf({ assets }: { assets: Asset[] }) {
       ([id, label]) => ({ id, label }),
     ),
     { id: "favoritos", label: "Meus favoritos" },
+    { id: "recentes", label: "Vistos recentemente" },
   ];
 
-  const items = assets
-    .filter((asset) => {
-      if (asset.status === "cancelado") return false;
-      if (selected === "favoritos") return favorites.includes(asset.slug);
-      const available =
-        asset.status === "aberto" ||
-        asset.status === "agendado" ||
-        asset.status === "encerrando";
-      return available && (selected === "todos" || asset.category === selected);
-    })
-    .slice(0, 4);
+  const byId = new Map(assets.map((asset) => [asset.slug, asset]));
+
+  const items = (
+    selected === "recentes"
+      ? recentSlugs.map((slug) => byId.get(slug)).filter((a): a is Asset => !!a)
+      : assets.filter((asset) => {
+          if (asset.status === "cancelado") return false;
+          if (selected === "favoritos") return favorites.includes(asset.slug);
+          const available =
+            asset.status === "aberto" ||
+            asset.status === "agendado" ||
+            asset.status === "encerrando";
+          return (
+            available && (selected === "todos" || asset.category === selected)
+          );
+        })
+  ).slice(0, 4);
 
   return (
     <section className="border-y border-border-subtle bg-surface-subtle">
@@ -65,6 +74,9 @@ export function PersonalShelf({ assets }: { assets: Asset[] }) {
               {option.id === "favoritos" && (
                 <Heart size={14} aria-hidden="true" />
               )}
+              {option.id === "recentes" && (
+                <History size={14} aria-hidden="true" />
+              )}
               {option.label}
             </button>
           ))}
@@ -76,8 +88,8 @@ export function PersonalShelf({ assets }: { assets: Asset[] }) {
 
         {items.length ? (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {items.map((asset, i) => (
-              <AssetCard key={asset.id} asset={asset} index={i} />
+            {items.map((asset) => (
+              <AssetCard key={asset.id} asset={asset} />
             ))}
           </div>
         ) : (
@@ -86,12 +98,16 @@ export function PersonalShelf({ assets }: { assets: Asset[] }) {
             <h3 className="mt-3 text-title-card">
               {selected === "favoritos"
                 ? "Você ainda não salvou nenhum lote."
-                : "Nenhum lote disponível nesta categoria."}
+                : selected === "recentes"
+                  ? "Você ainda não visitou nenhum lote."
+                  : "Nenhum lote disponível nesta categoria."}
             </h3>
             <p className="mt-2 text-metadata text-text-secondary">
               {selected === "favoritos"
                 ? "Toque no coração de um lote para encontrá-lo aqui. Os favoritos ficam neste navegador."
-                : "Veja as outras categorias ou abra o catálogo completo."}
+                : selected === "recentes"
+                  ? "Os lotes que você abrir aparecem aqui, do mais recente para o mais antigo."
+                  : "Veja as outras categorias ou abra o catálogo completo."}
             </p>
           </div>
         )}

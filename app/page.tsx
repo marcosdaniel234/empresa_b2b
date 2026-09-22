@@ -5,6 +5,7 @@ import { AuctionCard } from "@/components/catalog/AuctionCard";
 import { PersonalShelf } from "@/components/catalog/PersonalShelf";
 import { Testimonials } from "@/components/home/Testimonials";
 import { ImageSlot } from "@/components/ui/ImageSlot";
+import { AdSlot } from "@/components/ads/AdSlot";
 import { getAuctionEvents } from "@/lib/auctions";
 import {
   ASSETS,
@@ -96,6 +97,12 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-border-subtle bg-surface-page">
+        <div className="container-content py-3">
+          <AdSlot format="leaderboard" slotId="home-topo" />
+        </div>
+      </section>
+
       <section className="container-content py-6">
         <div className="section-heading">
           <h2 className="section-title">Leilões em andamento</h2>
@@ -124,6 +131,12 @@ export default function HomePage() {
           {closingSoon.slice(0, 4).map((asset) => (
             <AssetCard key={asset.id} asset={asset} />
           ))}
+        </div>
+      </section>
+
+      <section className="border-y border-border-subtle bg-surface-page">
+        <div className="container-content py-3">
+          <AdSlot format="billboard" slotId="home-meio" />
         </div>
       </section>
 
@@ -174,6 +187,12 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="border-b border-border-subtle bg-surface-page">
+        <div className="container-content py-3">
+          <AdSlot format="leaderboard" slotId="home-categorias" />
+        </div>
+      </section>
+
       <section className="border-y border-border-subtle bg-white">
         <div className="container-content py-6">
           <div className="section-heading">
@@ -221,6 +240,12 @@ export default function HomePage() {
       </section>
 
       <Testimonials />
+
+      <section className="border-y border-border-subtle bg-surface-page">
+        <div className="container-content py-3">
+          <AdSlot format="leaderboard" slotId="home-rodape" />
+        </div>
+      </section>
 
       <section className="on-dark bg-brand-900">
         <div className="container-content flex flex-col gap-4 py-6 text-white md:flex-row md:items-center md:justify-between">

@@ -6,6 +6,7 @@ import { Asset } from "@/lib/data";
 import { formatCurrencyFull, formatDateTimeWithZone } from "@/lib/format";
 import { validateDemoBid } from "@/lib/money";
 import { Button } from "@/components/ui/Button";
+import { BidMovement } from "@/components/catalog/BidMovement";
 import { CountdownClock, useDemoClock } from "./CountdownClock";
 import { BidPhase, BidReviewModal } from "./BidReviewModal";
 
@@ -95,6 +96,11 @@ export function BidPanel({ asset }: { asset: Asset }) {
           <p className="mt-0.5 break-words text-value tracking-tight text-text-primary tabular">
             {formatCurrencyFull(asset.currentBid ?? asset.startingBid)}
           </p>
+          <BidMovement
+            startingBid={asset.startingBid}
+            currentBid={asset.currentBid}
+            className="mt-1"
+          />
 
           {isOpen && (
             <>

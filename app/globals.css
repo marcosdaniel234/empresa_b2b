@@ -13,8 +13,8 @@
   }
 
   ::selection {
-    background-color: #d9ed92;
-    color: #15201c;
+    background-color: #f5c451;
+    color: #16191c;
   }
 
   :focus-visible {
@@ -40,7 +40,7 @@
   }
 
   input[type="checkbox"] {
-    accent-color: #17624b;
+    accent-color: #b45309;
   }
 }
 
@@ -149,24 +149,24 @@
   /* ---------- Empresa ---------- */
   .company-monogram {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border-subtle text-label font-bold;
-    background: #e7eadf;
-    color: #36533c;
+    background: #e4e6e7;
+    color: #3a4448;
   }
   .company-tone-1 {
-    background: #e5eaf0;
-    color: #3c5674;
+    background: #e2e7ea;
+    color: #35505e;
   }
   .company-tone-2 {
-    background: #f0e5db;
-    color: #815536;
+    background: #ede4d8;
+    color: #6b4a22;
   }
   .company-tone-3 {
-    background: #e6ecea;
-    color: #2f5750;
+    background: #e3e7e4;
+    color: #375048;
   }
   .company-tone-4 {
-    background: #edeade;
-    color: #5d5a2c;
+    background: #eae6dc;
+    color: #5c5636;
   }
 
   /* ---------- Diálogos ---------- */

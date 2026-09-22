@@ -13,6 +13,7 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Leilões abertos", href: "/resultados?status=aberto" },
       { label: "Encerrando em 24h", href: "/resultados?status=encerrando" },
       { label: "Meus favoritos", href: "/favoritos" },
+      { label: "Comparar lotes", href: "/comparar" },
     ],
   },
   {

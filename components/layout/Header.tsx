@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Heart, Phone, Plus, UserRound } from "lucide-react";
 import { SearchBar } from "./SearchBar";
 import { CategoryNav } from "./CategoryNav";
+import { CompareHeaderLink } from "@/components/catalog/CompareHeaderLink";
 
 /**
  * Cabeçalho em três faixas: utilitária (rola com a página), principal com a
@@ -90,6 +91,7 @@ export function Header() {
               <Heart size={17} aria-hidden="true" />
               <span className="hidden lg:inline">Favoritos</span>
             </Link>
+            <CompareHeaderLink />
             <Link href="/entrar" className="header-link hidden md:inline-flex">
               <UserRound size={17} aria-hidden="true" />
               <span className="hidden lg:inline">Entrar</span>

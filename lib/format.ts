@@ -30,6 +30,19 @@ export function formatCurrencyCard(value: number): string {
     : currencyFormatter.format(value);
 }
 
+/**
+ * Variação percentual do lance atual sobre o lance inicial. `null` quando
+ * ainda não há lance (o card mostra o valor inicial, não uma variação).
+ */
+export function getBidMovementPercent(
+  startingBid: number,
+  currentBid: number | null,
+): number | null {
+  if (currentBid === null || startingBid <= 0) return null;
+  const percent = ((currentBid - startingBid) / startingBid) * 100;
+  return Math.round(percent);
+}
+
 const dateTimeFormatter = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
   month: "short",

@@ -11,6 +11,8 @@ import { DeadlineLabel } from "@/components/auction/CountdownClock";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { FavoriteButton } from "./FavoriteButton";
+import { CompareToggle } from "./CompareToggle";
+import { BidMovement } from "./BidMovement";
 
 const CLOSED: Asset["status"][] = [
   "encerrado_vencedor",
@@ -94,6 +96,11 @@ export function AssetCard({
               </span>
               {deadline}
             </p>
+            <CompareToggle
+              slug={asset.slug}
+              title={asset.title}
+              className="mt-0.5"
+            />
           </div>
 
           <div className="flex shrink-0 items-end justify-between gap-3 sm:w-40 sm:flex-col sm:items-end sm:justify-center">
@@ -104,6 +111,11 @@ export function AssetCard({
               <span className="text-[17px] font-bold leading-6 text-text-primary tabular">
                 {formatCurrencyCard(amount)}
               </span>
+              <BidMovement
+                startingBid={asset.startingBid}
+                currentBid={asset.currentBid}
+                className="mt-0.5 sm:justify-end"
+              />
             </div>
             <FavoriteButton
               slug={asset.slug}
@@ -173,6 +185,11 @@ export function AssetCard({
             <span className="text-[17px] font-bold leading-6 text-text-primary tabular">
               {formatCurrencyCard(amount)}
             </span>
+            <BidMovement
+              startingBid={asset.startingBid}
+              currentBid={asset.currentBid}
+              className="mt-0.5"
+            />
           </div>
           <div className="pb-0.5 text-right">
             {deadline}
@@ -184,6 +201,8 @@ export function AssetCard({
             )}
           </div>
         </div>
+
+        <CompareToggle slug={asset.slug} title={asset.title} className="mt-1.5" />
       </div>
     </article>
   );
