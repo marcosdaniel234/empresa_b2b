@@ -1,5 +1,4 @@
 import { Quote } from "lucide-react";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 
 /**
  * Depoimentos do catálogo de demonstração. As falas são exemplos escritos para
@@ -41,7 +40,7 @@ export function Testimonials() {
       </div>
 
       <ul className="mt-3 grid gap-3 md:grid-cols-3">
-        {ENTRIES.map((entry) => (
+        {ENTRIES.map((entry, index) => (
           <li key={entry.company} className="panel card-lift flex flex-col p-4">
             <Quote
               size={20}
@@ -52,11 +51,12 @@ export function Testimonials() {
               {entry.quote}
             </blockquote>
             <div className="mt-3 flex items-center gap-2.5 border-t border-border-subtle pt-3">
-              <ImageSlot
-                ratio="aspect-square"
-                size="sm"
-                className="h-10 w-10 shrink-0 rounded-full"
-              />
+              <span
+                aria-hidden="true"
+                className={`company-monogram company-tone-${(index % 4) + 1} rounded-full`}
+              >
+                {entry.company.slice(0, 2).toUpperCase()}
+              </span>
               <div className="min-w-0">
                 <p className="truncate text-label font-semibold text-text-primary">
                   {entry.name}

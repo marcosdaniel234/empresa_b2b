@@ -175,7 +175,7 @@ export function CatalogBrowser() {
                 aria-pressed={view === key}
                 className={`inline-flex h-9 w-9 items-center justify-center border-r border-border-subtle last:border-r-0 ${
                   view === key
-                    ? "bg-surface-raised text-action"
+                    ? "bg-action text-white"
                     : "text-text-muted hover:text-action"
                 }`}
               >

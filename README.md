@@ -116,9 +116,11 @@ campanha. Na prática:
 - **Cards informativos**: lote, categoria, título, empresa, localização, prazo e
   valor ficam visíveis sem abrir o detalhe. O catálogo alterna entre grade e
   lista.
-- **Paleta quente de leilão industrial**: neutros em areia e barro no lugar dos
-  cinzas frios, grafite amadeirado nas faixas escuras e laranja de segurança
-  (`action`) como cor de ação, borda de seção e indicação de clique.
+- **Regra de cor: o laranja só é visível se o resto não for.** Os neutros são
+  quentes mas quase acromáticos; o laranja de segurança (`action`) fica
+  reservado a ação, link, estado ativo e urgência — nunca a superfície. O
+  escuro é um carvão amadeirado que ancora as faixas. Uma paleta em que tudo
+  é laranja não tem acento nenhum.
 - **Geometria compacta**: raios curtos (3–4 px), bordas discretas, sombras quase
   imperceptíveis e contêiner central de até 1440 px.
 - **Movimento contido**: transições de 100–260 ms com uma única curva

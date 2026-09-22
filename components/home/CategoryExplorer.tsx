@@ -10,7 +10,6 @@ import {
   Category,
   SUBCATEGORIES,
 } from "@/lib/data";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
@@ -25,17 +24,27 @@ function lotsIn(category: Category, subcategory?: string) {
 
 /**
  * Entrada do catálogo por categoria, no corpo da página em vez do cabeçalho.
- * Cada bloco abre as subcategorias no lugar, com a contagem de lotes — o
- * comprador vê a profundidade do catálogo sem trocar de página, e quem já
- * sabe o que quer clica direto no título para abrir a categoria filtrada.
+ *
+ * Os blocos são compactos e só de texto: uma moldura de imagem vazia por
+ * categoria não informa nada e transforma a seção num campo bege. Ao abrir,
+ * as subcategorias aparecem ordenadas pelo que existe em catálogo — o
+ * comprador vê primeiro onde há lote, não a taxonomia em ordem alfabética.
  */
 export function CategoryExplorer() {
   const [open, setOpen] = useState<Category | null>(null);
-  const openLabel = open ? CATEGORY_LABELS[open] : null;
+
+  const subs = open
+    ? [...SUBCATEGORIES[open]]
+        .map((sub) => ({ ...sub, total: lotsIn(open, sub.slug) }))
+        .sort((a, b) => b.total - a.total)
+    : [];
 
   return (
-    <section aria-labelledby="titulo-categorias" className="mt-5">
-      <div className="flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-action pb-2">
+    <section
+      aria-labelledby="titulo-categorias"
+      className="container-content py-6"
+    >
+      <div className="section-heading">
         <h2 id="titulo-categorias" className="section-title">
           Categorias do catálogo
         </h2>
@@ -44,72 +53,64 @@ export function CategoryExplorer() {
         </Link>
       </div>
 
-      <div className="mt-3 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+      <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-4">
         {CATEGORIES.map((category) => {
           const isOpen = open === category;
           const total = lotsIn(category);
           return (
             <div
               key={category}
-              className={`group flex flex-col border bg-white transition-[border-color,box-shadow,transform] duration-standard ease-standard hover:-translate-y-[2px] hover:shadow-elevated ${
+              className={`flex items-stretch border bg-white transition-[border-color,box-shadow] duration-standard ease-standard ${
                 isOpen
-                  ? "border-action shadow-elevated"
-                  : "border-border-subtle hover:border-action"
+                  ? "border-action shadow-card"
+                  : "border-border-subtle hover:border-border-strong"
               }`}
             >
               <Link
                 href={`/resultados?categoria=${category}`}
-                className="block"
-                aria-label={`Abrir ${CATEGORY_LABELS[category]} no catálogo`}
+                className="nav-underline flex min-w-0 flex-1 flex-col justify-center gap-0.5 px-3 py-2.5 transition-colors duration-quick hover:text-action"
               >
-                <ImageSlot
-                  ratio="aspect-[16/7]"
-                  size="sm"
-                  className="w-full border-0 border-b border-border-subtle"
-                />
-              </Link>
-
-              <div className="flex flex-1 flex-col p-2.5">
-                <Link
-                  href={`/resultados?categoria=${category}`}
-                  className="nav-underline -mx-0.5 inline-flex items-baseline justify-between gap-2 px-0.5 pb-1 text-title-card text-text-primary transition-colors duration-quick hover:text-action"
-                >
+                <span className="truncate text-title-card text-text-primary">
                   {CATEGORY_SHORT[category]}
-                  <span className="shrink-0 text-caption font-normal text-text-muted tabular">
-                    {total} {total === 1 ? "lote" : "lotes"}
-                  </span>
-                </Link>
-
-                <button
-                  type="button"
-                  onClick={() => setOpen(isOpen ? null : category)}
-                  aria-expanded={isOpen}
-                  aria-controls="painel-subcategorias"
-                  className="mt-auto inline-flex min-h-9 items-center justify-between gap-1.5 pt-1 text-caption font-semibold text-action transition-colors duration-quick hover:text-action-hover"
-                >
+                </span>
+                <span className="text-caption text-text-muted tabular">
+                  {total} {total === 1 ? "lote" : "lotes"} ·{" "}
                   {SUBCATEGORIES[category].length} subcategorias
-                  <ChevronDown
-                    size={14}
-                    aria-hidden="true"
-                    className={`transition-transform duration-standard ease-standard ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </div>
+                </span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => setOpen(isOpen ? null : category)}
+                aria-expanded={isOpen}
+                aria-controls="painel-subcategorias"
+                aria-label={`${isOpen ? "Fechar" : "Abrir"} subcategorias de ${CATEGORY_LABELS[category]}`}
+                className={`flex w-11 shrink-0 items-center justify-center border-l border-border-subtle transition-colors duration-quick ${
+                  isOpen
+                    ? "bg-action text-white"
+                    : "text-text-muted hover:bg-surface-subtle hover:text-action"
+                }`}
+              >
+                <ChevronDown
+                  size={16}
+                  aria-hidden="true"
+                  className={`transition-transform duration-standard ease-standard ${
+                    isOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
             </div>
           );
         })}
       </div>
 
-      {open && openLabel && (
+      {open && (
         <div
           id="painel-subcategorias"
-          className="mt-2.5 animate-panel-down border border-action bg-white"
+          className="mt-2 animate-panel-down border border-action bg-white"
         >
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border-subtle bg-surface-subtle px-3 py-2">
             <h3 className="text-label font-bold uppercase tracking-[.05em] text-text-primary">
-              {openLabel}
+              {CATEGORY_LABELS[open]}
             </h3>
             <Link
               href={`/resultados?categoria=${open}`}
@@ -119,16 +120,28 @@ export function CategoryExplorer() {
               <ArrowRight size={13} aria-hidden="true" />
             </Link>
           </div>
-          <ul className="grid gap-x-4 p-2 sm:grid-cols-2 lg:grid-cols-4">
-            {SUBCATEGORIES[open].map((sub) => (
+          <ul className="grid gap-x-5 p-2 sm:grid-cols-2 lg:grid-cols-4">
+            {subs.map((sub) => (
               <li key={sub.slug}>
                 <Link
                   href={`/resultados?categoria=${open}&subcategoria=${sub.slug}`}
-                  className="nav-underline flex min-h-9 items-baseline justify-between gap-2 px-1.5 text-metadata text-text-secondary transition-colors duration-quick hover:text-action"
+                  className="nav-underline flex min-h-9 items-baseline justify-between gap-2 px-1.5 text-metadata transition-colors duration-quick hover:text-action"
                 >
-                  {sub.label}
-                  <span className="text-caption text-text-muted tabular">
-                    {lotsIn(open, sub.slug)}
+                  <span
+                    className={
+                      sub.total > 0 ? "text-text-secondary" : "text-text-muted"
+                    }
+                  >
+                    {sub.label}
+                  </span>
+                  <span
+                    className={`text-caption tabular ${
+                      sub.total > 0
+                        ? "font-semibold text-text-primary"
+                        : "text-text-muted"
+                    }`}
+                  >
+                    {sub.total}
                   </span>
                 </Link>
               </li>

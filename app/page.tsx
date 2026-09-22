@@ -1,75 +1,22 @@
 import Link from "next/link";
 import { ArrowRight, Building2, MapPin } from "lucide-react";
-import { AssetCard } from "@/components/catalog/AssetCard";
 import { AuctionCard } from "@/components/catalog/AuctionCard";
 import { PersonalShelf } from "@/components/catalog/PersonalShelf";
 import { CategoryExplorer } from "@/components/home/CategoryExplorer";
+import { HeroCatalog } from "@/components/home/HeroCatalog";
 import { Testimonials } from "@/components/home/Testimonials";
-import { ImageSlot } from "@/components/ui/ImageSlot";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { getAuctionEvents } from "@/lib/auctions";
-import { ASSETS, COMPANIES, getClosingSoon } from "@/lib/data";
+import { ASSETS, COMPANIES } from "@/lib/data";
 
 const LIVE = ASSETS.filter((a) => a.status !== "cancelado");
 
 export default function HomePage() {
   const events = getAuctionEvents();
-  const closingSoon = getClosingSoon(8);
-  const openLots = LIVE.filter(
-    (a) => a.status === "aberto" || a.status === "encerrando",
-  ).length;
-  const closingToday = LIVE.filter((a) => a.status === "encerrando").length;
-  const states = new Set(LIVE.map((a) => a.state)).size;
-
 
   return (
     <div>
-      {/* Faixa de busca: entrada do catálogo, sem texto de campanha. */}
-      <section className="border-b border-border-subtle bg-white">
-        <div className="container-content grid gap-4 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,400px)] lg:items-stretch">
-          <div className="min-w-0">
-            <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
-              Catálogo de leilão de ativos industriais
-            </h1>
-            <dl className="mt-2.5 grid grid-cols-2 border border-border-subtle bg-white sm:grid-cols-4">
-              {[
-                { label: "Lotes abertos", value: openLots },
-                { label: "Encerram em 24h", value: closingToday },
-                { label: "Leilões", value: events.length },
-                { label: "Estados", value: states },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="border-r border-border-subtle px-3 py-2 last:border-r-0"
-                >
-                  <dt className="text-caption text-text-muted">{item.label}</dt>
-                  <dd className="text-title-section text-text-primary tabular">
-                    {item.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <ImageSlot
-            ratio="aspect-[16/9] lg:aspect-auto lg:h-full"
-            label="Imagem de destaque"
-            size="lg"
-            className="w-full"
-          />
-        </div>
-
-        {/* Entrada por categoria: no corpo da página, não no cabeçalho. */}
-        <div className="container-content pb-5">
-          <CategoryExplorer />
-        </div>
-      </section>
-
-      <section className="border-b border-border-subtle bg-surface-page">
-        <div className="container-content py-3">
-          <AdSlot format="leaderboard" slotId="home-topo" />
-        </div>
-      </section>
+      <HeroCatalog />
 
       <section className="container-content py-6">
         <div className="section-heading">
@@ -85,23 +32,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="container-content pb-6">
-        <div className="section-heading">
-          <h2 className="section-title">Lotes encerrando em breve</h2>
-          <Link
-            href="/resultados?status=aberto&sort=encerrando"
-            className="text-link"
-          >
-            Ver no catálogo <ArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {closingSoon.slice(0, 4).map((asset) => (
-            <AssetCard key={asset.id} asset={asset} />
-          ))}
-        </div>
-      </section>
-
       <section className="border-y border-border-subtle bg-surface-page">
         <div className="container-content py-3">
           <AdSlot format="billboard" slotId="home-meio" />
@@ -110,11 +40,7 @@ export default function HomePage() {
 
       <PersonalShelf assets={ASSETS} />
 
-      <section className="border-b border-border-subtle bg-surface-page">
-        <div className="container-content py-3">
-          <AdSlot format="leaderboard" slotId="home-categorias" />
-        </div>
-      </section>
+      <CategoryExplorer />
 
       <section className="border-y border-border-subtle bg-white">
         <div className="container-content py-6">

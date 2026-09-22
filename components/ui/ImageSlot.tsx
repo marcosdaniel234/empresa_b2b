@@ -30,7 +30,7 @@ export function ImageSlot({
         className="absolute inset-0 opacity-[.35]"
         style={{
           backgroundImage:
-            "repeating-linear-gradient(135deg, transparent 0 9px, #D2BA9E 9px 10px)",
+            "repeating-linear-gradient(135deg, transparent 0 9px, #CFC8C0 9px 10px)",
         }}
       />
       <div className="relative flex flex-col items-center gap-1 text-text-muted">

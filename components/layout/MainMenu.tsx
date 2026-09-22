@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import {
-  ASSETS,
-  CATEGORY_SHORT,
-  Category,
-  SUBCATEGORIES,
-} from "@/lib/data";
+import { ASSETS, CATEGORY_SHORT, Category } from "@/lib/data";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
@@ -42,19 +37,20 @@ const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = 
   },
 ];
 
-function lotsIn(category: Category, subcategory?: string) {
+function lotsIn(category: Category) {
   return ASSETS.filter(
-    (asset) =>
-      asset.status !== "cancelado" &&
-      asset.category === category &&
-      (!subcategory || asset.subcategory === subcategory),
+    (asset) => asset.status !== "cancelado" && asset.category === category,
   ).length;
 }
 
 /**
- * Único ponto de navegação do topo: um botão de menu que abre o mapa completo
- * do site (seções + taxonomia). Substitui a antiga barra de categorias, que
- * repetia no cabeçalho o que a página inicial e o rodapé já mostram.
+ * Único ponto de navegação do topo: um botão de menu que abre o mapa do site.
+ *
+ * O painel lista seções e as quatro categorias — não a taxonomia inteira. Um
+ * menu que despeja 20 subcategorias, metade delas com "0 lotes", anuncia o
+ * vazio do catálogo e obriga o comprador a ler uma lista para achar o que já
+ * sabia. As subcategorias ficam onde são úteis: no explorador da home e no
+ * filtro lateral do catálogo, junto dos resultados.
  *
  * Abre por clique (nunca por hover), fecha com Escape, clique fora ou troca de
  * página, e devolve o foco ao botão.
@@ -133,10 +129,10 @@ export function MainMenu() {
         <div
           ref={panelRef}
           id="menu-principal"
-          className="absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-120px)] animate-panel-down overflow-y-auto border-b border-border-strong bg-white shadow-elevated"
+          className="absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-110px)] animate-panel-down overflow-y-auto border-b border-border-strong bg-white shadow-elevated"
         >
-          <div className="container-content grid gap-x-6 gap-y-5 py-5 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)]">
-            <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-1">
+          <div className="container-content grid gap-x-8 gap-y-5 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
+            <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3">
               {SECTIONS.map((section) => (
                 <nav key={section.title} aria-label={section.title}>
                   <h2 className="border-b-2 border-action pb-1 text-label font-bold uppercase tracking-[.06em] text-text-primary">
@@ -162,36 +158,29 @@ export function MainMenu() {
               <h2 className="border-b-2 border-action pb-1 text-label font-bold uppercase tracking-[.06em] text-text-primary">
                 Categorias
               </h2>
-              <div className="mt-1.5 grid gap-x-6 gap-y-4 sm:grid-cols-2 xl:grid-cols-4">
-                {CATEGORIES.map((category) => (
-                  <div key={category}>
-                    <Link
-                      href={`/resultados?categoria=${category}`}
-                      className="nav-underline flex items-baseline justify-between gap-2 px-0.5 pb-1 text-label font-bold text-text-primary transition-colors duration-quick hover:text-action"
-                    >
-                      {CATEGORY_SHORT[category]}
-                      <span className="text-caption font-normal text-text-muted tabular">
-                        {lotsIn(category)}
-                      </span>
-                    </Link>
-                    <ul>
-                      {SUBCATEGORIES[category].map((sub) => (
-                        <li key={sub.slug}>
-                          <Link
-                            href={`/resultados?categoria=${category}&subcategoria=${sub.slug}`}
-                            className="nav-underline flex min-h-8 items-baseline justify-between gap-2 px-0.5 text-caption text-text-secondary transition-colors duration-quick hover:text-action"
-                          >
-                            {sub.label}
-                            <span className="text-text-muted tabular">
-                              {lotsIn(category, sub.slug)}
-                            </span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+              <ul className="mt-1.5 grid gap-x-6 sm:grid-cols-2">
+                {CATEGORIES.map((category) => {
+                  const total = lotsIn(category);
+                  return (
+                    <li key={category}>
+                      <Link
+                        href={`/resultados?categoria=${category}`}
+                        className="nav-underline flex min-h-11 items-baseline justify-between gap-3 px-0.5 text-metadata text-text-secondary transition-colors duration-quick hover:text-action"
+                      >
+                        <span className="font-semibold text-text-primary">
+                          {CATEGORY_SHORT[category]}
+                        </span>
+                        <span className="text-caption text-text-muted tabular">
+                          {total} {total === 1 ? "lote" : "lotes"}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <Link href="/resultados" className="text-link mt-1">
+                Catálogo completo
+              </Link>
             </nav>
           </div>
         </div>

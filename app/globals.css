@@ -18,7 +18,7 @@
 
   ::selection {
     background-color: #fbbf24;
-    color: #1a1512;
+    color: #1c1917;
   }
 
   :focus-visible {
@@ -44,7 +44,7 @@
   }
 
   input[type="checkbox"] {
-    accent-color: #b03e0a;
+    accent-color: #bc3f0c;
   }
 }
 
@@ -128,6 +128,20 @@
     @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
   }
 
+  /*
+   * Célula de indicador: número grande e clicável. Um número que não leva a
+   * lugar nenhum é cartaz; este leva ao recorte do catálogo que ele conta.
+   */
+  .stat-cell {
+    @apply nav-underline relative flex min-h-[74px] flex-col justify-center gap-0.5 px-3 py-2.5 transition-colors duration-standard ease-standard hover:bg-surface-subtle;
+  }
+  .stat-label {
+    @apply text-micro font-semibold uppercase tracking-[.09em] text-text-muted;
+  }
+  .stat-value {
+    @apply text-value-mobile text-text-primary tabular md:text-value;
+  }
+
   /* Cartões: elevação curta no ponteiro, sem deslocar o texto em volta. */
   .card-lift {
     @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[2px] hover:border-action hover:shadow-elevated;
@@ -187,24 +201,24 @@
   /* ---------- Empresa ---------- */
   .company-monogram {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border-subtle text-label font-bold;
-    background: #f0e1ce;
-    color: #6e2607;
+    background: #f0ede9;
+    color: #44403c;
   }
   .company-tone-1 {
-    background: #f6e2cd;
-    color: #8c300a;
+    background: #ece7e2;
+    color: #7c2d12;
   }
   .company-tone-2 {
-    background: #f3e4d2;
-    color: #6b4a22;
+    background: #eeeae5;
+    color: #44403c;
   }
   .company-tone-3 {
-    background: #efe3d5;
-    color: #5c4a33;
+    background: #eae7e3;
+    color: #3f3f46;
   }
   .company-tone-4 {
-    background: #f7ddc4;
-    color: #7c3a10;
+    background: #efe9e3;
+    color: #57534e;
   }
 
   /* ---------- Diálogos ---------- */
@@ -216,7 +230,7 @@
     overscroll-behavior: contain;
   }
   .app-dialog::backdrop {
-    background: rgba(31, 24, 19, 0.55);
+    background: rgba(28, 25, 23, 0.55);
   }
   .app-dialog.wide-dialog {
     max-width: 900px;

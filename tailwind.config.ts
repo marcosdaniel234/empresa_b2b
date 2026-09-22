@@ -1,12 +1,17 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tokens do ATIVOS B2B. Paleta quente de leilão industrial: neutros em areia
- * e barro (no lugar dos cinzas frios), grafite amadeirado para as faixas
- * escuras e laranja de segurança como cor de ação — a sinalização usada em
- * pátio de equipamento pesado. Geometria reta (raios de 2-4px), tipografia
- * IBM Plex (ver app/layout.tsx). Razões de contraste calculadas em
- * scripts/check-contrast.mjs — todas as combinações de texto passam AA.
+ * Tokens do ATIVOS B2B.
+ *
+ * Regra de cor do projeto: o laranja só é visível se o resto não for.
+ * Os neutros são quentes mas quase acromáticos (croma baixíssimo), de modo
+ * que o laranja de segurança apareça por CONTRASTE, não por quantidade. Ele
+ * fica reservado a ação, link, estado ativo e urgência — nunca a superfície.
+ * O escuro é um carvão amadeirado, que ancora as faixas e dá profundidade.
+ *
+ * Geometria reta (raios de 2-4px), tipografia IBM Plex (ver app/layout.tsx).
+ * Razões de contraste calculadas em scripts/check-contrast.mjs — todas as
+ * combinações de texto passam WCAG AA.
  */
 const config: Config = {
   content: [
@@ -18,36 +23,35 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#1F1813",
-          800: "#2E241C",
-          700: "#3D3025",
+          900: "#1C1917",
+          800: "#292524",
+          700: "#44403C",
         },
         action: {
-          DEFAULT: "#B03E0A",
-          hover: "#8C300A",
-          pressed: "#6E2607",
+          DEFAULT: "#BC3F0C",
+          hover: "#9A3412",
+          pressed: "#7C2D12",
         },
         accent: {
           soft: "#FBBF24",
           strong: "#F59E0B",
-          glow: "#EA580C",
         },
         surface: {
-          page: "#FBF4EC",
+          page: "#F7F5F2",
           card: "#FFFFFF",
-          subtle: "#F5E7D8",
-          raised: "#F0E1CE",
+          subtle: "#F0EDE9",
+          raised: "#EAE5E0",
         },
         text: {
-          primary: "#1A1512",
-          secondary: "#4A4038",
-          muted: "#6B5D52",
+          primary: "#1C1917",
+          secondary: "#4A443F",
+          muted: "#6B635B",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#E7D7C4",
-          strong: "#D2BA9E",
-          control: "#8A7663",
+          subtle: "#E2DDD7",
+          strong: "#CFC8C0",
+          control: "#857C73",
         },
         focus: {
           ring: "#1D4ED8",
@@ -96,9 +100,9 @@ const config: Config = {
         modal: "4px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(61, 48, 37, 0.10)",
-        elevated: "0 6px 18px rgba(61, 48, 37, 0.16)",
-        modal: "0 18px 48px rgba(31, 24, 19, 0.32)",
+        card: "0 1px 2px rgba(28, 25, 23, 0.08)",
+        elevated: "0 6px 18px rgba(28, 25, 23, 0.14)",
+        modal: "0 18px 48px rgba(28, 25, 23, 0.30)",
       },
       maxWidth: {
         content: "1440px",
