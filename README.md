@@ -23,7 +23,7 @@ Para o inventário completo do que **não** foi construído e o roteiro sugerido
 - **Next.js 16** (App Router, React Server Components) + **TypeScript**
 - **Tailwind CSS**, com os tokens de cor/tipografia/espaçamento/raio/sombra do design system mapeados em `tailwind.config.ts`
 - **lucide-react** para ícones (família única de linha, conforme especificação)
-- Fonte **Inter** via `next/font/google`
+- Fontes **IBM Plex Sans** e **IBM Plex Mono** via `next/font/google`
 - Sem backend, sem banco de dados, sem chamadas de rede além dos assets estáticos
 
 Zero dependências com vulnerabilidades conhecidas (`npm audit` limpo no momento da entrega).
@@ -129,10 +129,12 @@ campanha. Na prática:
   `prefers-reduced-motion: reduce` de `app/globals.css`.
 - Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`; os
   componentes não usam cores soltas. `node scripts/check-contrast.mjs` valida
-  as 23 combinações de texto em WCAG AA.
+  as 28 combinações de texto em WCAG AA.
 
-A identidade (verde-petróleo de ação, acento verde-limão, tipografia Inter)
-continua sendo a do ATIVOS B2B, derivada de `FUNDACAO_ESTETICA.md`.
+A identidade atual (neutros quentes, carvão amadeirado, laranja de segurança
+como única cor de ação e IBM Plex como família tipográfica) substitui o
+verde-petróleo com Inter descrito em `FUNDACAO_ESTETICA.md`, que permanece no
+repositório como registro da fundação original.
 
 ## Decisões de design
 
