@@ -59,7 +59,7 @@ export function AssetCard({
     return (
       <article className="group relative flex gap-3 border-b border-border-subtle bg-white p-3 transition-colors duration-quick last:border-b-0 hover:bg-surface-subtle">
         <div className="relative w-24 shrink-0 sm:w-40">
-          <ImageSlot size="sm" className="w-full" />
+          <ImageSlot size="sm" src={`/images/assets/${asset.slug}.png`} className="w-full" />
           <StatusChip status={asset.status} className="absolute left-1 top-1" />
         </div>
 
@@ -132,6 +132,7 @@ export function AssetCard({
     <article className="card-lift group relative flex flex-col border border-border-subtle bg-white">
       <div className="relative">
         <ImageSlot
+          src={`/images/assets/${asset.slug}.png`}
           ratio="aspect-[16/10]"
           className="w-full border-0 border-b border-border-subtle"
         />

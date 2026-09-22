@@ -88,6 +88,7 @@ export function HeroCatalog() {
             <article className="card-lift group relative flex flex-col border border-border-subtle bg-white">
               <div className="relative">
                 <ImageSlot
+                  src={`/images/assets/${featured.slug}.png`}
                   ratio="aspect-[16/9] lg:aspect-auto lg:h-[340px]"
                   label="Foto do lote em destaque"
                   size="lg"
