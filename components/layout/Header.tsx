@@ -2,14 +2,17 @@ import Link from "next/link";
 import { Heart, Phone, Plus, UserRound } from "lucide-react";
 import { SearchBar } from "./SearchBar";
 import { MainMenu } from "./MainMenu";
+import { CategoryNav } from "./CategoryNav";
 import { CompareHeaderLink } from "@/components/catalog/CompareHeaderLink";
 
 /**
- * Cabeçalho em duas faixas: a utilitária (rola com a página) e a principal,
- * fixa, com menu, busca e conta. Toda a navegação de seções e a taxonomia
- * ficam dentro do botão Menu — o topo não repete o que a página inicial e o
- * rodapé já listam, e nenhuma divisória vertical separa os itens: a
- * indicação de clique é a régua laranja sob o item apontado.
+ * Cabeçalho: faixa utilitária (rola com a página), barra principal fixa com
+ * busca e conta, e — só a partir de `lg` — a barra de seções com o mega-menu
+ * de categorias. Abaixo de `lg` essa barra dá lugar ao botão Menu, que carrega
+ * a mesma navegação em um painel.
+ *
+ * Nenhuma divisória vertical separa os itens: a indicação de clique é a régua
+ * laranja que cresce sob o item apontado.
  */
 export function Header() {
   return (
@@ -47,7 +50,9 @@ export function Header() {
         </a>
 
         <div className="container-content flex h-14 items-center gap-2 md:h-16 lg:gap-4">
-          <MainMenu />
+          <div className="lg:hidden">
+            <MainMenu />
+          </div>
 
           <Link
             href="/"
@@ -104,6 +109,8 @@ export function Header() {
             </Link>
           </nav>
         </div>
+
+        <CategoryNav />
       </header>
     </>
   );

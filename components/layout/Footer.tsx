@@ -1,6 +1,11 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
-import { CATEGORY_SHORT, Category, SUBCATEGORIES } from "@/lib/data";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import {
+  CATEGORY_SHORT,
+  Category,
+  SUBCATEGORIES,
+  getStateCounts,
+} from "@/lib/data";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
@@ -83,7 +88,7 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-2">
               <MapPin size={13} aria-hidden="true" className="text-text-muted" />
-              Lotes em SP e PR neste catálogo
+              Lotes em {getStateCounts().length} estados neste catálogo
             </li>
           </ul>
         </div>
@@ -107,6 +112,41 @@ export function Footer() {
             </ul>
           </nav>
         ))}
+      </div>
+
+      {/* Perfis sociais: marcados como ainda não publicados, em vez de links falsos. */}
+      <div className="border-t border-border-subtle py-4">
+        <div className="container-content flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-label font-semibold text-text-primary">
+              Siga e acompanhe
+            </span>
+            <ul className="flex items-center gap-1.5" aria-label="Perfis sociais">
+              {[
+                { Icon: Facebook, label: "Facebook" },
+                { Icon: Instagram, label: "Instagram" },
+                { Icon: Linkedin, label: "LinkedIn" },
+              ].map(({ Icon, label }) => (
+                <li key={label}>
+                  <span
+                    role="link"
+                    aria-disabled="true"
+                    title={`Perfil no ${label} ainda não publicado`}
+                    className="flex h-9 w-9 items-center justify-center rounded-control border border-border-subtle bg-surface-subtle text-text-muted"
+                  >
+                    <Icon size={15} aria-hidden="true" />
+                    <span className="sr-only">
+                      {label} — perfil ainda não publicado
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="text-caption text-text-muted">
+            Perfis sociais ainda não publicados nesta demonstração.
+          </p>
+        </div>
       </div>
 
       <div className="border-t border-border-subtle bg-surface-subtle py-4">

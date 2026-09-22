@@ -21,6 +21,12 @@ export interface AuctionEvent {
   categories: Category[];
   firstDeadlineIso: string;
   lastDeadlineIso: string;
+  /**
+   * Prazo do próximo lote ainda em disputa. Fica vazio quando o leilão não tem
+   * lote aberto — sem isso, uma contagem regressiva sobre um leilão encerrado
+   * exibiria "Prazo atingido" num bloco de destaque.
+   */
+  nextOpenDeadlineIso: string;
   minAmount: number;
   totalBids: number;
 }
@@ -43,6 +49,10 @@ export function getAuctionEvents(): AuctionEvent[] {
     const deadlines = lots
       .map((lot) => lot.deadlineIso)
       .sort((a, b) => Date.parse(a) - Date.parse(b));
+    const openDeadlines = lots
+      .filter((lot) => OPEN.includes(lot.status))
+      .map((lot) => lot.deadlineIso)
+      .sort((a, b) => Date.parse(a) - Date.parse(b));
 
     return {
       code: auctionCode(company.slug),
@@ -52,6 +62,7 @@ export function getAuctionEvents(): AuctionEvent[] {
       categories: [...new Set(lots.map((lot) => lot.category))],
       firstDeadlineIso: deadlines[0] ?? "",
       lastDeadlineIso: deadlines[deadlines.length - 1] ?? "",
+      nextOpenDeadlineIso: openDeadlines[0] ?? "",
       minAmount: Math.min(
         ...lots.map((lot) => lot.currentBid ?? lot.startingBid),
       ),
@@ -62,7 +73,8 @@ export function getAuctionEvents(): AuctionEvent[] {
     .sort(
       (a, b) =>
         b.openLots - a.openLots ||
-        Date.parse(a.firstDeadlineIso) - Date.parse(b.firstDeadlineIso),
+        Date.parse(a.nextOpenDeadlineIso || a.firstDeadlineIso) -
+          Date.parse(b.nextOpenDeadlineIso || b.firstDeadlineIso),
     );
 }
 

@@ -13,7 +13,6 @@
 
   body {
     @apply bg-surface-page text-text-primary antialiased;
-    font-feature-settings: "cv11", "ss01";
   }
 
   ::selection {
@@ -101,6 +100,17 @@
   .nav-underline:focus-visible::after,
   .nav-underline[aria-expanded="true"]::after,
   .nav-underline[data-active="true"]::after {
+    @apply scale-x-100;
+  }
+
+  /* Aba da barra de seções: sem divisória, régua laranja no apontado. */
+  .nav-tab {
+    @apply nav-underline inline-flex h-11 shrink-0 items-center gap-1.5 px-3 text-label text-text-secondary transition-colors duration-quick hover:text-action;
+  }
+  .nav-tab[data-active="true"] {
+    @apply font-semibold text-text-primary;
+  }
+  .nav-tab[data-active="true"]::after {
     @apply scale-x-100;
   }
 

@@ -9,7 +9,7 @@ import type { Config } from "tailwindcss";
  * fica reservado a ação, link, estado ativo e urgência — nunca a superfície.
  * O escuro é um carvão amadeirado, que ancora as faixas e dá profundidade.
  *
- * Geometria reta (raios de 2-4px), tipografia IBM Plex (ver app/layout.tsx).
+ * Geometria reta (raios de 2-4px), tipografia Archivo (ver app/layout.tsx).
  * Razões de contraste calculadas em scripts/check-contrast.mjs — todas as
  * combinações de texto passam WCAG AA.
  */
@@ -74,8 +74,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-plex-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-plex-mono)", "ui-monospace", "monospace"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
         "title-page": ["26px", { lineHeight: "32px", fontWeight: "700" }],

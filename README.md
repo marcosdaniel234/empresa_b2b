@@ -23,7 +23,7 @@ Para o inventário completo do que **não** foi construído e o roteiro sugerido
 - **Next.js 16** (App Router, React Server Components) + **TypeScript**
 - **Tailwind CSS**, com os tokens de cor/tipografia/espaçamento/raio/sombra do design system mapeados em `tailwind.config.ts`
 - **lucide-react** para ícones (família única de linha, conforme especificação)
-- Fontes **IBM Plex Sans** e **IBM Plex Mono** via `next/font/google`
+- Fontes **Archivo** (variável) e **Roboto Mono** via `next/font/google`
 - Sem backend, sem banco de dados, sem chamadas de rede além dos assets estáticos
 
 Zero dependências com vulnerabilidades conhecidas (`npm audit` limpo no momento da entrega).
@@ -102,10 +102,11 @@ A interface segue a lógica de um marketplace industrial B2B maduro: densidade d
 catálogo, navegação por categorias e busca dominante, em vez de uma página de
 campanha. Na prática:
 
-- **Cabeçalho em dois níveis**: faixa utilitária (atendimento, idioma/moeda,
-  favoritos e entrar) e barra principal fixa com o botão **Menu**, a marca, a
-  busca e as ações de conta. Toda a navegação de seções e a taxonomia completa
-  ficam dentro do Menu — o topo não repete o que a home e o rodapé já listam.
+- **Cabeçalho em três níveis no desktop**: faixa utilitária, barra principal
+  fixa com busca e conta, e a barra de seções com o mega-menu de **Categorias**
+  em dois painéis — a lista de categorias à esquerda governa as subcategorias à
+  direita, ordenadas pelo que existe em catálogo. Abaixo de `lg` essa barra dá
+  lugar ao botão **Menu**, que carrega a mesma navegação em um painel.
 - **Sem divisórias verticais na navegação**: o item apontado recebe uma régua
   laranja que cresce da esquerda (`.nav-underline`), no lugar das linhas fixas
   que davam ao topo aparência de portal antigo.
@@ -132,7 +133,7 @@ campanha. Na prática:
   as 28 combinações de texto em WCAG AA.
 
 A identidade atual (neutros quentes, carvão amadeirado, laranja de segurança
-como única cor de ação e IBM Plex como família tipográfica) substitui o
+como única cor de ação e Archivo como família tipográfica) substitui o
 verde-petróleo com Inter descrito em `FUNDACAO_ESTETICA.md`, que permanece no
 repositório como registro da fundação original.
 

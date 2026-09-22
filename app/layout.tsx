@@ -1,25 +1,26 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Archivo, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 
-// Família técnica, desenhada para documentação e produto industrial — não a
-// sans-serif genérica que qualquer gerador de site usa por padrão.
-const plexSans = IBM_Plex_Sans({
+// Archivo: grotesca de traço reto e caixa alta estreita, desenhada para
+// sinalização e impressos de alto contraste. Tem a dureza de letreiro
+// industrial sem virar fonte de display, e aguenta corpo 11 px em tabela de
+// lote. O eixo variável cobre de 400 a 800 sem carregar quatro arquivos.
+const sans = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-plex-sans",
+  axes: ["wdth"],
+  variable: "--font-sans",
   display: "swap",
 });
 
-// Reservada para códigos de lote, valores e contagens: números tabulares
-// com identidade de painel de controle, não de planilha.
-const plexMono = IBM_Plex_Mono({
+// Reservada a código de lote, valor e contagem regressiva: monoespaçada de
+// desenho neutro, para o número não competir com o texto ao lado.
+const mono = Roboto_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -38,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${plexSans.variable} ${plexMono.variable}`}>
+    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">
         <Header />
         <main id="conteudo-principal" className="flex-1 pb-24 md:pb-0">
