@@ -7,18 +7,22 @@
     @apply border-border-subtle;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-surface-page text-text-primary antialiased;
     font-feature-settings: "cv11", "ss01";
   }
 
   ::selection {
-    background-color: #f5c451;
-    color: #16191c;
+    background-color: #fbbf24;
+    color: #1a1512;
   }
 
   :focus-visible {
-    outline: 2px solid #225cbe;
+    outline: 2px solid #1d4ed8;
     outline-offset: 1px;
   }
 
@@ -36,11 +40,11 @@
   }
 
   [id] {
-    scroll-margin-top: 150px;
+    scroll-margin-top: 120px;
   }
 
   input[type="checkbox"] {
-    accent-color: #b45309;
+    accent-color: #b03e0a;
   }
 }
 
@@ -66,16 +70,42 @@
 @layer components {
   /* ---------- Ações ---------- */
   .primary-link {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-colors duration-quick hover:bg-action-hover active:bg-action-pressed;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-hover hover:shadow-card active:translate-y-px active:bg-action-pressed;
   }
   .secondary-link {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
+    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-surface-subtle hover:text-action active:translate-y-px;
   }
   .text-link {
-    @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action hover:underline;
+    @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action transition-colors duration-quick hover:text-action-hover hover:underline;
   }
+  .text-link svg {
+    @apply transition-transform duration-standard ease-standard;
+  }
+  .text-link:hover svg {
+    transform: translateX(3px);
+  }
+
+  /*
+   * Indicação de clique por régua laranja que cresce da esquerda, no lugar
+   * das antigas divisórias verticais: o traço só aparece no item apontado,
+   * então a barra fica limpa em repouso.
+   */
+  .nav-underline {
+    @apply relative;
+  }
+  .nav-underline::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-2 bottom-0 h-[2px] origin-left scale-x-0 bg-action transition-transform duration-standard ease-standard;
+  }
+  .nav-underline:hover::after,
+  .nav-underline:focus-visible::after,
+  .nav-underline[aria-expanded="true"]::after,
+  .nav-underline[data-active="true"]::after {
+    @apply scale-x-100;
+  }
+
   .header-link {
-    @apply inline-flex min-h-10 items-center gap-2 px-2.5 text-label text-text-secondary transition-colors duration-quick hover:text-action;
+    @apply nav-underline inline-flex min-h-10 items-center gap-2 px-2.5 text-label text-text-secondary transition-colors duration-quick hover:text-action;
   }
 
   /* ---------- Blocos ---------- */
@@ -89,7 +119,7 @@
     @apply text-label font-bold uppercase tracking-[.06em] text-text-primary;
   }
   .section-heading {
-    @apply flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-brand-900 pb-2;
+    @apply flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-action pb-2;
   }
   .section-title {
     @apply text-title-section-mobile md:text-title-section;
@@ -98,18 +128,23 @@
     @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
   }
 
+  /* Cartões: elevação curta no ponteiro, sem deslocar o texto em volta. */
+  .card-lift {
+    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[2px] hover:border-action hover:shadow-elevated;
+  }
+
   /* ---------- Catálogo ---------- */
   .lot-tag {
     @apply inline-flex items-center rounded-[2px] border border-border-subtle bg-surface-subtle px-1.5 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
   }
   .chip {
-    @apply inline-flex min-h-10 items-center gap-1.5 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-colors duration-quick hover:border-action hover:text-action;
+    @apply inline-flex min-h-10 items-center gap-1.5 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-surface-subtle hover:text-action active:translate-y-px;
   }
   .chip-active {
-    @apply border-brand-900 bg-brand-900 text-white hover:border-brand-900 hover:text-white;
+    @apply border-action bg-action text-white hover:border-action-hover hover:bg-action-hover hover:text-white;
   }
 
-  /* Tabela de dados: cabeçalho fixo em cinza, linhas zebradas discretas. */
+  /* Tabela de dados: cabeçalho fixo em areia, linhas zebradas discretas. */
   .data-table {
     @apply w-full border-collapse text-left;
   }
@@ -118,6 +153,9 @@
   }
   .data-table tbody td {
     @apply border-b border-border-subtle px-3 py-2.5 text-metadata align-middle;
+  }
+  .data-table tbody tr {
+    @apply transition-colors duration-quick;
   }
   .data-table tbody tr:hover {
     @apply bg-surface-subtle;
@@ -140,7 +178,7 @@
 
   /* ---------- Formulários ---------- */
   .field {
-    @apply h-10 w-full min-w-0 rounded-control border border-border-strong bg-white px-2.5 text-label text-text-primary placeholder:text-text-muted;
+    @apply h-10 w-full min-w-0 rounded-control border border-border-strong bg-white px-2.5 text-label text-text-primary transition-colors duration-quick placeholder:text-text-muted hover:border-border-control;
   }
   .field-label {
     @apply text-label font-semibold text-text-primary;
@@ -149,24 +187,24 @@
   /* ---------- Empresa ---------- */
   .company-monogram {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border-subtle text-label font-bold;
-    background: #e4e6e7;
-    color: #3a4448;
+    background: #f0e1ce;
+    color: #6e2607;
   }
   .company-tone-1 {
-    background: #e2e7ea;
-    color: #35505e;
+    background: #f6e2cd;
+    color: #8c300a;
   }
   .company-tone-2 {
-    background: #ede4d8;
+    background: #f3e4d2;
     color: #6b4a22;
   }
   .company-tone-3 {
-    background: #e3e7e4;
-    color: #375048;
+    background: #efe3d5;
+    color: #5c4a33;
   }
   .company-tone-4 {
-    background: #eae6dc;
-    color: #5c5636;
+    background: #f7ddc4;
+    color: #7c3a10;
   }
 
   /* ---------- Diálogos ---------- */
@@ -178,7 +216,7 @@
     overscroll-behavior: contain;
   }
   .app-dialog::backdrop {
-    background: rgba(14, 43, 39, 0.55);
+    background: rgba(31, 24, 19, 0.55);
   }
   .app-dialog.wide-dialog {
     max-width: 900px;

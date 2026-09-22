@@ -1,9 +1,10 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tokens do ATIVOS B2B. Paleta grafite/aço com ação em âmbar de segurança —
- * a cor de sinalização de equipamento pesado, não o verde de SaaS genérico.
- * Geometria reta (raios de 2-4px), bordas de aço bem definidas, tipografia
+ * Tokens do ATIVOS B2B. Paleta quente de leilão industrial: neutros em areia
+ * e barro (no lugar dos cinzas frios), grafite amadeirado para as faixas
+ * escuras e laranja de segurança como cor de ação — a sinalização usada em
+ * pátio de equipamento pesado. Geometria reta (raios de 2-4px), tipografia
  * IBM Plex (ver app/layout.tsx). Razões de contraste calculadas em
  * scripts/check-contrast.mjs — todas as combinações de texto passam AA.
  */
@@ -17,38 +18,39 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#14181B",
-          800: "#1D2327",
-          700: "#262E33",
+          900: "#1F1813",
+          800: "#2E241C",
+          700: "#3D3025",
         },
         action: {
-          DEFAULT: "#B45309",
-          hover: "#92400E",
-          pressed: "#78350F",
+          DEFAULT: "#B03E0A",
+          hover: "#8C300A",
+          pressed: "#6E2607",
         },
         accent: {
-          soft: "#F5C451",
-          strong: "#E2A227",
+          soft: "#FBBF24",
+          strong: "#F59E0B",
+          glow: "#EA580C",
         },
         surface: {
-          page: "#F1F2F3",
+          page: "#FBF4EC",
           card: "#FFFFFF",
-          subtle: "#E7E9EA",
-          raised: "#DADDE0",
+          subtle: "#F5E7D8",
+          raised: "#F0E1CE",
         },
         text: {
-          primary: "#16191C",
-          secondary: "#454E52",
-          muted: "#5C666B",
+          primary: "#1A1512",
+          secondary: "#4A4038",
+          muted: "#6B5D52",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#D4D8DA",
-          strong: "#B7BEC2",
-          control: "#6B767B",
+          subtle: "#E7D7C4",
+          strong: "#D2BA9E",
+          control: "#8A7663",
         },
         focus: {
-          ring: "#225CBE",
+          ring: "#1D4ED8",
         },
         success: {
           text: "#1B7A43",
@@ -94,9 +96,9 @@ const config: Config = {
         modal: "4px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(20, 24, 27, 0.07)",
-        elevated: "0 4px 14px rgba(20, 24, 27, 0.14)",
-        modal: "0 18px 48px rgba(20, 24, 27, 0.28)",
+        card: "0 1px 2px rgba(61, 48, 37, 0.10)",
+        elevated: "0 6px 18px rgba(61, 48, 37, 0.16)",
+        modal: "0 18px 48px rgba(31, 24, 19, 0.32)",
       },
       maxWidth: {
         content: "1440px",
@@ -110,6 +112,30 @@ const config: Config = {
       transitionTimingFunction: {
         standard: "cubic-bezier(0.2, 0, 0, 1)",
         exit: "cubic-bezier(0.4, 0, 1, 1)",
+      },
+      keyframes: {
+        "panel-down": {
+          from: { opacity: "0", transform: "translateY(-6px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-up": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "rule-in": {
+          from: { transform: "scaleX(0)" },
+          to: { transform: "scaleX(1)" },
+        },
+      },
+      animation: {
+        "panel-down": "panel-down 200ms cubic-bezier(0.2, 0, 0, 1) both",
+        "fade-up": "fade-up 260ms cubic-bezier(0.2, 0, 0, 1) both",
+        "fade-in": "fade-in 180ms linear both",
+        "rule-in": "rule-in 320ms cubic-bezier(0.2, 0, 0, 1) both",
       },
     },
   },

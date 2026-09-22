@@ -11,7 +11,7 @@ export function AuctionCard({ event }: { event: AuctionEvent }) {
   const sameDay = event.firstDeadlineIso === event.lastDeadlineIso;
 
   return (
-    <article className="group relative flex flex-col border border-border-subtle bg-white transition-colors duration-quick hover:border-border-control">
+    <article className="card-lift group relative flex flex-col border border-border-subtle bg-white">
       <ImageSlot
         ratio="aspect-[16/7]"
         label="Imagem do leilão"
@@ -89,7 +89,11 @@ export function AuctionCard({ event }: { event: AuctionEvent }) {
 
         <span className="mt-2 inline-flex items-center gap-1 text-caption font-semibold text-action">
           Ver lotes do leilão
-          <ArrowRight size={13} aria-hidden="true" />
+          <ArrowRight
+            size={13}
+            aria-hidden="true"
+            className="transition-transform duration-standard ease-standard group-hover:translate-x-1"
+          />
         </span>
       </div>
     </article>

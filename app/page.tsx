@@ -3,28 +3,14 @@ import { ArrowRight, Building2, MapPin } from "lucide-react";
 import { AssetCard } from "@/components/catalog/AssetCard";
 import { AuctionCard } from "@/components/catalog/AuctionCard";
 import { PersonalShelf } from "@/components/catalog/PersonalShelf";
+import { CategoryExplorer } from "@/components/home/CategoryExplorer";
 import { Testimonials } from "@/components/home/Testimonials";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { getAuctionEvents } from "@/lib/auctions";
-import {
-  ASSETS,
-  CATEGORY_SHORT,
-  COMPANIES,
-  Category,
-  SUBCATEGORIES,
-  getClosingSoon,
-} from "@/lib/data";
+import { ASSETS, COMPANIES, getClosingSoon } from "@/lib/data";
 
-const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 const LIVE = ASSETS.filter((a) => a.status !== "cancelado");
-
-function lotsIn(category: Category, subcategory?: string) {
-  return LIVE.filter(
-    (a) =>
-      a.category === category && (!subcategory || a.subcategory === subcategory),
-  ).length;
-}
 
 export default function HomePage() {
   const events = getAuctionEvents();
@@ -63,29 +49,6 @@ export default function HomePage() {
                 </div>
               ))}
             </dl>
-            <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-              <span className="text-caption text-text-muted">
-                Ir direto para:
-              </span>
-              {CATEGORIES.map((category) => (
-                <Link
-                  key={category}
-                  href={`/resultados?categoria=${category}`}
-                  className="inline-flex min-h-9 items-center gap-1.5 rounded-control border border-border-subtle bg-surface-subtle px-2.5 text-caption text-text-primary transition-colors duration-quick hover:border-action hover:text-action"
-                >
-                  {CATEGORY_SHORT[category]}
-                  <span className="text-text-muted tabular">
-                    {lotsIn(category)}
-                  </span>
-                </Link>
-              ))}
-              <Link
-                href="/resultados"
-                className="inline-flex min-h-9 items-center px-1 text-caption font-semibold text-action hover:underline"
-              >
-                Catálogo completo
-              </Link>
-            </div>
           </div>
 
           <ImageSlot
@@ -94,6 +57,11 @@ export default function HomePage() {
             size="lg"
             className="w-full"
           />
+        </div>
+
+        {/* Entrada por categoria: no corpo da página, não no cabeçalho. */}
+        <div className="container-content pb-5">
+          <CategoryExplorer />
         </div>
       </section>
 
@@ -142,51 +110,6 @@ export default function HomePage() {
 
       <PersonalShelf assets={ASSETS} />
 
-      {/* Taxonomia completa em colunas: navegação por texto, como num catálogo. */}
-      <section className="container-content py-6">
-        <div className="section-heading">
-          <h2 className="section-title">Navegar por categoria</h2>
-          <Link href="/resultados" className="text-link">
-            Abrir catálogo <ArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="mt-3 grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-          {CATEGORIES.map((category) => (
-            <div key={category}>
-              <ImageSlot
-                ratio="aspect-[16/7]"
-                size="sm"
-                className="mb-2 w-full"
-              />
-              <Link
-                href={`/resultados?categoria=${category}`}
-                className="flex items-baseline justify-between gap-2 border-b border-border-strong pb-1.5 text-label font-bold uppercase tracking-[.05em] text-text-primary hover:text-action"
-              >
-                {CATEGORY_SHORT[category]}
-                <span className="text-caption font-normal text-text-muted tabular">
-                  {lotsIn(category)} lotes
-                </span>
-              </Link>
-              <ul className="mt-1">
-                {SUBCATEGORIES[category].map((sub) => (
-                  <li key={sub.slug}>
-                    <Link
-                      href={`/resultados?categoria=${category}&subcategoria=${sub.slug}`}
-                      className="flex min-h-8 items-baseline justify-between gap-2 text-metadata text-text-secondary hover:text-action hover:underline"
-                    >
-                      {sub.label}
-                      <span className="text-caption text-text-muted tabular">
-                        {lotsIn(category, sub.slug)}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="border-b border-border-subtle bg-surface-page">
         <div className="container-content py-3">
           <AdSlot format="leaderboard" slotId="home-categorias" />
@@ -210,7 +133,7 @@ export default function HomePage() {
                 <Link
                   key={company.slug}
                   href={`/loja/${company.slug}`}
-                  className="group flex items-start gap-2.5 border border-border-subtle p-3 transition-colors duration-quick hover:border-action"
+                  className="card-lift group flex items-start gap-2.5 border border-border-subtle bg-white p-3"
                 >
                   <span className={`company-monogram company-tone-${(i % 4) + 1}`}>
                     {company.name.slice(0, 2).toUpperCase()}
@@ -259,10 +182,14 @@ export default function HomePage() {
           </div>
           <Link
             href="/anunciar"
-            className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-control bg-accent-soft px-5 text-label font-bold text-brand-900 transition-colors duration-quick hover:bg-accent-strong"
+            className="group inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-control bg-accent-soft px-5 text-label font-bold text-brand-900 transition-[background-color,transform] duration-standard ease-standard hover:bg-accent-strong active:translate-y-px"
           >
             Ver requisitos
-            <ArrowRight size={16} aria-hidden="true" />
+            <ArrowRight
+              size={16}
+              aria-hidden="true"
+              className="transition-transform duration-standard ease-standard group-hover:translate-x-1"
+            />
           </Link>
         </div>
       </section>

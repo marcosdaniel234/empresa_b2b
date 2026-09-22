@@ -22,7 +22,7 @@ export default function LeiloesPage() {
         <span className="text-text-secondary">Leilões</span>
       </nav>
 
-      <div className="mt-1.5 border-b-2 border-brand-900 pb-2">
+      <div className="mt-1.5 border-b-2 border-action pb-2">
         <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
           Leilões em andamento
         </h1>

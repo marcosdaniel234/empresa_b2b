@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { Heart, Phone, Plus, UserRound } from "lucide-react";
 import { SearchBar } from "./SearchBar";
-import { CategoryNav } from "./CategoryNav";
+import { MainMenu } from "./MainMenu";
 import { CompareHeaderLink } from "@/components/catalog/CompareHeaderLink";
 
 /**
- * Cabeçalho em três faixas: utilitária (rola com a página), principal com a
- * busca do catálogo e barra de categorias. As duas últimas ficam fixas.
+ * Cabeçalho em duas faixas: a utilitária (rola com a página) e a principal,
+ * fixa, com menu, busca e conta. Toda a navegação de seções e a taxonomia
+ * ficam dentro do botão Menu — o topo não repete o que a página inicial e o
+ * rodapé já listam, e nenhuma divisória vertical separa os itens: a
+ * indicação de clique é a régua laranja sob o item apontado.
  */
 export function Header() {
   return (
@@ -21,20 +24,16 @@ export function Header() {
               <Phone size={13} aria-hidden="true" />
               Atendimento seg a sex, 9h–18h
             </span>
-            <span
-              aria-hidden="true"
-              className="hidden h-3 w-px bg-white/20 sm:block"
-            />
             <span className="hidden sm:inline">Português (BR) · BRL</span>
             <Link
               href="/favoritos"
-              className="hover:text-white hover:underline sm:hidden"
+              className="transition-colors duration-quick hover:text-white sm:hidden"
             >
               Favoritos
             </Link>
             <Link
               href="/entrar"
-              className="hover:text-white hover:underline sm:hidden"
+              className="transition-colors duration-quick hover:text-white sm:hidden"
             >
               Entrar
             </Link>
@@ -42,20 +41,22 @@ export function Header() {
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-border-strong bg-white">
+      <header className="sticky top-0 z-50 border-b border-border-strong bg-white shadow-card">
         <a href="#conteudo-principal" className="skip-link">
           Pular para o conteúdo
         </a>
 
-        <div className="container-content flex h-14 items-center gap-3 md:h-[60px] lg:gap-6">
+        <div className="container-content flex h-14 items-center gap-2 md:h-16 lg:gap-4">
+          <MainMenu />
+
           <Link
             href="/"
             aria-label="ATIVOS B2B, página inicial"
-            className="flex shrink-0 items-center gap-2"
+            className="group flex shrink-0 items-center gap-2"
           >
             <span
               aria-hidden="true"
-              className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-brand-900 text-accent-strong"
+              className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-action text-white transition-[background-color,transform] duration-standard ease-standard group-hover:bg-action-hover group-hover:-rotate-3"
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
                 <path
@@ -66,7 +67,7 @@ export function Header() {
                 />
               </svg>
             </span>
-            <span className="hidden flex-col leading-none sm:flex">
+            <span className="hidden flex-col leading-none md:flex">
               <span className="text-[16px] font-extrabold tracking-tight text-brand-900">
                 ATIVOS<span className="text-action">B2B</span>
               </span>
@@ -103,8 +104,6 @@ export function Header() {
             </Link>
           </nav>
         </div>
-
-        <CategoryNav />
       </header>
     </>
   );

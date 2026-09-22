@@ -82,7 +82,9 @@ app/                       Rotas (App Router)
   not-found.tsx               404 (T12)
 
 components/
-  layout/                   Header, busca, navegação de categorias, rodapé, tab bar
+  layout/                   Header, busca, menu principal, rodapé, tab bar
+  home/                     Explorador de categorias e depoimentos da home
+  ads/                      Espaços reservados de publicidade (formatos IAB)
   catalog/                  Card de ativo (grade/lista), navegador do catálogo,
                             filtros, favoritos, vitrines e abas de loja
   auction/                  Galeria, painel de lance, modal de revisão, relógio
@@ -100,20 +102,32 @@ A interface segue a lógica de um marketplace industrial B2B maduro: densidade d
 catálogo, navegação por categorias e busca dominante, em vez de uma página de
 campanha. Na prática:
 
-- **Cabeçalho em três níveis**: faixa utilitária (atendimento, idioma/moeda,
-  favoritos e entrar), barra principal com a busca no centro, e barra de
-  categorias com um painel acessível de "todas as categorias". No mobile, a
-  barra de categorias vira um trilho horizontal rolável.
-- **Primeira dobra da home** é busca + catálogo: título direto, busca em
-  evidência, categorias em chips e um lote em destaque com status e prazo reais
-  dos dados. Em seguida vêm as vitrines de lotes, categorias e empresas.
+- **Cabeçalho em dois níveis**: faixa utilitária (atendimento, idioma/moeda,
+  favoritos e entrar) e barra principal fixa com o botão **Menu**, a marca, a
+  busca e as ações de conta. Toda a navegação de seções e a taxonomia completa
+  ficam dentro do Menu — o topo não repete o que a home e o rodapé já listam.
+- **Sem divisórias verticais na navegação**: o item apontado recebe uma régua
+  laranja que cresce da esquerda (`.nav-underline`), no lugar das linhas fixas
+  que davam ao topo aparência de portal antigo.
+- **Primeira dobra da home** é busca + catálogo: título direto, indicadores do
+  catálogo e o explorador de categorias, que abre as subcategorias com
+  contagem no lugar, sem trocar de página. Em seguida vêm as vitrines de
+  lotes, empresas e depoimentos, separadas por faixas de publicidade.
 - **Cards informativos**: lote, categoria, título, empresa, localização, prazo e
   valor ficam visíveis sem abrir o detalhe. O catálogo alterna entre grade e
   lista.
-- **Geometria compacta**: raios curtos (4–8 px), bordas discretas, sombras quase
-  imperceptíveis e contêiner central de até 1400 px.
+- **Paleta quente de leilão industrial**: neutros em areia e barro no lugar dos
+  cinzas frios, grafite amadeirado nas faixas escuras e laranja de segurança
+  (`action`) como cor de ação, borda de seção e indicação de clique.
+- **Geometria compacta**: raios curtos (3–4 px), bordas discretas, sombras quase
+  imperceptíveis e contêiner central de até 1440 px.
+- **Movimento contido**: transições de 100–260 ms com uma única curva
+  (`ease-standard`), elevação curta nos cards, régua de hover e painéis que
+  descem com `animate-panel-down`. Tudo sob o bloco
+  `prefers-reduced-motion: reduce` de `app/globals.css`.
 - Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`; os
-  componentes não usam cores soltas.
+  componentes não usam cores soltas. `node scripts/check-contrast.mjs` valida
+  as 23 combinações de texto em WCAG AA.
 
 A identidade (verde-petróleo de ação, acento verde-limão, tipografia Inter)
 continua sendo a do ATIVOS B2B, derivada de `FUNDACAO_ESTETICA.md`.

@@ -42,7 +42,7 @@ export function Testimonials() {
 
       <ul className="mt-3 grid gap-3 md:grid-cols-3">
         {ENTRIES.map((entry) => (
-          <li key={entry.company} className="panel flex flex-col p-4">
+          <li key={entry.company} className="panel card-lift flex flex-col p-4">
             <Quote
               size={20}
               aria-hidden="true"

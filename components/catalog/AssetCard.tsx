@@ -129,7 +129,7 @@ export function AssetCard({
   }
 
   return (
-    <article className="group relative flex flex-col border border-border-subtle bg-white transition-colors duration-quick hover:border-border-control">
+    <article className="card-lift group relative flex flex-col border border-border-subtle bg-white">
       <div className="relative">
         <ImageSlot
           ratio="aspect-[16/10]"

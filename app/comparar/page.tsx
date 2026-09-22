@@ -127,7 +127,7 @@ export default function CompararPage() {
                     <th
                       key={asset.id}
                       scope="col"
-                      className="w-48 border-b-2 border-brand-900 bg-white align-top"
+                      className="w-48 border-b-2 border-action bg-white align-top"
                     >
                       <div className="flex items-start justify-between gap-1">
                         <ImageSlot

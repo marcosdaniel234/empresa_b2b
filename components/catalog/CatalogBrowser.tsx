@@ -145,7 +145,7 @@ export function CatalogBrowser() {
         <span className="text-text-secondary">Catálogo</span>
       </nav>
 
-      <div className="mt-1.5 flex flex-wrap items-end justify-between gap-3 border-b-2 border-brand-900 pb-2">
+      <div className="mt-1.5 flex flex-wrap items-end justify-between gap-3 border-b-2 border-action pb-2">
         <div className="min-w-0">
           <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
             {filters.q ? `Busca: “${filters.q}”` : "Catálogo de lotes"}
@@ -291,7 +291,7 @@ export function CatalogBrowser() {
                   aria-current={n === current ? "page" : undefined}
                   className={`h-9 w-9 rounded-control border text-caption font-semibold tabular ${
                     n === current
-                      ? "border-brand-900 bg-brand-900 text-white"
+                      ? "border-action bg-action text-white"
                       : "border-border-strong bg-white text-text-primary hover:border-action hover:text-action"
                   }`}
                 >
