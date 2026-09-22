@@ -32,8 +32,8 @@ export function SellCta() {
 
         <ImageSlot
           ratio="aspect-[4/3] lg:aspect-auto lg:h-full"
-          label="Imagem institucional"
-          className="w-full rounded-none border-0 !bg-brand-800"
+          src="/images/institutional/acompanhamento-lotes.png"
+          className="w-full rounded-none border-0"
         />
 
         <div className="flex min-w-0 flex-col justify-center gap-5 p-6 lg:p-9">

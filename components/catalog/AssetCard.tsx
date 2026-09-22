@@ -33,6 +33,7 @@ export function AssetCard({
   const isClosed = CLOSED.includes(asset.status);
   const amount = asset.currentBid ?? asset.startingBid;
   const specs = asset.specs.slice(0, 3);
+  const foto = `/images/assets/${asset.slug}.png`;
 
   const deadline = !isClosed && (
     <span className="inline-flex items-center gap-1.5 text-metadata font-semibold text-text-secondary">
@@ -49,7 +50,7 @@ export function AssetCard({
     return (
       <article className="group relative flex gap-3 border-b border-border-subtle bg-white p-3 transition-colors duration-quick last:border-b-0 hover:bg-surface-subtle">
         <div className="relative w-24 shrink-0 sm:w-40">
-          <ImageSlot size="sm" className="w-full" />
+          <ImageSlot size="sm" src={foto} className="w-full" />
           <StatusChip status={asset.status} className="absolute left-1 top-1" />
         </div>
 
@@ -118,6 +119,7 @@ export function AssetCard({
       <div className="relative">
         <ImageSlot
           ratio="aspect-[4/3]"
+          src={foto}
           className="w-full rounded-none border-0"
         />
         <StatusChip status={asset.status} className="absolute left-3 top-3" />

@@ -11,6 +11,14 @@ import { ImageSlot } from "@/components/ui/ImageSlot";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
+/** Foto de um lote representativo de cada categoria. */
+const CAPA: Record<Category, string> = {
+  maquinas: "/images/assets/empilhadeira-eletrica-2021.png",
+  veiculos: "/images/assets/caminhao-bau-3-4.png",
+  tecnologia: "/images/assets/servidores-rack-42u.png",
+  mobiliario: "/images/assets/mobiliario-corporativo-sala-reuniao.png",
+};
+
 function lotsIn(category: Category) {
   return ASSETS.filter(
     (a) => a.status !== "cancelado" && a.category === category,
@@ -45,6 +53,7 @@ export function CategoryGrid() {
             >
               <ImageSlot
                 ratio="aspect-[4/3]"
+                src={CAPA[category]}
                 className="w-full rounded-none border-0"
               />
               <span className="flex items-end justify-between gap-2 p-3">

@@ -6,12 +6,12 @@ import { getStateCounts } from "@/lib/data";
  * Compra por estado. A retirada de ativo pesado é sempre por conta do
  * comprador, então a distância pesa tanto quanto o preço.
  *
- * No lugar da bandeira de cada unidade federativa entra a sigla em selo: o
- * catálogo não tem os arquivos das bandeiras, e desenhá-las de memória
- * produziria símbolos oficiais errados.
+ * Cada cartão traz a bandeira da unidade federativa, a sigla e a oferta do
+ * estado.
  */
 export function StateStrip() {
   const estados = getStateCounts();
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
   return (
     <section
@@ -34,13 +34,16 @@ export function StateStrip() {
               href={`/resultados?uf=${estado.uf}`}
               className="card-lift group flex w-[104px] flex-col items-center gap-2 rounded-card border border-border-subtle bg-white px-3 py-3"
             >
-              <span
+              <img
+                src={`${base}/images/states/${estado.uf.toLowerCase()}.svg`}
+                alt=""
                 aria-hidden="true"
-                className="flex h-11 w-16 items-center justify-center rounded-control bg-brand-900 text-label font-extrabold tracking-[.04em] text-white transition-colors duration-standard ease-standard group-hover:bg-action"
-              >
+                className="h-10 w-16 rounded-[3px] border border-border-subtle object-cover"
+              />
+              <span className="text-label font-extrabold tracking-[.04em] text-text-primary transition-colors duration-standard ease-standard group-hover:text-action">
                 {estado.uf}
               </span>
-              <span className="text-center text-caption font-semibold text-text-primary">
+              <span className="text-center text-caption text-text-secondary">
                 {estado.name}
               </span>
               <span className="text-caption text-text-muted tabular">

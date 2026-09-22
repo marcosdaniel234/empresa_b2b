@@ -142,6 +142,7 @@ export function Hero() {
               <div className="relative">
                 <ImageSlot
                   ratio="aspect-[16/9]"
+                  src={`/images/assets/${destaque.slug}.png`}
                   className="w-full rounded-none border-0"
                 />
                 <span className="absolute left-3 top-3 flex items-center gap-2">
