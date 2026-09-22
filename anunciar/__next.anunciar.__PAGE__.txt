@@ -1,0 +1,22 @@
+1:"$Sreact.fragment"
+2:I[22016,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js","/empresa_b2b/_next/static/chunks/19yg61n9w0sew.js"],""]
+3:I[54050,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js","/empresa_b2b/_next/static/chunks/19yg61n9w0sew.js"],"AnnouncementChecklist"]
+4:I[97367,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"OutletBoundary"]
+5:"$Sreact.suspense"
+9:I[97367,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"ViewportBoundary"]
+a:I[97367,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"MetadataBoundary"]
+b:I[27201,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"IconMark"]
+d:I[39756,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"default"]
+e:I[37457,["/empresa_b2b/_next/static/chunks/429ji6bim2a7n.js","/empresa_b2b/_next/static/chunks/0ch0ks2frwi81.js"],"default"]
+8:X
+10:X
+10:C
+0:{"buildId":"IixKaiWmVpnYX3mHS0sbX","data":[{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"container-content py-5 md:py-8","children":[["$","nav",null,{"aria-label":"Trilha de navegação","className":"text-caption text-text-secondary","children":[["$","$L2",null,{"href":"/","className":"hover:text-action hover:underline","children":"Início"}],["$","span",null,{"aria-hidden":"true","children":" / "}],["$","span",null,{"children":"Anunciar ativo"}]]}],["$","div",null,{"className":"max-w-3xl","children":[["$","p",null,{"className":"eyebrow mt-2","children":"Para quem vende"}],["$","h1",null,{"className":"mt-1.5 text-title-page-mobile text-text-primary md:text-title-page","children":"Um bom anúncio começa nos detalhes."}],["$","p",null,{"className":"mt-2 text-body text-text-secondary","children":"Organize as informações que ajudam outra empresa a avaliar seu ativo com confiança."}],["$","p",null,{"className":"mt-4 rounded-control border border-border-subtle bg-surface-subtle p-3 text-metadata text-text-secondary","children":"A publicação ainda não está disponível. Esta lista é apenas uma orientação: não recebe arquivos nem publica anúncios."}],["$","$L3",null,{}]]}]]}],[["$","script","script-0",{"src":"/empresa_b2b/_next/static/chunks/19yg61n9w0sew.js","async":true}]],["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"isPartial":"$@7","staleTime":"$8","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L9",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$La",null,{"children":["$","$5",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Anunciar ativo · ATIVOS B2B"}],["$","meta","1",{"name":"description","content":"Catálogo de leilão de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário, com ficha técnica, localização e prazo de cada lote."}],["$","link","2",{"rel":"icon","href":"/empresa_b2b/icon.svg?icon.0ce7k-l-hfacm.svg","sizes":"any","type":"image/svg+xml"}],["$","$Lb","3",{}]]}]}]}],null]}],"isPartial":"$@c","staleTime":"$8","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Ld",null,{"parallelRouterKey":"children","template":["$","$Le",null,{}]}]]}],"isPartial":"$@f","staleTime":"$8","varyParams":"$10"}],"isUpgradeableISRFallback":false,"a":"$@11","rootVaryParams":null,"needsRuntimeRequest":"$@12"}
+6:null
+12:true
+8:300
+8:C
+11:0
+c:"$undefined"
+f:"$undefined"
+7:"$undefined"
