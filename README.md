@@ -128,9 +128,9 @@ institucional e laranja como única cor de ação.
   componentes não usam cores soltas. `node scripts/check-contrast.mjs` valida
   as 29 combinações de texto em WCAG AA.
 
-### Três pontos em que a referência não foi seguida ao pé da letra
+### Dois pontos em que a referência não foi seguida ao pé da letra
 
-Nos três casos copiar o desenho significaria afirmar algo falso:
+Nos dois casos copiar o desenho significaria afirmar algo falso:
 
 1. **Selo "lote verificado"** — não há processo de verificação nesta
    demonstração. No lugar dele entra a situação real do lote (aberto,
@@ -138,12 +138,11 @@ Nos três casos copiar o desenho significaria afirmar algo falso:
 2. **Números de tração** (compradores cadastrados, volume transacionado,
    percentual verificado) — nenhum existe. A faixa traz os quatro números que
    o próprio catálogo produz, cada um ligado ao recorte que ele conta.
-3. **Bandeiras das unidades federativas** — o projeto não tem os arquivos, e
-   desenhá-las de memória produziria símbolos oficiais errados. A sigla entra
-   em selo escuro, que para estado brasileiro se lê de imediato.
 
-Fotografia: o catálogo de demonstração não tem imagens de lote. Toda moldura
-de foto fica reservada, na proporção e na posição em que a imagem entrará.
+Fotografia: o catálogo traz uma imagem por lote em `public/images/assets/`,
+nomeada pelo slug, além das bandeiras das UFs, da peça institucional e das
+criações de anúncio. Onde ainda não houver arquivo, `ImageSlot` mantém a
+moldura reservada, hachurada, na proporção em que a foto entrará.
 
 ## Decisões de design
 
