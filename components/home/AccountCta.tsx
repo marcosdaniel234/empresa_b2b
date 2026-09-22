@@ -74,6 +74,7 @@ export function AccountCta() {
         </div>
 
         <ImageSlot
+          src="/images/institutional/acompanhamento-lotes.png"
           ratio="aspect-[16/10]"
           label="Imagem institucional"
           size="lg"

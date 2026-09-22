@@ -5,9 +5,8 @@ import { ImageSlot } from "@/components/ui/ImageSlot";
  *
  * As falas são exemplos escritos para o protótipo, atribuídas às empresas
  * fictícias do catálogo — não são avaliações reais, e a seção diz isso de
- * forma explícita, acima das falas e não em letra miúda no rodapé. O retrato
- * fica como moldura reservada: inventar um rosto para um depoimento que não
- * existe seria o tipo de prova social falsa que este protótipo não usa.
+ * forma explícita, acima das falas e não em letra miúda no rodapé. Os retratos
+ * são ilustrativos e não representam pessoas reais ou avaliações reais.
  */
 const ENTRIES = [
   {
@@ -16,6 +15,7 @@ const ENTRIES = [
     name: "Coordenação de suprimentos",
     company: "Metalfor Industrial Ltda.",
     role: "Movimentação e elevação",
+    image: "/images/testimonials/suprimentos.png",
   },
   {
     quote:
@@ -23,6 +23,7 @@ const ENTRIES = [
     name: "Gestão de frota",
     company: "Transnorte Logística S.A.",
     role: "Transporte e distribuição",
+    image: "/images/testimonials/frota.png",
   },
   {
     quote:
@@ -30,6 +31,7 @@ const ENTRIES = [
     name: "Infraestrutura",
     company: "Novadata Tecnologia S.A.",
     role: "Tecnologia da informação",
+    image: "/images/testimonials/infraestrutura.png",
   },
   {
     quote:
@@ -37,6 +39,7 @@ const ENTRIES = [
     name: "Engenharia de manutenção",
     company: "Siderpampa Metalurgia S.A.",
     role: "Caldeiraria e estruturas",
+    image: "/images/testimonials/manutencao.png",
   },
 ];
 
@@ -63,6 +66,7 @@ export function Testimonials() {
           {ENTRIES.map((entry) => (
             <li key={entry.company} className="flex flex-col items-center">
               <ImageSlot
+                src={entry.image}
                 ratio="aspect-square"
                 size="sm"
                 className="h-24 w-24 shrink-0 rounded-full"
