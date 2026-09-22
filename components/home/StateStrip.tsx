@@ -16,7 +16,7 @@ export function StateStrip() {
   return (
     <section
       aria-labelledby="titulo-estados"
-      className="container-content py-8 lg:py-10"
+      className="home-band container-content py-8 lg:py-10"
     >
       <div className="section-heading">
         <h2 id="titulo-estados" className="section-title">
@@ -32,7 +32,7 @@ export function StateStrip() {
           <li key={estado.uf} className="shrink-0">
             <Link
               href={`/resultados?uf=${estado.uf}`}
-              className="card-lift group flex w-[104px] flex-col items-center gap-2 rounded-card border border-border-subtle bg-white px-3 py-3"
+              className="fx-card card-lift group flex w-[104px] flex-col items-center gap-2 rounded-card border px-3 py-3"
             >
               <img
                 src={`${base}/images/states/${estado.uf.toLowerCase()}.svg`}

@@ -51,7 +51,7 @@ export function StatsBand() {
     >
       <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-panel border border-border-subtle bg-border-subtle shadow-card lg:grid-cols-4">
         {numeros.map((item) => (
-          <li key={item.label} className="bg-white">
+          <li key={item.label} className="fx-card">
             <Link
               href={item.href}
               className="flex min-h-[96px] items-center gap-3.5 px-4 py-5 transition-colors duration-standard ease-standard hover:bg-action-soft sm:px-6"

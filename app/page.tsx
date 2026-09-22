@@ -9,7 +9,7 @@ import { ASSETS } from "@/lib/data";
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="site-home">
       <Hero />
       <StateStrip />
       <CategoryGrid />

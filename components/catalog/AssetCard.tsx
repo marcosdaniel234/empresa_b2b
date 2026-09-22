@@ -115,7 +115,7 @@ export function AssetCard({
   }
 
   return (
-    <article className="card-lift group relative flex h-full flex-col overflow-hidden rounded-card border border-border-subtle bg-white">
+    <article className="fx-card card-lift group relative flex h-full flex-col overflow-hidden rounded-card border">
       <div className="relative">
         <ImageSlot
           ratio="aspect-[4/3]"

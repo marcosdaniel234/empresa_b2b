@@ -12,7 +12,7 @@ const VANTAGENS = [
 export function SellCta() {
   return (
     <section className="container-content pb-8 lg:pb-10">
-      <div className="on-dark grid overflow-hidden rounded-panel bg-brand-900 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.8fr)_minmax(0,.9fr)]">
+      <div className="hero-fx on-dark grid overflow-hidden rounded-panel border border-white/10 shadow-float lg:grid-cols-[minmax(0,1.1fr)_minmax(0,.8fr)_minmax(0,.9fr)]">
         <div className="min-w-0 p-6 lg:p-9">
           <span className="kicker-on-dark">
             Seu ativo alcança novos compradores

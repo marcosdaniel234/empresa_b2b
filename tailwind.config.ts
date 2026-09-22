@@ -41,10 +41,10 @@ const config: Config = {
           strong: "#F97316",
         },
         surface: {
-          page: "#F5F7FA",
-          card: "#FFFFFF",
-          subtle: "#EEF1F6",
-          raised: "#EAEEF4",
+          page: "#EAF0F7",
+          card: "#F9FBFE",
+          subtle: "#EDF3F9",
+          raised: "#E2EAF4",
         },
         text: {
           primary: "#0F1B2A",
@@ -53,8 +53,8 @@ const config: Config = {
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#E3E8EF",
-          strong: "#C9D2DE",
+          subtle: "#D7E1ED",
+          strong: "#B8C6D7",
           control: "#7C8899",
         },
         focus: {
@@ -79,8 +79,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        sans: ["Aptos", "Segoe UI Variable", "Segoe UI", "Arial", "system-ui", "sans-serif"],
+        mono: ["Cascadia Mono", "Consolas", "ui-monospace", "monospace"],
       },
       fontSize: {
         "title-page": ["26px", { lineHeight: "32px", fontWeight: "700" }],
@@ -106,9 +106,9 @@ const config: Config = {
         modal: "16px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(14, 27, 42, 0.06)",
-        raised: "0 4px 12px rgba(14, 27, 42, 0.08)",
-        elevated: "0 12px 28px rgba(14, 27, 42, 0.13)",
+        card: "0 1px 2px rgba(14, 27, 42, 0.06), 0 10px 30px rgba(34, 56, 79, 0.05)",
+        raised: "0 6px 18px rgba(14, 27, 42, 0.10), 0 1px 0 rgba(255,255,255,.9) inset",
+        elevated: "0 18px 42px rgba(14, 27, 42, 0.16), 0 1px 0 rgba(255,255,255,.85) inset",
         float: "0 18px 40px rgba(14, 27, 42, 0.18)",
         modal: "0 24px 60px rgba(14, 27, 42, 0.26)",
       },

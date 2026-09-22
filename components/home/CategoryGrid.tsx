@@ -30,7 +30,7 @@ export function CategoryGrid() {
   return (
     <section
       aria-labelledby="titulo-categorias"
-      className="container-content pb-8 lg:pb-10"
+      className="home-band container-content pb-8 pt-2 lg:pb-10"
     >
       <div className="section-heading">
         <h2 id="titulo-categorias" className="section-title">
@@ -48,7 +48,7 @@ export function CategoryGrid() {
             <Link
               key={category}
               href={`/resultados?categoria=${category}`}
-              className="card-lift group overflow-hidden rounded-card border border-border-subtle bg-white"
+              className="fx-card card-lift group overflow-hidden rounded-card border"
               aria-label={`${CATEGORY_LABELS[category]}, ${total} lotes`}
             >
               <ImageSlot

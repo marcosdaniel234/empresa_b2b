@@ -52,7 +52,7 @@ export function Hero() {
   ];
 
   return (
-    <section className="on-dark bg-brand-900">
+    <section className="hero-fx on-dark">
       <div className="container-content grid gap-0 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div className="relative flex min-w-0 flex-col py-10 lg:py-14 lg:pr-10">
           <p
@@ -76,7 +76,7 @@ export function Hero() {
 
           <p className="mt-5 max-w-lg text-body leading-7 text-white/75">
             Máquinas, veículos, tecnologia, mobiliário e muito mais. São{" "}
-            {abertos} lotes abertos de empresas reais, com prazo e endereço de
+            {abertos} lotes abertos de empresas identificadas, com prazo e endereço de
             retirada declarados.
           </p>
 
@@ -121,7 +121,7 @@ export function Hero() {
 
         {/* Painel do lote que encerra primeiro. */}
         {destaque && (
-          <div className="min-w-0 bg-brand-800 px-5 py-8 lg:px-7 lg:py-10">
+          <div className="hero-showcase min-w-0 px-5 py-8 lg:px-7 lg:py-10">
             <div className="flex items-center justify-between gap-3">
               <h2 className="flex items-center gap-2 text-title-card font-bold text-white">
                 <span
@@ -138,7 +138,7 @@ export function Hero() {
               </Link>
             </div>
 
-            <article className="card-lift group relative mt-4 overflow-hidden rounded-card bg-white">
+            <article className="fx-card card-lift group relative mt-4 overflow-hidden rounded-card">
               <div className="relative">
                 <ImageSlot
                   ratio="aspect-[16/9]"

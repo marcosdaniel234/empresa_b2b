@@ -56,7 +56,7 @@ export function FeaturedLots({ assets }: { assets: Asset[] }) {
   return (
     <section
       aria-labelledby="titulo-lotes"
-      className="container-content pb-8 lg:pb-10"
+      className="home-band container-content pb-8 pt-2 lg:pb-10"
     >
       <div className="section-heading">
         <h2 id="titulo-lotes" className="section-title">

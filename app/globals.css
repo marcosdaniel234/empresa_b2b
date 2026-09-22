@@ -13,6 +13,11 @@
 
   body {
     @apply bg-surface-page text-text-primary antialiased;
+    background-image:
+      radial-gradient(circle at 8% 4%, rgba(29, 78, 216, 0.10), transparent 25rem),
+      radial-gradient(circle at 92% 18%, rgba(249, 115, 22, 0.08), transparent 22rem),
+      linear-gradient(180deg, #f2f6fb 0%, #e8eff7 48%, #f4f7fb 100%);
+    background-attachment: fixed;
   }
 
   ::selection {
@@ -63,6 +68,13 @@
   }
   .scroll-rail::-webkit-scrollbar {
     display: none;
+  }
+
+  .industrial-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 34px 34px;
   }
 }
 
@@ -132,7 +144,59 @@
 
   /* ---------- Blocos ---------- */
   .panel {
-    @apply rounded-card border border-border-subtle bg-white;
+    @apply rounded-card border border-border-subtle bg-surface-card shadow-card;
+  }
+  .site-home {
+    @apply relative overflow-hidden;
+    background-image:
+      radial-gradient(circle at 16% 34%, rgba(29, 78, 216, 0.08), transparent 22rem),
+      radial-gradient(circle at 88% 72%, rgba(249, 115, 22, 0.07), transparent 24rem),
+      linear-gradient(180deg, rgba(255,255,255,.48), rgba(226,234,244,.32));
+  }
+  .home-band {
+    @apply relative;
+  }
+  .home-band::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(90deg, transparent, rgba(51, 80, 109, .26), transparent);
+  }
+  .fx-card {
+    background:
+      linear-gradient(145deg, rgba(255,255,255,.98), rgba(243,247,252,.94));
+    border-color: rgba(184, 198, 215, .78);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.95) inset,
+      0 12px 34px rgba(14, 27, 42, .08);
+  }
+  .fx-card:hover {
+    border-color: rgba(194, 65, 12, .48);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.98) inset,
+      0 18px 46px rgba(14, 27, 42, .14);
+  }
+  .hero-fx {
+    @apply relative isolate overflow-hidden;
+    background:
+      radial-gradient(circle at 78% 8%, rgba(51, 112, 176, .30), transparent 28rem),
+      radial-gradient(circle at 16% 118%, rgba(249, 115, 22, .14), transparent 25rem),
+      linear-gradient(125deg, #0b1725 0%, #0e1b2a 48%, #152b42 100%);
+  }
+  .hero-fx::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 -z-10 opacity-60;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(115deg, transparent 0 68%, rgba(249,115,22,.08) 68% 68.3%, transparent 68.3%);
+    background-size: 40px 40px, 40px 40px, 100% 100%;
+    mask-image: linear-gradient(to bottom, black, transparent 94%);
+  }
+  .hero-showcase {
+    background:
+      linear-gradient(160deg, rgba(34,56,79,.96), rgba(14,27,42,.94)),
+      radial-gradient(circle at 80% 0%, rgba(249,115,22,.18), transparent 18rem);
+    box-shadow: -24px 0 70px rgba(3, 10, 18, .22);
   }
   /* Pílula de especificação: ano, combustível, quilometragem no cartão. */
   .spec-pill {
@@ -187,7 +251,7 @@
 
   /* Cartões: elevação curta no ponteiro, sem deslocar o texto em volta. */
   .card-lift {
-    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[3px] hover:shadow-elevated;
+    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[4px] hover:shadow-elevated;
   }
 
   /* ---------- Catálogo ---------- */
