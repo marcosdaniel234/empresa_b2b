@@ -23,7 +23,7 @@ Para o inventário completo do que **não** foi construído e o roteiro sugerido
 - **Next.js 16** (App Router, React Server Components) + **TypeScript**
 - **Tailwind CSS**, com os tokens de cor/tipografia/espaçamento/raio/sombra do design system mapeados em `tailwind.config.ts`
 - **lucide-react** para ícones (família única de linha, conforme especificação)
-- Fontes **Archivo** (variável) e **Roboto Mono** via `next/font/google`
+- Fontes **Plus Jakarta Sans** (variável) e **Roboto Mono** via `next/font/google`
 - Sem backend, sem banco de dados, sem chamadas de rede além dos assets estáticos
 
 Zero dependências com vulnerabilidades conhecidas (`npm audit` limpo no momento da entrega).
@@ -96,46 +96,54 @@ lib/
   format.ts                 Formatação de moeda, data/hora e contagem regressiva
 ```
 
-## Direção visual: catálogo industrial
+## Direção visual: marketplace de ativos empresariais
 
-A interface segue a lógica de um marketplace industrial B2B maduro: densidade de
-catálogo, navegação por categorias e busca dominante, em vez de uma página de
-campanha. Na prática:
+A interface segue a referência visual da marca: marinho profundo como base
+institucional e laranja como única cor de ação.
 
-- **Cabeçalho em três níveis no desktop**: faixa utilitária, barra principal
-  fixa com busca e conta, e a barra de seções com o mega-menu de **Categorias**
-  em dois painéis — a lista de categorias à esquerda governa as subcategorias à
-  direita, ordenadas pelo que existe em catálogo. Abaixo de `lg` essa barra dá
-  lugar ao botão **Menu**, que carrega a mesma navegação em um painel.
-- **Sem divisórias verticais na navegação**: o item apontado recebe uma régua
-  laranja que cresce da esquerda (`.nav-underline`), no lugar das linhas fixas
-  que davam ao topo aparência de portal antigo.
-- **Primeira dobra da home** é busca + catálogo: título direto, indicadores do
-  catálogo e o explorador de categorias, que abre as subcategorias com
-  contagem no lugar, sem trocar de página. Em seguida vêm as vitrines de
-  lotes, empresas e depoimentos, separadas por faixas de publicidade.
-- **Cards informativos**: lote, categoria, título, empresa, localização, prazo e
-  valor ficam visíveis sem abrir o detalhe. O catálogo alterna entre grade e
-  lista.
-- **Regra de cor: o laranja só é visível se o resto não for.** Os neutros são
-  quentes mas quase acromáticos; o laranja de segurança (`action`) fica
-  reservado a ação, link, estado ativo e urgência — nunca a superfície. O
-  escuro é um carvão amadeirado que ancora as faixas. Uma paleta em que tudo
-  é laranja não tem acento nenhum.
-- **Geometria compacta**: raios curtos (3–4 px), bordas discretas, sombras quase
-  imperceptíveis e contêiner central de até 1440 px.
+- **Regra de cor**: o marinho (`brand`) carrega topo, abertura, faixas e
+  rodapé; o laranja (`action`) fica reservado a botão, preço, régua de
+  sobretítulo e aba corrente. O corpo do catálogo é claro, para que as fichas
+  de lote respirem entre as faixas escuras. O laranja existe em dois tons por
+  contraste: `action` é o sólido que aceita texto branco, `action-bright` é o
+  vivo que só aparece como texto sobre o marinho — trocar um pelo outro
+  quebra AA.
+- **Cabeçalho em três faixas**: utilitária (institucional e conta), principal
+  (marca, busca e atalhos) e a barra de categorias. Abaixo de `md` a busca
+  ganha linha própria e a navegação recolhe no botão de menu.
+- **Abertura em duas colunas**: à esquerda a promessa e as três garantias, à
+  direita o lote que encerra primeiro com contagem regressiva ao vivo.
+- **Cartão de lote**: foto, etiqueta de situação, favorito, código do lote,
+  localização, pílulas de especificação e o valor em laranja ao lado do
+  prazo. O mesmo cartão serve a abertura, a busca e as vitrines.
+- **Blocos da abertura**: compra por estado, categorias em destaque, lotes em
+  destaque com abas de ordenação reais, faixa de venda, números do catálogo e
+  a assinatura de fechamento.
+- **Geometria**: cantos de 8 px nos controles, 12 px nos cartões e 16 px nos
+  painéis; sombras baixas; contêiner central de até 1440 px.
 - **Movimento contido**: transições de 100–260 ms com uma única curva
-  (`ease-standard`), elevação curta nos cards, régua de hover e painéis que
-  descem com `animate-panel-down`. Tudo sob o bloco
-  `prefers-reduced-motion: reduce` de `app/globals.css`.
+  (`ease-standard`), elevação curta nos cartões e painéis que descem com
+  `animate-panel-down`. Tudo sob o bloco `prefers-reduced-motion: reduce`.
 - Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`; os
   componentes não usam cores soltas. `node scripts/check-contrast.mjs` valida
-  as 28 combinações de texto em WCAG AA.
+  as 29 combinações de texto em WCAG AA.
 
-A identidade atual (neutros quentes, carvão amadeirado, laranja de segurança
-como única cor de ação e Archivo como família tipográfica) substitui o
-verde-petróleo com Inter descrito em `FUNDACAO_ESTETICA.md`, que permanece no
-repositório como registro da fundação original.
+### Três pontos em que a referência não foi seguida ao pé da letra
+
+Nos três casos copiar o desenho significaria afirmar algo falso:
+
+1. **Selo "lote verificado"** — não há processo de verificação nesta
+   demonstração. No lugar dele entra a situação real do lote (aberto,
+   encerrando, agendado, encerrado).
+2. **Números de tração** (compradores cadastrados, volume transacionado,
+   percentual verificado) — nenhum existe. A faixa traz os quatro números que
+   o próprio catálogo produz, cada um ligado ao recorte que ele conta.
+3. **Bandeiras das unidades federativas** — o projeto não tem os arquivos, e
+   desenhá-las de memória produziria símbolos oficiais errados. A sigla entra
+   em selo escuro, que para estado brasileiro se lê de imediato.
+
+Fotografia: o catálogo de demonstração não tem imagens de lote. Toda moldura
+de foto fica reservada, na proporção e na posição em que a imagem entrará.
 
 ## Decisões de design
 

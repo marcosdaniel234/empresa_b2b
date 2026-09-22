@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Compass, Heart, PlusCircle, Building2 } from "lucide-react";
+import { Compass, Heart, Home, PlusCircle, UserRound } from "lucide-react";
 
 const TABS = [
-  { href: "/", label: "Explorar", icon: Compass },
+  { href: "/", label: "Início", icon: Home },
+  { href: "/resultados", label: "Explorar", icon: Compass },
+  { href: "/anunciar", label: "Vender", icon: PlusCircle },
   { href: "/favoritos", label: "Favoritos", icon: Heart },
-  { href: "/anunciar", label: "Anunciar", icon: PlusCircle },
-  { href: "/entrar", label: "Minha empresa", icon: Building2 },
+  { href: "/entrar", label: "Perfil", icon: UserRound },
 ];
 
 /**
@@ -30,9 +31,7 @@ export function MobileTabBar() {
     >
       {TABS.map(({ href, label, icon: Icon }) => {
         const active =
-          href === "/"
-            ? pathname === "/" || pathname.startsWith("/resultados")
-            : pathname.startsWith(href);
+          href === "/" ? pathname === "/" : pathname.startsWith(href);
         return (
           <Link
             key={href}

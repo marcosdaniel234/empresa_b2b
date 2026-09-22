@@ -100,10 +100,8 @@ export function MainMenu() {
         aria-expanded={open}
         aria-controls="menu-principal"
         aria-label={open ? "Fechar menu" : "Abrir menu de navegação"}
-        className={`nav-underline inline-flex h-10 shrink-0 items-center gap-2 rounded-control px-2.5 text-label font-semibold transition-colors duration-standard ease-standard sm:px-3 ${
-          open
-            ? "bg-surface-subtle text-action"
-            : "text-text-primary hover:bg-surface-subtle hover:text-action"
+        className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-control px-2.5 text-label font-semibold text-white transition-colors duration-standard ease-standard sm:px-3 ${
+          open ? "bg-white/15" : "hover:bg-white/10"
         }`}
       >
         <span className="relative flex h-[18px] w-[18px] items-center justify-center">
@@ -135,7 +133,7 @@ export function MainMenu() {
             <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3">
               {SECTIONS.map((section) => (
                 <nav key={section.title} aria-label={section.title}>
-                  <h2 className="border-b-2 border-action pb-1 text-label font-bold uppercase tracking-[.06em] text-text-primary">
+                  <h2 className="border-b-2 border-action pb-1 text-label font-extrabold uppercase tracking-[.06em] text-text-primary">
                     {section.title}
                   </h2>
                   <ul className="mt-1.5">
@@ -155,7 +153,7 @@ export function MainMenu() {
             </div>
 
             <nav aria-label="Categorias do catálogo">
-              <h2 className="border-b-2 border-action pb-1 text-label font-bold uppercase tracking-[.06em] text-text-primary">
+              <h2 className="border-b-2 border-action pb-1 text-label font-extrabold uppercase tracking-[.06em] text-text-primary">
                 Categorias
               </h2>
               <ul className="mt-1.5 grid gap-x-6 sm:grid-cols-2">

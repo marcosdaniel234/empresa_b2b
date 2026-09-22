@@ -8,7 +8,7 @@ const STATUS_META: Record<AuctionStatus, { label: string; className: string }> =
     },
     aberto: {
       label: "Aberto",
-      className: "bg-action text-white",
+      className: "bg-success-solid text-white",
     },
     encerrando: {
       label: "Encerrando",
@@ -16,7 +16,7 @@ const STATUS_META: Record<AuctionStatus, { label: string; className: string }> =
     },
     encerrado_vencedor: {
       label: "Encerrado",
-      className: "bg-success-surface text-success-text",
+      className: "bg-surface-raised text-text-secondary",
     },
     encerrado_sem_vencedor: {
       label: "Encerrado",
@@ -24,7 +24,7 @@ const STATUS_META: Record<AuctionStatus, { label: string; className: string }> =
     },
     cancelado: {
       label: "Cancelado",
-      className: "bg-surface-raised text-text-secondary",
+      className: "bg-danger-surface text-danger-text",
     },
   };
 
@@ -37,9 +37,7 @@ export function StatusChip({
 }) {
   const meta = STATUS_META[status];
   return (
-    <span
-      className={`inline-flex items-center rounded-[3px] px-2 py-1 text-micro font-semibold uppercase tracking-[.07em] leading-none ${meta.className} ${className}`}
-    >
+    <span className={`status-pill ${meta.className} ${className}`}>
       {meta.label}
     </span>
   );

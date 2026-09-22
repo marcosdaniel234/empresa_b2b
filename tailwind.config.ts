@@ -3,15 +3,16 @@ import type { Config } from "tailwindcss";
 /**
  * Tokens do ATIVOS B2B.
  *
- * Regra de cor do projeto: o laranja só é visível se o resto não for.
- * Os neutros são quentes mas quase acromáticos (croma baixíssimo), de modo
- * que o laranja de segurança apareça por CONTRASTE, não por quantidade. Ele
- * fica reservado a ação, link, estado ativo e urgência — nunca a superfície.
- * O escuro é um carvão amadeirado, que ancora as faixas e dá profundidade.
+ * Direção visual: marinho profundo como base institucional (topo, abertura,
+ * faixas e rodapé) e laranja como única cor de ação — botão, preço, régua de
+ * sobretítulo e estado ativo. O corpo do catálogo fica claro, para que as
+ * fotos e as fichas de lote respirem entre as faixas escuras.
  *
- * Geometria reta (raios de 2-4px), tipografia Archivo (ver app/layout.tsx).
- * Razões de contraste calculadas em scripts/check-contrast.mjs — todas as
- * combinações de texto passam WCAG AA.
+ * O laranja existe em dois tons por uma razão de contraste: `action` é o
+ * sólido que aceita texto branco em cima; `action-bright` é o vivo que só
+ * aparece como texto sobre o marinho. Trocar um pelo outro quebra AA.
+ *
+ * Razões de contraste em scripts/check-contrast.mjs — todas passam WCAG AA.
  */
 const config: Config = {
   content: [
@@ -23,54 +24,58 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#1C1917",
-          800: "#292524",
-          700: "#44403C",
+          900: "#0E1B2A",
+          800: "#16283C",
+          700: "#22384F",
+          600: "#33506D",
         },
         action: {
-          DEFAULT: "#BC3F0C",
+          DEFAULT: "#C2410C",
           hover: "#9A3412",
           pressed: "#7C2D12",
+          bright: "#F97316",
+          soft: "#FFF1E8",
         },
         accent: {
-          soft: "#FBBF24",
-          strong: "#F59E0B",
+          soft: "#FFF1E8",
+          strong: "#F97316",
         },
         surface: {
-          page: "#F7F5F2",
+          page: "#F5F7FA",
           card: "#FFFFFF",
-          subtle: "#F0EDE9",
-          raised: "#EAE5E0",
+          subtle: "#EEF1F6",
+          raised: "#EAEEF4",
         },
         text: {
-          primary: "#1C1917",
-          secondary: "#4A443F",
-          muted: "#6B635B",
+          primary: "#0F1B2A",
+          secondary: "#47566B",
+          muted: "#5A6A80",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#E2DDD7",
-          strong: "#CFC8C0",
-          control: "#857C73",
+          subtle: "#E3E8EF",
+          strong: "#C9D2DE",
+          control: "#7C8899",
         },
         focus: {
           ring: "#1D4ED8",
         },
         success: {
-          text: "#1B7A43",
-          surface: "#E5F3EA",
+          text: "#047857",
+          surface: "#ECFDF5",
+          solid: "#047857",
         },
         warning: {
-          text: "#7A5D00",
-          surface: "#FBF1D2",
+          text: "#92400E",
+          surface: "#FEF3C7",
         },
         danger: {
-          text: "#A62C2C",
-          surface: "#FBE9EA",
+          text: "#B91C1C",
+          surface: "#FEE2E2",
         },
         info: {
-          text: "#22508F",
-          surface: "#EAF1FB",
+          text: "#1D4ED8",
+          surface: "#EFF4FE",
         },
       },
       fontFamily: {
@@ -95,14 +100,17 @@ const config: Config = {
         micro: ["11px", { lineHeight: "15px", fontWeight: "500" }],
       },
       borderRadius: {
-        control: "3px",
-        card: "3px",
-        modal: "4px",
+        control: "8px",
+        card: "12px",
+        panel: "16px",
+        modal: "16px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(28, 25, 23, 0.08)",
-        elevated: "0 6px 18px rgba(28, 25, 23, 0.14)",
-        modal: "0 18px 48px rgba(28, 25, 23, 0.30)",
+        card: "0 1px 2px rgba(14, 27, 42, 0.06)",
+        raised: "0 4px 12px rgba(14, 27, 42, 0.08)",
+        elevated: "0 12px 28px rgba(14, 27, 42, 0.13)",
+        float: "0 18px 40px rgba(14, 27, 42, 0.18)",
+        modal: "0 24px 60px rgba(14, 27, 42, 0.26)",
       },
       maxWidth: {
         content: "1440px",

@@ -16,8 +16,8 @@
   }
 
   ::selection {
-    background-color: #fbbf24;
-    color: #1c1917;
+    background-color: #ffe0cc;
+    color: #0f1b2a;
   }
 
   :focus-visible {
@@ -43,7 +43,7 @@
   }
 
   input[type="checkbox"] {
-    accent-color: #bc3f0c;
+    accent-color: #c2410c;
   }
 }
 
@@ -69,10 +69,14 @@
 @layer components {
   /* ---------- Ações ---------- */
   .primary-link {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control bg-action px-4 text-label font-semibold text-white transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-hover hover:shadow-card active:translate-y-px active:bg-action-pressed;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control bg-action px-5 text-label font-bold text-white transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-hover hover:shadow-raised active:translate-y-px active:bg-action-pressed;
   }
   .secondary-link {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-4 text-label font-semibold text-text-primary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-surface-subtle hover:text-action active:translate-y-px;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-action bg-white px-5 text-label font-bold text-action transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-soft hover:shadow-card active:translate-y-px;
+  }
+  /* Botão de cartão: contorno leve que vira azul sólido no apontamento. */
+  .card-link {
+    @apply inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-3 text-label font-semibold text-action transition-[background-color,border-color,color] duration-standard ease-standard group-hover:border-action group-hover:bg-action group-hover:text-white;
   }
   .text-link {
     @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action transition-colors duration-quick hover:text-action-hover hover:underline;
@@ -114,6 +118,14 @@
     @apply scale-x-100;
   }
 
+  /* Aba da barra de categorias, sobre o marinho. */
+  .nav-tab-dark {
+    @apply inline-flex h-12 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 text-label text-white/70 transition-colors duration-standard ease-standard hover:border-action-bright hover:text-white;
+  }
+  .nav-tab-dark[data-active="true"] {
+    @apply border-action-bright font-semibold text-white;
+  }
+
   .header-link {
     @apply nav-underline inline-flex min-h-10 items-center gap-2 px-2.5 text-label text-text-secondary transition-colors duration-quick hover:text-action;
   }
@@ -122,6 +134,15 @@
   .panel {
     @apply rounded-card border border-border-subtle bg-white;
   }
+  /* Pílula de especificação: ano, combustível, quilometragem no cartão. */
+  .spec-pill {
+    @apply inline-flex items-center gap-1.5 rounded-control border border-border-subtle bg-surface-subtle px-2 py-1 text-caption text-text-secondary;
+  }
+
+  /* Etiqueta de situação sobre a foto do lote. */
+  .status-pill {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-micro font-bold uppercase tracking-[.06em] leading-none;
+  }
   .panel-head {
     @apply flex items-center justify-between gap-3 border-b border-border-subtle bg-surface-subtle px-3 py-2;
   }
@@ -129,10 +150,22 @@
     @apply text-label font-bold uppercase tracking-[.06em] text-text-primary;
   }
   .section-heading {
-    @apply flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-action pb-2;
+    @apply flex flex-wrap items-center justify-between gap-3;
   }
   .section-title {
-    @apply text-title-section-mobile md:text-title-section;
+    @apply text-[22px] font-extrabold leading-8 tracking-tight text-text-primary md:text-[26px] md:leading-9;
+  }
+  /* Sobretítulo do mockup: régua azul curta seguida de versalete. */
+  .kicker {
+    @apply inline-flex items-center gap-2 text-micro font-bold uppercase tracking-[.14em] text-action;
+  }
+  .kicker::before {
+    content: "";
+    @apply h-[3px] w-7 shrink-0 bg-action;
+  }
+  /* Mesmo sobretítulo sobre o marinho, onde o laranja vivo é legível. */
+  .kicker-on-dark {
+    @apply kicker text-action-bright before:bg-action-bright;
   }
   .eyebrow {
     @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
@@ -154,15 +187,15 @@
 
   /* Cartões: elevação curta no ponteiro, sem deslocar o texto em volta. */
   .card-lift {
-    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[2px] hover:border-action hover:shadow-elevated;
+    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[3px] hover:shadow-elevated;
   }
 
   /* ---------- Catálogo ---------- */
   .lot-tag {
-    @apply inline-flex items-center rounded-[2px] border border-border-subtle bg-surface-subtle px-1.5 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
+    @apply inline-flex items-center rounded-full border border-border-subtle bg-surface-subtle px-2 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
   }
   .chip {
-    @apply inline-flex min-h-10 items-center gap-1.5 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-surface-subtle hover:text-action active:translate-y-px;
+    @apply inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border-strong bg-white px-4 text-label font-semibold text-text-secondary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-action-soft hover:text-action active:translate-y-px;
   }
   .chip-active {
     @apply border-action bg-action text-white hover:border-action-hover hover:bg-action-hover hover:text-white;
@@ -202,7 +235,7 @@
 
   /* ---------- Formulários ---------- */
   .field {
-    @apply h-10 w-full min-w-0 rounded-control border border-border-strong bg-white px-2.5 text-label text-text-primary transition-colors duration-quick placeholder:text-text-muted hover:border-border-control;
+    @apply h-11 w-full min-w-0 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-colors duration-quick placeholder:text-text-muted hover:border-border-control;
   }
   .field-label {
     @apply text-label font-semibold text-text-primary;
@@ -210,25 +243,25 @@
 
   /* ---------- Empresa ---------- */
   .company-monogram {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-control border border-border-subtle text-label font-bold;
-    background: #f0ede9;
-    color: #44403c;
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-control text-label font-extrabold;
+    background: #fff1e8;
+    color: #c2410c;
   }
   .company-tone-1 {
-    background: #ece7e2;
-    color: #7c2d12;
+    background: #fff1e8;
+    color: #c2410c;
   }
   .company-tone-2 {
-    background: #eeeae5;
-    color: #44403c;
+    background: #eaeef4;
+    color: #22384f;
   }
   .company-tone-3 {
-    background: #eae7e3;
-    color: #3f3f46;
+    background: #ecfdf5;
+    color: #047857;
   }
   .company-tone-4 {
-    background: #efe9e3;
-    color: #57534e;
+    background: #eef1f6;
+    color: #47566b;
   }
 
   /* ---------- Diálogos ---------- */
@@ -240,7 +273,7 @@
     overscroll-behavior: contain;
   }
   .app-dialog::backdrop {
-    background: rgba(28, 25, 23, 0.55);
+    background: rgba(14, 27, 42, 0.6);
   }
   .app-dialog.wide-dialog {
     max-width: 900px;

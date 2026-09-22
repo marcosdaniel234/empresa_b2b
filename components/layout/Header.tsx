@@ -1,117 +1,122 @@
 import Link from "next/link";
-import { Heart, Phone, Plus, UserRound } from "lucide-react";
-import { SearchBar } from "./SearchBar";
+import { Gavel, HelpCircle, Building2, UserRound } from "lucide-react";
 import { MainMenu } from "./MainMenu";
 import { CategoryNav } from "./CategoryNav";
+import { SearchBar } from "./SearchBar";
 import { CompareHeaderLink } from "@/components/catalog/CompareHeaderLink";
 
+/** Assinatura da marca: palavra em duas cores sobre a régua e a promessa. */
+export function Wordmark({ tone = "dark" }: { tone?: "light" | "dark" }) {
+  const primary = tone === "dark" ? "text-white" : "text-text-primary";
+  const rule = tone === "dark" ? "border-white/20" : "border-border-strong";
+  const tag = tone === "dark" ? "text-white/55" : "text-text-muted";
+  return (
+    <span className="flex flex-col leading-none">
+      <span className={`text-[21px] font-extrabold tracking-[-.02em] ${primary}`}>
+        ATIVOS <span className="text-action-bright">B2B</span>
+      </span>
+      <span
+        className={`mt-1 border-t pt-1 text-[8px] font-bold uppercase tracking-[.14em] ${rule} ${tag}`}
+      >
+        Ativos hoje. Novas oportunidades amanhã.
+      </span>
+    </span>
+  );
+}
+
+const ATALHOS = [
+  { href: "/leiloes", label: "Leilões", icon: Gavel },
+  { href: "/como-funciona", label: "Como funciona", icon: HelpCircle },
+  { href: "/anunciar", label: "Para empresas", icon: Building2 },
+];
+
 /**
- * Cabeçalho: faixa utilitária (rola com a página), barra principal fixa com
- * busca e conta, e — só a partir de `lg` — a barra de seções com o mega-menu
- * de categorias. Abaixo de `lg` essa barra dá lugar ao botão Menu, que carrega
- * a mesma navegação em um painel.
- *
- * Nenhuma divisória vertical separa os itens: a indicação de clique é a régua
- * laranja que cresce sob o item apontado.
+ * Cabeçalho em três faixas sobre o marinho: utilitária (institucional e
+ * conta), principal (marca, busca e atalhos) e a barra de categorias. Abaixo
+ * de `lg` as duas últimas recolhem no botão de menu.
  */
 export function Header() {
   return (
-    <>
-      <div className="on-dark bg-brand-900 text-white/75">
-        <div className="container-content flex h-8 items-center justify-between gap-4 text-caption">
+    <header className="on-dark sticky top-0 z-50 bg-brand-900">
+      <a href="#conteudo-principal" className="skip-link">
+        Pular para o conteúdo
+      </a>
+
+      <div className="hidden border-b border-white/10 md:block">
+        <div className="container-content flex h-9 items-center justify-between gap-4 text-caption text-white/65">
           <p className="truncate">
-            Catálogo demonstrativo · lotes, empresas e lances são exemplos
+            Catálogo demonstrativo de ativos empresariais — lotes, empresas e
+            lances são exemplos
           </p>
-          <div className="flex items-center gap-3">
-            <span className="hidden items-center gap-1.5 sm:inline-flex">
-              <Phone size={13} aria-hidden="true" />
-              Atendimento seg a sex, 9h–18h
-            </span>
-            <span className="hidden sm:inline">Português (BR) · BRL</span>
-            <Link
-              href="/favoritos"
-              className="transition-colors duration-quick hover:text-white sm:hidden"
-            >
-              Favoritos
+          <div className="flex items-center gap-5">
+            <Link href="/como-funciona" className="hover:text-white">
+              Sobre nós
+            </Link>
+            <Link href="/ajuda" className="hover:text-white">
+              Ajuda
+            </Link>
+            <Link href="/ajuda" className="hover:text-white">
+              Fale conosco
             </Link>
             <Link
               href="/entrar"
-              className="transition-colors duration-quick hover:text-white sm:hidden"
+              className="inline-flex items-center gap-1.5 hover:text-white"
             >
+              <UserRound size={14} aria-hidden="true" />
               Entrar
+            </Link>
+            <Link href="/entrar" className="primary-link min-h-8 px-3.5 text-caption">
+              Criar conta
             </Link>
           </div>
         </div>
       </div>
 
-      <header className="sticky top-0 z-50 border-b border-border-strong bg-white shadow-card">
-        <a href="#conteudo-principal" className="skip-link">
-          Pular para o conteúdo
-        </a>
-
-        <div className="container-content flex h-14 items-center gap-2 md:h-16 lg:gap-4">
-          <div className="lg:hidden">
-            <MainMenu />
-          </div>
-
-          <Link
-            href="/"
-            aria-label="ATIVOS B2B, página inicial"
-            className="group flex shrink-0 items-center gap-2"
-          >
-            <span
-              aria-hidden="true"
-              className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-action text-white transition-[background-color,transform] duration-standard ease-standard group-hover:bg-action-hover group-hover:-rotate-3"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
-                <path
-                  d="M3 20h18M6 20V9l6-4 6 4v11M10 20v-5h4v5"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="square"
-                />
-              </svg>
-            </span>
-            <span className="hidden flex-col leading-none md:flex">
-              <span className="text-[16px] font-extrabold tracking-tight text-brand-900">
-                ATIVOS<span className="text-action">B2B</span>
-              </span>
-              <span className="mt-0.5 text-micro uppercase tracking-[.1em] text-text-muted">
-                Leilão industrial B2B
-              </span>
-            </span>
-          </Link>
-
-          <div className="min-w-0 flex-1">
-            <SearchBar />
-          </div>
-
-          <nav
-            aria-label="Conta e anúncios"
-            className="flex shrink-0 items-center gap-0.5"
-          >
-            <Link
-              href="/favoritos"
-              className="header-link hidden md:inline-flex"
-            >
-              <Heart size={17} aria-hidden="true" />
-              <span className="hidden lg:inline">Favoritos</span>
-            </Link>
-            <CompareHeaderLink />
-            <Link href="/entrar" className="header-link hidden md:inline-flex">
-              <UserRound size={17} aria-hidden="true" />
-              <span className="hidden lg:inline">Entrar</span>
-            </Link>
-            <Link href="/anunciar" className="primary-link ml-1 px-3">
-              <Plus size={16} aria-hidden="true" />
-              <span className="hidden md:inline">Vender ativo</span>
-              <span className="sr-only md:hidden">Vender ativo</span>
-            </Link>
-          </nav>
+      <div className="container-content flex h-16 items-center gap-3 md:h-[78px] lg:gap-6">
+        <div className="lg:hidden">
+          <MainMenu />
         </div>
 
-        <CategoryNav />
-      </header>
-    </>
+        <Link
+          href="/"
+          aria-label="ATIVOS B2B, página inicial"
+          className="shrink-0 rounded-control"
+        >
+          <Wordmark />
+        </Link>
+
+        <div className="ml-auto hidden min-w-0 flex-1 md:ml-0 md:block lg:px-4">
+          <SearchBar variant="on-dark" />
+        </div>
+
+        <nav
+          aria-label="Atalhos"
+          className="hidden shrink-0 items-center lg:flex"
+        >
+          {ATALHOS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex min-w-[92px] flex-col items-center gap-1 rounded-control px-3 py-1.5 text-caption text-white/75 transition-colors duration-standard ease-standard hover:bg-white/10 hover:text-white"
+            >
+              <item.icon size={19} aria-hidden="true" />
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="ml-auto shrink-0 lg:hidden">
+          <CompareHeaderLink />
+        </div>
+      </div>
+
+      {/* Em telas estreitas a busca ganha uma linha própria: espremida entre a
+          marca e as ações, ela encolhia até sobrar só o botão. */}
+      <div className="container-content pb-3 md:hidden">
+        <SearchBar variant="on-dark" />
+      </div>
+
+      <CategoryNav />
+    </header>
   );
 }

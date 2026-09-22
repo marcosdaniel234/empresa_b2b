@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import { Archivo, Roboto_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 
-// Archivo: grotesca de traço reto e caixa alta estreita, desenhada para
-// sinalização e impressos de alto contraste. Tem a dureza de letreiro
-// industrial sem virar fonte de display, e aguenta corpo 11 px em tabela de
-// lote. O eixo variável cobre de 400 a 800 sem carregar quatro arquivos.
-const sans = Archivo({
+// Plus Jakarta Sans: geométrica de terminais retos e contraforma aberta, com
+// peso extrabold firme o bastante para os títulos de duas linhas da abertura
+// e legível em 12 px nas fichas de lote. O eixo variável cobre 200 a 800.
+const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  axes: ["wdth"],
   variable: "--font-sans",
   display: "swap",
 });
