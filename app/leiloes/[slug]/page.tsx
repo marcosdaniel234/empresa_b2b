@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Building2, Calendar, MapPin, Boxes, Gavel } from "lucide-react";
-import { COMPANIES, CATEGORY_SHORT } from "@/lib/data";
-import { getAuctionEventByCompany } from "@/lib/auctions";
+import { CATEGORY_SHORT } from "@/lib/data";
+import { getAuctionEventByCompany, getAuctionEvents } from "@/lib/auctions";
 import { formatCurrencyCard, formatDateTimeWithZone } from "@/lib/format";
 import { LotTable } from "@/components/catalog/LotTable";
 import { ImageSlot } from "@/components/ui/ImageSlot";
@@ -12,7 +12,7 @@ interface PageProps {
 }
 
 export function generateStaticParams() {
-  return COMPANIES.map((company) => ({ slug: company.slug }));
+  return getAuctionEvents().map((event) => ({ slug: event.company.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
@@ -64,7 +64,7 @@ export default async function LeilaoEventoPage({ params }: PageProps) {
                 {event.categories.map((c) => CATEGORY_SHORT[c]).join(" · ")}
               </span>
             </div>
-            <h1 className="mt-1.5 text-title-page-mobile text-text-primary md:text-title-page">
+            <h1 className="mt-1.5 text-[28px] font-extrabold leading-[1.08] tracking-[-.03em] text-text-primary sm:text-[36px]">
               Leilão {event.code} · {company.name}
             </h1>
             <p className="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-metadata text-text-secondary">

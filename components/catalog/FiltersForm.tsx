@@ -2,7 +2,13 @@
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { CATEGORY_SHORT, Category, SUBCATEGORIES } from "@/lib/data";
+import {
+  CATEGORY_SHORT,
+  Category,
+  MODALIDADE_LABELS,
+  Modalidade,
+  SUBCATEGORIES,
+} from "@/lib/data";
 import {
   AVAILABLE_UFS,
   FilterState,
@@ -19,6 +25,12 @@ const STATUS_OPTIONS: { key: StatusFilter; label: string }[] = [
 ];
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
+
+const MODALIDADES: { key: Modalidade | ""; label: string }[] = [
+  { key: "", label: "Todas" },
+  { key: "leilao", label: MODALIDADE_LABELS.leilao },
+  { key: "venda_direta", label: MODALIDADE_LABELS.venda_direta },
+];
 
 export function FiltersForm({
   initial,
@@ -89,11 +101,12 @@ export function FiltersForm({
         <button
           type="button"
           onClick={() => {
-            const next = {
+            const next: FilterState = {
               ...draft,
               categorias: [],
               subcategorias: [],
               status: [],
+              modalidade: "",
               uf: "",
               cidade: "",
               valorMin: "",
@@ -197,6 +210,27 @@ export function FiltersForm({
               );
             })}
           </ul>
+        </fieldset>
+
+        <fieldset className="py-2.5">
+          <legend className="field-label">Modalidade</legend>
+          <div className="mt-1">
+            {MODALIDADES.map((o) => (
+              <label
+                key={o.key || "todas"}
+                className="flex min-h-9 cursor-pointer items-center gap-2 text-metadata text-text-primary"
+              >
+                <input
+                  type="radio"
+                  name={id + "modalidade"}
+                  checked={draft.modalidade === o.key}
+                  onChange={() => setDraft((d) => ({ ...d, modalidade: o.key }))}
+                  className="h-3.5 w-3.5 shrink-0 accent-action"
+                />
+                {o.label}
+              </label>
+            ))}
+          </div>
         </fieldset>
 
         <fieldset className="py-2.5">

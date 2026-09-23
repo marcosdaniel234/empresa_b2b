@@ -8,9 +8,11 @@ import {
   getAssetsByCompany,
   getCompanyBySlug,
   getSubcategoryLabel,
+  MODALIDADE_LABELS,
+  modalidadeOf,
 } from "@/lib/data";
 import { getAuctionEventByCompany } from "@/lib/auctions";
-import { formatDateTimeWithZone } from "@/lib/format";
+import { companyShortName, formatDateTimeWithZone } from "@/lib/format";
 import { Gallery } from "@/components/auction/Gallery";
 import { BidPanel } from "@/components/auction/BidPanel";
 import { LotTable } from "@/components/catalog/LotTable";
@@ -38,7 +40,8 @@ export default async function LeilaoPage({ params }: PageProps) {
   if (!asset) notFound();
 
   const company = getCompanyBySlug(asset.companySlug);
-  const event = getAuctionEventByCompany(asset.companySlug);
+  const direta = modalidadeOf(asset) === "venda_direta";
+  const event = direta ? undefined : getAuctionEventByCompany(asset.companySlug);
   const subcategory = getSubcategoryLabel(asset.category, asset.subcategory);
   const related = getAssetsByCompany(asset.companySlug)
     .filter((item) => item.slug !== asset.slug && item.status !== "cancelado")
@@ -52,24 +55,38 @@ export default async function LeilaoPage({ params }: PageProps) {
     },
     { label: "Vendedor", value: company?.name ?? "—" },
     { label: "Localização", value: `${asset.city} · ${asset.state}` },
+    { label: "Modalidade", value: MODALIDADE_LABELS[modalidadeOf(asset)] },
+    ...(direta
+      ? []
+      : [
+          {
+            label: "Leilão",
+            value: event ? `${event.code} · ${event.lots.length} lotes` : "—",
+          },
+        ]),
     {
-      label: "Leilão",
-      value: event ? `${event.code} · ${event.lots.length} lotes` : "—",
-    },
-    {
-      label: asset.status === "agendado" ? "Início previsto" : "Encerramento",
+      label:
+        asset.status === "agendado"
+          ? "Início previsto"
+          : direta
+            ? "Disponível até"
+            : "Encerramento",
       value: formatDateTimeWithZone(
         asset.status === "agendado"
           ? (asset.startsAtIso ?? asset.deadlineIso)
           : asset.deadlineIso,
       ),
     },
-    {
-      label: "Prorrogação automática",
-      value: asset.antiSniping
-        ? "Lances no fim do prazo podem estender o encerramento"
-        : "Não prevista",
-    },
+    ...(direta
+      ? []
+      : [
+          {
+            label: "Prorrogação automática",
+            value: asset.antiSniping
+              ? "Lances no fim do prazo podem estender o encerramento"
+              : "Não prevista",
+          },
+        ]),
   ];
 
   return (
@@ -117,7 +134,7 @@ export default async function LeilaoPage({ params }: PageProps) {
         )}
       </div>
 
-      <h1 className="mt-1 max-w-4xl text-title-page-mobile text-text-primary md:text-title-page">
+      <h1 className="mt-2 max-w-4xl text-[26px] font-extrabold leading-[1.1] tracking-[-.03em] text-text-primary sm:text-[34px]">
         {asset.title}
       </h1>
 
@@ -238,12 +255,19 @@ export default async function LeilaoPage({ params }: PageProps) {
         <AdSlot format="leaderboard" slotId={`lote-${asset.lot}-rodape`} />
       </div>
 
-      {related.length > 0 && event && (
+      {related.length > 0 && (
         <section className="mt-6">
           <div className="section-heading">
-            <h2 className="section-title">Outros lotes do leilão {event.code}</h2>
-            <Link href={`/leiloes/${asset.companySlug}`} className="text-link">
-              Ver leilão completo
+            <h2 className="section-title">
+              {event
+                ? `Outros lotes do leilão ${event.code}`
+                : `Outros lotes de ${company ? companyShortName(company.name) : "este vendedor"}`}
+            </h2>
+            <Link
+              href={event ? `/leiloes/${asset.companySlug}` : `/loja/${asset.companySlug}`}
+              className="text-link"
+            >
+              {event ? "Ver leilão completo" : "Ver loja"}
             </Link>
           </div>
           <div className="mt-3">

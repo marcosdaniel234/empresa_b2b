@@ -5,13 +5,15 @@ import {
   Company,
   COMPANIES,
   getCompanyBySlug,
+  modalidadeOf,
 } from "./data";
 
 /**
  * Um leilão agrupa os lotes que uma empresa mantém publicados. O agrupamento é
  * derivado dos próprios lotes — não há uma entidade separada nos dados de
  * demonstração —, por isso o código do leilão vem do slug da empresa e a janela
- * de encerramento é calculada a partir dos prazos dos lotes.
+ * de encerramento é calculada a partir dos prazos dos lotes. Lotes de venda
+ * direta ficam de fora: não recebem lances, então não pertencem a um leilão.
  */
 export interface AuctionEvent {
   code: string;
@@ -44,7 +46,9 @@ export function getAuctionEvents(): AuctionEvent[] {
   return COMPANIES.map((company) => {
     const lots = ASSETS.filter(
       (asset) =>
-        asset.companySlug === company.slug && asset.status !== "cancelado",
+        asset.companySlug === company.slug &&
+        asset.status !== "cancelado" &&
+        modalidadeOf(asset) === "leilao",
     );
     const deadlines = lots
       .map((lot) => lot.deadlineIso)

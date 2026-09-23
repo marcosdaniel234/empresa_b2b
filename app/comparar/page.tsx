@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { Scale, X } from "lucide-react";
 import {
   ASSETS,
@@ -29,7 +30,10 @@ export default function CompararPage() {
     ...new Set(assets.flatMap((asset) => asset.specs.map((s) => s.label))),
   ];
 
-  const rows: { label: string; render: (asset: (typeof assets)[number]) => React.ReactNode }[] = [
+  const rows: {
+    label: string;
+    render: (asset: (typeof assets)[number]) => React.ReactNode;
+  }[] = [
     {
       label: "Categoria",
       render: (a) =>
@@ -87,90 +91,83 @@ export default function CompararPage() {
   ];
 
   return (
-    <div className="container-content py-5 md:py-6">
-      <nav aria-label="Trilha de navegação" className="text-caption text-text-secondary">
-        <Link href="/" className="hover:text-action hover:underline">
-          Início
-        </Link>
-        <span aria-hidden="true"> / </span>
-        <span>Comparar lotes</span>
-      </nav>
-
-      <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
-        Comparar lotes
-      </h1>
-      <p className="mt-1 max-w-2xl text-metadata text-text-secondary">
+    <>
+      <PageIntro
+        crumbs={[{ label: "Comparar lotes" }]}
+        kicker="Seleção pessoal"
+        title="Comparar lotes"
+      >
         Até {MAX_COMPARE} lotes lado a lado, selecionados pela caixa
-        &quot;Comparar&quot; no catálogo. A seleção fica salva neste
-        navegador.
-      </p>
-
-      <div className="mt-5">
-        {assets.length === 0 ? (
-          <EmptyState
-            icon={Scale}
-            title="Nenhum lote selecionado para comparar."
-            description='Marque a caixa "Comparar" em até quatro lotes do catálogo para ver esta tabela.'
-            action={
-              <Link href="/resultados" className="secondary-link mt-1">
-                Abrir o catálogo
-              </Link>
-            }
-          />
-        ) : (
-          <div className="overflow-x-auto border border-border-subtle bg-white">
-            <table className="spec-table min-w-[640px]">
-              <thead>
-                <tr>
-                  <th scope="col" className="w-40 bg-white" />
-                  {assets.map((asset) => (
-                    <th
-                      key={asset.id}
-                      scope="col"
-                      className="w-48 border-b-2 border-action bg-white align-top"
-                    >
-                      <div className="flex items-start justify-between gap-1">
-                        <ImageSlot
-                          ratio="aspect-[4/3]"
-                          size="sm"
-                          className="w-16 shrink-0"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeFromCompare(asset.slug)}
-                          aria-label={`Remover ${asset.title} da comparação`}
-                          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-control text-text-muted hover:bg-surface-subtle hover:text-danger-text"
-                        >
-                          <X size={14} aria-hidden="true" />
-                        </button>
-                      </div>
-                      <Link
-                        href={`/leilao/${asset.slug}`}
-                        className="mt-1.5 block text-label font-semibold normal-case tracking-normal text-text-primary hover:text-action hover:underline"
-                      >
-                        {asset.title}
-                      </Link>
-                      <span className="lot-tag mt-1 inline-flex normal-case">
-                        {asset.lot}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => (
-                  <tr key={row.label}>
-                    <th scope="row">{row.label}</th>
+        &quot;Comparar&quot; no catálogo. A seleção fica salva neste navegador.
+      </PageIntro>
+      <div className="container-content py-8 lg:py-12">
+        <div className="mt-5">
+          {assets.length === 0 ? (
+            <EmptyState
+              icon={Scale}
+              title="Nenhum lote selecionado para comparar."
+              description='Marque a caixa "Comparar" em até quatro lotes do catálogo para ver esta tabela.'
+              action={
+                <Link href="/resultados" className="secondary-link mt-1">
+                  Abrir o catálogo
+                </Link>
+              }
+            />
+          ) : (
+            <div className="overflow-x-auto border border-border-subtle bg-white">
+              <table className="spec-table min-w-[640px]">
+                <thead>
+                  <tr>
+                    <th scope="col" className="w-40 bg-white" />
                     {assets.map((asset) => (
-                      <td key={asset.id}>{row.render(asset)}</td>
+                      <th
+                        key={asset.id}
+                        scope="col"
+                        className="w-48 border-b-2 border-action bg-white align-top"
+                      >
+                        <div className="flex items-start justify-between gap-1">
+                          <ImageSlot
+                            ratio="aspect-[4/3]"
+                            size="sm"
+                            className="w-16 shrink-0"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeFromCompare(asset.slug)}
+                            aria-label={`Remover ${asset.title} da comparação`}
+                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-control text-text-muted hover:bg-surface-subtle hover:text-danger-text"
+                          >
+                            <X size={14} aria-hidden="true" />
+                          </button>
+                        </div>
+                        <Link
+                          href={`/leilao/${asset.slug}`}
+                          className="mt-1.5 block text-label font-semibold normal-case tracking-normal text-text-primary hover:text-action hover:underline"
+                        >
+                          {asset.title}
+                        </Link>
+                        <span className="lot-tag mt-1 inline-flex normal-case">
+                          {asset.lot}
+                        </span>
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr key={row.label}>
+                      <th scope="row">{row.label}</th>
+                      {assets.map((asset) => (
+                        <td key={asset.id}>{row.render(asset)}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

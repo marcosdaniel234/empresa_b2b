@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 const items = [
   [
@@ -30,10 +29,10 @@ export function AnnouncementChecklist() {
   const [checked, setChecked] = useState<number[]>([]);
   return (
     <section
-      className="mt-8 rounded-card border border-border-subtle bg-white p-5 sm:p-8"
+      className="rounded-panel border border-border-subtle bg-surface-card p-5 shadow-card sm:p-8"
       aria-labelledby="checklist-title"
     >
-      <h2 id="checklist-title" className="text-title-section-mobile">
+      <h2 id="checklist-title" className="text-[22px] font-extrabold tracking-[-.02em]">
         Prepare seu anúncio
       </h2>
       <p className="mt-2 text-metadata text-text-secondary">
@@ -82,9 +81,6 @@ export function AnnouncementChecklist() {
           demonstração, mas você já sabe o que preparar.
         </p>
       )}
-      <Link href="/resultados" className="text-link mt-5">
-        Veja como os ativos aparecem no catálogo
-      </Link>
     </section>
   );
 }

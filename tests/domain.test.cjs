@@ -229,3 +229,19 @@ test("free-text lists keep accents and drop junk", () => {
   // o parser de slugs continua estrito
   assert.deepEqual(parseSlugList(JSON.stringify(["Caminhão"])), []);
 });
+
+test("company pre-registration validates CNPJ and corporate e-mail", () => {
+  const { formatCnpj, isValidCnpj, checkCorporateEmail } = require("../lib/cadastro.ts");
+  assert.equal(formatCnpj("11222333000181"), "11.222.333/0001-81");
+  assert.equal(formatCnpj("11.2223"), "11.222.3");
+  assert.equal(formatCnpj("abc112223330001819999"), "11.222.333/0001-81");
+  assert.equal(isValidCnpj("11.222.333/0001-81"), true);
+  assert.equal(isValidCnpj("11.444.777/0001-61"), true);
+  assert.equal(isValidCnpj("11.222.333/0001-82"), false);
+  assert.equal(isValidCnpj("00.000.000/0000-00"), false);
+  assert.equal(isValidCnpj("1122233300018"), false);
+  assert.equal(checkCorporateEmail(""), "vazio");
+  assert.equal(checkCorporateEmail("compras@"), "invalido");
+  assert.equal(checkCorporateEmail("Compras@Metalfor.com.br"), "ok");
+  assert.equal(checkCorporateEmail("fulano@gmail.com"), "pessoal");
+});

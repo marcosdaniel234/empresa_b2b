@@ -60,8 +60,8 @@ export function SearchPanel({ states }: { states: { uf: string; name: string }[]
     <section aria-label="Buscar ativos" className="relative z-20 -mt-24 lg:-mt-28">
       <div className="container-content">
         <div className="rounded-panel border border-border-subtle bg-surface-card shadow-float">
-          <div className="flex items-end justify-between gap-4 border-b border-border-subtle px-5 sm:px-8">
-            <div role="tablist" aria-label="Modalidade" className="scroll-rail -mb-px gap-2 sm:gap-6">
+          <div className="flex items-end justify-between gap-4 border-b border-border-subtle px-3 sm:px-8">
+            <div role="tablist" aria-label="Modalidade" className="scroll-rail -mb-px gap-1 sm:gap-6">
               {ABAS.map((item) => {
                 const ativa = aba === item.id;
                 return (
@@ -71,7 +71,7 @@ export function SearchPanel({ states }: { states: { uf: string; name: string }[]
                     role="tab"
                     aria-selected={ativa}
                     onClick={() => setAba(item.id)}
-                    className={`relative shrink-0 px-3 pb-4 pt-5 text-[15px] transition-colors duration-standard sm:px-5 sm:text-[17px] ${
+                    className={`relative shrink-0 px-2 pb-4 pt-5 text-[15px] transition-colors duration-standard sm:px-5 sm:text-[17px] ${
                       ativa
                         ? "font-bold text-action"
                         : "text-text-secondary hover:text-text-primary"

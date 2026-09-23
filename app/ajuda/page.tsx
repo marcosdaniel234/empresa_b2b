@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageIntro } from "@/components/layout/PageIntro";
 import { ArrowRight } from "lucide-react";
 
 export const metadata = { title: "Central de ajuda" };
@@ -32,49 +33,40 @@ const questions = [
 
 export default function AjudaPage() {
   return (
-    <div className="container-content py-5 md:py-8">
-      <nav
-        aria-label="Trilha de navegação"
-        className="text-caption text-text-secondary"
+    <>
+      <PageIntro
+        crumbs={[{ label: "Central de ajuda" }]}
+        kicker="Central de ajuda"
+        title="Perguntas frequentes"
       >
-        <Link href="/" className="hover:text-action hover:underline">
-          Início
-        </Link>
-        <span aria-hidden="true"> / </span>
-        <span>Central de ajuda</span>
-      </nav>
+        Entenda o catálogo e experimente os recursos com tranquilidade.
+      </PageIntro>
+      <div className="container-content py-8 lg:py-12">
+        <div className="max-w-3xl">
+          <div className="panel mt-5 divide-y divide-border-subtle px-4 sm:px-5">
+            {questions.map(([question, answer]) => (
+              <details key={question} className="group py-1">
+                <summary className="flex min-h-12 cursor-pointer items-center py-2 text-body font-semibold text-text-primary marker:text-action">
+                  {question}
+                </summary>
+                <p className="pb-4 pt-1 text-metadata text-text-secondary">
+                  {answer}
+                </p>
+              </details>
+            ))}
+          </div>
 
-      <div className="max-w-3xl">
-        <h1 className="mt-2 text-title-page-mobile text-text-primary md:text-title-page">
-          Perguntas frequentes
-        </h1>
-        <p className="mt-2 text-body text-text-secondary">
-          Entenda o catálogo e experimente os recursos com tranquilidade.
-        </p>
-
-        <div className="panel mt-5 divide-y divide-border-subtle px-4 sm:px-5">
-          {questions.map(([question, answer]) => (
-            <details key={question} className="group py-1">
-              <summary className="flex min-h-12 cursor-pointer items-center py-2 text-body font-semibold text-text-primary marker:text-action">
-                {question}
-              </summary>
-              <p className="pb-4 pt-1 text-metadata text-text-secondary">
-                {answer}
-              </p>
-            </details>
-          ))}
-        </div>
-
-        <div className="mt-5 flex flex-wrap items-center gap-3">
-          <Link href="/como-funciona" className="primary-link">
-            Como funciona
-            <ArrowRight size={17} aria-hidden="true" />
-          </Link>
-          <Link href="/resultados" className="text-link">
-            Explorar o catálogo
-          </Link>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link href="/como-funciona" className="primary-link">
+              Como funciona
+              <ArrowRight size={17} aria-hidden="true" />
+            </Link>
+            <Link href="/resultados" className="text-link">
+              Explorar o catálogo
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

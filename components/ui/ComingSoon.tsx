@@ -21,7 +21,7 @@ export function ComingSoon({
           <Icon size={21} aria-hidden="true" />
         </div>
         <p className="eyebrow mt-4">{eyebrow}</p>
-        <h1 className="mt-1.5 text-title-page-mobile text-text-primary md:text-title-page">
+        <h1 className="mt-1.5 text-[28px] font-extrabold leading-[1.08] tracking-[-.03em] text-text-primary sm:text-[36px]">
           {title}
         </h1>
         <p className="mt-2 text-body text-text-secondary">{description}</p>

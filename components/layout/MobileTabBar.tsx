@@ -23,7 +23,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-border-subtle bg-white md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-border-subtle bg-surface-card/95 shadow-[0_-6px_20px_rgba(42,14,18,.06)] backdrop-blur md:hidden"
       style={{
         paddingBottom: "env(safe-area-inset-bottom)",
         minHeight: "calc(60px + env(safe-area-inset-bottom))",
@@ -36,11 +36,17 @@ export function MobileTabBar() {
           <Link
             key={href}
             href={href}
-            className={`flex flex-1 flex-col items-center justify-center gap-1 text-caption ${
+            className={`relative flex flex-1 flex-col items-center justify-center gap-1 text-caption transition-colors duration-standard ${
               active ? "font-semibold text-action" : "text-text-secondary"
             }`}
             aria-current={active ? "page" : undefined}
           >
+            {active && (
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-5 top-0 h-[3px] rounded-b-full bg-copper-solid"
+              />
+            )}
             <Icon
               size={21}
               strokeWidth={active ? 2 : 1.75}

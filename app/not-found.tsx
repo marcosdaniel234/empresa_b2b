@@ -8,7 +8,7 @@ export default function NotFound() {
         <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-control bg-surface-subtle text-text-secondary">
           <Compass size={21} aria-hidden="true" />
         </div>
-        <h1 className="mt-4 text-title-page-mobile text-text-primary md:text-title-page">
+        <h1 className="mt-4 text-[28px] font-extrabold leading-[1.08] tracking-[-.03em] text-text-primary sm:text-[36px]">
           Página não encontrada
         </h1>
         <p className="mx-auto mt-2 max-w-md text-body text-text-secondary">

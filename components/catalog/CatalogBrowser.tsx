@@ -19,7 +19,12 @@ import { SortSelect } from "@/components/catalog/SortSelect";
 import { LotTable } from "@/components/catalog/LotTable";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { AdSlot } from "@/components/ads/AdSlot";
-import { CATEGORY_SHORT, getSubcategoryLabel, Category } from "@/lib/data";
+import {
+  CATEGORY_SHORT,
+  Category,
+  MODALIDADE_LABELS,
+  getSubcategoryLabel,
+} from "@/lib/data";
 import {
   applyFilters,
   countActiveFilters,
@@ -75,6 +80,14 @@ export function CatalogBrowser() {
   const chips = [
     ...(filters.q
       ? [{ label: `Busca: ${filters.q}`, href: chipLink({ ...filters, q: "" }) }]
+      : []),
+    ...(filters.modalidade
+      ? [
+          {
+            label: MODALIDADE_LABELS[filters.modalidade],
+            href: chipLink({ ...filters, modalidade: "" }),
+          },
+        ]
       : []),
     ...filters.categorias.map((c) => ({
       label: CATEGORY_SHORT[c],
@@ -145,12 +158,12 @@ export function CatalogBrowser() {
         <span className="text-text-secondary">Catálogo</span>
       </nav>
 
-      <div className="mt-1.5 flex flex-wrap items-end justify-between gap-3 border-b-2 border-action pb-2">
+      <div className="mt-3 flex flex-wrap items-end justify-between gap-3 border-b border-border-subtle pb-4">
         <div className="min-w-0">
-          <h1 className="text-title-page-mobile text-text-primary md:text-title-page">
+          <h1 className="text-[28px] font-extrabold leading-[1.08] tracking-[-.03em] text-text-primary sm:text-[36px]">
             {filters.q ? `Busca: “${filters.q}”` : "Catálogo de lotes"}
           </h1>
-          <p role="status" className="mt-0.5 text-metadata text-text-secondary">
+          <p role="status" className="mt-1.5 text-[15px] text-text-secondary">
             <strong className="font-bold text-text-primary tabular">
               {results.length}
             </strong>{" "}
