@@ -32,7 +32,7 @@ export function CompaniesBand() {
       aria-labelledby="titulo-empresas"
       className="on-dark relative overflow-hidden bg-brand-900 py-16 lg:py-24"
     >
-      <Backdrop variant="pontos" />
+      <Backdrop />
       {/* Mesma grade do rodapé logo abaixo: o texto ocupa a primeira coluna e os
           cartões começam exatamente onde começa "Explorar". */}
       <div className="container-content relative grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))]">

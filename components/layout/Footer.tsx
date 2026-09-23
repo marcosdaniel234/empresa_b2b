@@ -43,7 +43,7 @@ const SOCIAIS = [
 export function Footer() {
   return (
     <footer className="on-dark relative overflow-hidden border-t border-white/[.07] bg-brand-900 text-white/70">
-      <Backdrop className="opacity-60" />
+      <Backdrop variant="rotas" className="opacity-60" />
 
       <div className="container-content relative grid gap-10 pb-10 pt-14 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))] lg:pt-20">
         <div>

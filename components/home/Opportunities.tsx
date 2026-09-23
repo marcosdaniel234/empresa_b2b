@@ -47,7 +47,7 @@ function SideRail({ side, text, slug }: { side: "left" | "right"; text: string; 
         loading="lazy"
         className="absolute inset-0 size-full object-cover opacity-30 mix-blend-luminosity"
       />
-      <Backdrop variant="pontos" fade="none" />
+      <Backdrop fade="none" />
       <p
         className={`relative mt-14 whitespace-pre-line px-6 text-[11px] font-semibold uppercase leading-5 tracking-[.26em] text-white/75 ${
           side === "right" ? "text-left" : ""

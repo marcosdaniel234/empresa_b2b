@@ -57,7 +57,7 @@ export default async function LojaPage({ params }: PageProps) {
             <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
           </div>
         )}
-        <Backdrop variant="pontos" fade="left" className="-z-10" />
+        <Backdrop fade="left" className="-z-10" />
 
         <div className="container-content py-10 lg:py-14">
           <nav

@@ -33,7 +33,7 @@ export function StatesExplorer() {
       className="estados on-dark relative overflow-hidden bg-brand-900 py-16 lg:py-24"
     >
       <style dangerouslySetInnerHTML={{ __html: css }} />
-      <Backdrop variant="pontos" />
+      <Backdrop />
 
       <div className="container-content relative grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
         <div>

@@ -25,7 +25,7 @@ const BASE = process.env.OG_BASE ?? "http://localhost:4210";
       <div class="on-dark" style="position:relative;isolation:isolate;overflow:hidden;width:1200px;height:630px;background:#2A0E12;color:#fff">
         <img src="${base}/images/assets/cavalo-mecanico-6x2.webp" style="position:absolute;top:0;right:0;height:100%;width:62%;object-fit:cover;z-index:-2" />
         <div style="position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#2A0E12 38%,rgba(42,14,18,.82) 55%,rgba(42,14,18,.1))"></div>
-        <div style="position:absolute;inset:0;z-index:-1;background:radial-gradient(circle, rgba(224,164,124,.22) 1px, transparent 1.4px) 0 0/22px 22px;-webkit-mask-image:linear-gradient(90deg,#000 25%,transparent 60%);mask-image:linear-gradient(90deg,#000 25%,transparent 60%)"></div>
+        <div style="position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 60% 70% at 22% 55%, rgba(107,42,47,.65), rgba(107,42,47,0));-webkit-mask-image:linear-gradient(90deg,#000 25%,transparent 60%);mask-image:linear-gradient(90deg,#000 25%,transparent 60%)"></div>
         <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:64px 72px">
           <span style="font-size:34px;font-weight:800;letter-spacing:-.035em">ATIVOS <span class="text-copper-gradient">B2B</span></span>
           <div>

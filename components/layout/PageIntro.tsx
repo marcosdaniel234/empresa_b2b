@@ -19,7 +19,7 @@ export function PageIntro({
 }) {
   return (
     <section className="on-dark relative overflow-hidden bg-brand-900 text-white">
-      <Backdrop />
+      <Backdrop variant="rotas" />
       <div className="container-content relative pb-10 pt-6 lg:pb-12">
         <nav aria-label="Trilha de navegação" className="text-[13px] text-white/65">
           <Link href="/" className="hover:text-white hover:underline">
