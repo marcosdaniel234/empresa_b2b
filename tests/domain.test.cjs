@@ -181,3 +181,51 @@ test("every lot points at a subcategory that exists in the taxonomy", () => {
   const lots = ASSETS.map((a) => a.lot);
   assert.equal(new Set(lots).size, lots.length, "códigos de lote duplicados");
 });
+
+test("sale modality filters and survives the URL round trip", () => {
+  const diretas = applyFilters({ ...EMPTY_FILTERS, modalidade: "venda_direta" });
+  const leiloes = applyFilters({ ...EMPTY_FILTERS, modalidade: "leilao" });
+  assert.ok(diretas.length > 0, "nenhum lote em venda direta");
+  assert.ok(diretas.every((a) => a.modalidade === "venda_direta"));
+  assert.ok(leiloes.every((a) => a.modalidade !== "venda_direta"));
+  assert.equal(
+    diretas.length + leiloes.length,
+    applyFilters(EMPTY_FILTERS).length,
+  );
+  // venda direta não tem disputa: nenhum lance registrado
+  for (const a of diretas) {
+    assert.equal(a.currentBid, null, a.lot);
+    assert.equal(a.bidCount, 0, a.lot);
+  }
+  const state = { ...EMPTY_FILTERS, modalidade: "venda_direta" };
+  assert.equal(
+    parseFilters(
+      Object.fromEntries(new URLSearchParams(filtersToQueryString(state))),
+    ).modalidade,
+    "venda_direta",
+  );
+  assert.equal(parseFilters({ modalidade: "qualquer" }).modalidade, "");
+});
+
+test("compact countdown keeps the most significant units", () => {
+  const { formatCompactCountdown } = require("../lib/format.ts");
+  const now = Date.UTC(2026, 0, 1, 12);
+  const at = (ms) => new Date(now + ms).toISOString();
+  const H = 3600000;
+  assert.equal(formatCompactCountdown(at(2 * 24 * H + 14 * H + 32 * 60000), now), "2d 14h 32m");
+  assert.equal(formatCompactCountdown(at(14 * H + 5 * 60000), now), "14h 05m");
+  assert.equal(formatCompactCountdown(at(32 * 60000 + 9000), now), "32m 09s");
+  assert.equal(formatCompactCountdown(at(-1000), now), "Encerrado");
+});
+
+test("free-text lists keep accents and drop junk", () => {
+  const { parseTextList, parseSlugList } = require("../lib/preferences.ts");
+  assert.deepEqual(
+    parseTextList(JSON.stringify(["Caminhão", " caminhão ", "Gerador 250 kVA", "", 3, "a\u0007b"])),
+    ["Caminhão", "Gerador 250 kVA"],
+  );
+  assert.deepEqual(parseTextList("não é json"), []);
+  assert.deepEqual(parseTextList(JSON.stringify(["x".repeat(61)])), []);
+  // o parser de slugs continua estrito
+  assert.deepEqual(parseSlugList(JSON.stringify(["Caminhão"])), []);
+});

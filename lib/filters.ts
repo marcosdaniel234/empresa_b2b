@@ -4,7 +4,9 @@ import {
   CATEGORY_LABELS,
   COMPANIES,
   Category,
+  Modalidade,
   SUBCATEGORIES,
+  modalidadeOf,
 } from "./data";
 
 export type StatusFilter = "aberto" | "encerrando" | "agendado" | "encerrado";
@@ -13,6 +15,7 @@ export interface FilterState {
   categorias: Category[];
   subcategorias: string[];
   status: StatusFilter[];
+  modalidade: Modalidade | "";
   uf: string;
   cidade: string;
   valorMin: string;
@@ -24,6 +27,7 @@ export const EMPTY_FILTERS: FilterState = {
   categorias: [],
   subcategorias: [],
   status: [],
+  modalidade: "",
   uf: "",
   cidade: "",
   valorMin: "",
@@ -86,6 +90,11 @@ export function parseFilters(
     status: many("status").filter((v): v is StatusFilter =>
       statuses.includes(v as StatusFilter),
     ),
+    modalidade: (["leilao", "venda_direta"] as const).includes(
+      one("modalidade") as Modalidade,
+    )
+      ? (one("modalidade") as Modalidade)
+      : "",
     uf: AVAILABLE_UFS.includes(one("uf").toUpperCase())
       ? one("uf").toUpperCase()
       : "",
@@ -105,7 +114,7 @@ export function filtersToQueryString(filters: FilterState): string {
   if (filters.subcategorias.length)
     params.set("subcategoria", filters.subcategorias.join(","));
   if (filters.status.length) params.set("status", filters.status.join(","));
-  for (const key of ["uf", "cidade", "valorMin", "valorMax", "q"] as const)
+  for (const key of ["modalidade", "uf", "cidade", "valorMin", "valorMax", "q"] as const)
     if (filters[key]) params.set(key, filters[key]);
   if (filters.sort !== "relevantes") params.set("sort", filters.sort);
   return params.toString();
@@ -141,6 +150,8 @@ export function applyFilters(filters: FilterState): Asset[] {
               : a.status === s,
       )
     )
+      return false;
+    if (filters.modalidade && modalidadeOf(a) !== filters.modalidade)
       return false;
     if (filters.uf && a.state !== filters.uf) return false;
     if (
@@ -195,7 +206,7 @@ export function countActiveFilters(f: FilterState): number {
     f.categorias.length +
     f.subcategorias.length +
     f.status.length +
-    ["uf", "cidade", "valorMin", "valorMax"].filter(
+    ["modalidade", "uf", "cidade", "valorMin", "valorMax"].filter(
       (key) => !!f[key as keyof FilterState],
     ).length
   );

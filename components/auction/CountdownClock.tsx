@@ -1,6 +1,11 @@
 "use client";
 import { useSyncExternalStore } from "react";
-import { formatDeadlineLabel, getCountdownParts, pad2 } from "@/lib/format";
+import {
+  formatCompactCountdown,
+  formatDeadlineLabel,
+  getCountdownParts,
+  pad2,
+} from "@/lib/format";
 
 let currentTime = 0;
 let interval: ReturnType<typeof setInterval> | undefined;
@@ -54,6 +59,16 @@ export function CountdownClock({
           : time.days >= 1
             ? `${time.days}d ${pad2(time.hours)}h ${pad2(time.minutes)}min`
             : `${pad2(time.hours)}:${pad2(time.minutes)}:${pad2(time.seconds)}`}
+    </span>
+  );
+}
+
+/** Contagem compacta ao vivo, para cartões e para a abertura. */
+export function CompactCountdown({ deadlineIso }: { deadlineIso: string }) {
+  const now = useDemoClock();
+  return (
+    <span className="tabular">
+      {now === 0 ? "—" : formatCompactCountdown(deadlineIso, now)}
     </span>
   );
 }

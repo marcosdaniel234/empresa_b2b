@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Clock3, Gavel, Info } from "lucide-react";
-import { Asset } from "@/lib/data";
+import { ArrowRight, Clock3, Gavel, Info, Tag } from "lucide-react";
+import { Asset, modalidadeOf } from "@/lib/data";
 import { formatCurrencyFull, formatDateTimeWithZone } from "@/lib/format";
 import { validateDemoBid } from "@/lib/money";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +26,9 @@ export function BidPanel({ asset }: { asset: Asset }) {
   const sending = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const now = useDemoClock();
+  // Venda direta: preço fixo, sem disputa — o painel fala de compra, não de lance.
+  const direta = modalidadeOf(asset) === "venda_direta";
+  const Icone = direta ? Tag : Gavel;
   const isOpen = asset.status === "aberto" || asset.status === "encerrando";
   const expired = now > 0 && now >= Date.parse(asset.deadlineIso);
   const canReview = isOpen && !expired && now > 0;
@@ -79,19 +82,21 @@ export function BidPanel({ asset }: { asset: Asset }) {
       <div ref={panel} id="painel-lance" className="panel overflow-hidden">
         <div className="flex items-center justify-between gap-2 border-b border-border-subtle bg-surface-subtle px-4 py-2.5">
           <p className="inline-flex items-center gap-2 text-label font-semibold text-text-primary">
-            <Gavel size={16} aria-hidden="true" className="text-action" />
-            Informações do leilão
+            <Icone size={16} aria-hidden="true" className="text-action" />
+            {direta ? "Informações da venda direta" : "Informações do leilão"}
           </p>
           <span className="lot-tag">{asset.lot}</span>
         </div>
 
         <div className="p-4">
           <p className="text-metadata text-text-secondary">
-            {asset.status === "encerrado_vencedor"
-              ? "Valor final do exemplo"
-              : asset.currentBid !== null
-                ? "Lance atual"
-                : "Lance inicial"}
+            {direta
+              ? "Preço de venda"
+              : asset.status === "encerrado_vencedor"
+                ? "Valor final do exemplo"
+                : asset.currentBid !== null
+                  ? "Lance atual"
+                  : "Lance inicial"}
           </p>
           <p className="mt-0.5 break-words text-value tracking-tight text-text-primary tabular">
             {formatCurrencyFull(asset.currentBid ?? asset.startingBid)}
@@ -104,6 +109,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
 
           {isOpen && (
             <>
+              {!direta && (
               <dl className="mt-4 divide-y divide-border-subtle border-y border-border-subtle text-metadata">
                 <div className="flex flex-wrap items-baseline justify-between gap-2 py-2">
                   <dt className="text-text-secondary">Próximo mínimo</dt>
@@ -124,11 +130,12 @@ export function BidPanel({ asset }: { asset: Asset }) {
                   </dd>
                 </div>
               </dl>
+              )}
 
               <div className="my-4 rounded-control bg-surface-subtle p-3">
                 <p className="flex items-center gap-2 text-label font-semibold text-text-primary">
                   <Clock3 size={16} aria-hidden="true" />
-                  Encerramento do exemplo
+                  {direta ? "Disponível até" : "Encerramento do exemplo"}
                 </p>
                 <p className="mt-1.5 text-metadata text-text-secondary">
                   {formatDateTimeWithZone(asset.deadlineIso)}
@@ -146,7 +153,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
                   }}
                 >
                   <label htmlFor="valor-lance" className="field-label">
-                    Valor para simular (R$)
+                    {direta ? "Valor da compra (R$)" : "Valor para simular (R$)"}
                   </label>
                   <input
                     ref={inputRef}
@@ -172,10 +179,12 @@ export function BidPanel({ asset }: { asset: Asset }) {
                     role={error ? "alert" : undefined}
                   >
                     {error ||
-                      `A partir de ${formatCurrencyFull(minimum)}. Você revisa antes de concluir.`}
+                      (direta
+                        ? `Preço anunciado: ${formatCurrencyFull(minimum)}. Você revisa antes de concluir.`
+                        : `A partir de ${formatCurrencyFull(minimum)}. Você revisa antes de concluir.`)}
                   </p>
                   <Button type="submit" fullWidth className="mt-3">
-                    Revisar simulação
+                    {direta ? "Revisar compra" : "Revisar simulação"}
                     <ArrowRight size={17} aria-hidden="true" />
                   </Button>
                 </form>
@@ -211,8 +220,8 @@ export function BidPanel({ asset }: { asset: Asset }) {
 
           <p className="mt-4 flex items-start gap-2 text-caption text-text-secondary">
             <Info size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
-            Modo demonstração. Não há envio de lance, cobrança ou atualização em
-            tempo real.
+            Modo demonstração. Não há envio de {direta ? "pedido" : "lance"},
+            cobrança ou atualização em tempo real.
           </p>
 
           {receiptTime && !phase && (
@@ -220,7 +229,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
               role="status"
               className="mt-3 rounded-control bg-success-surface p-3 text-metadata text-success-text"
             >
-              Última simulação: {formatCurrencyFull(amount)}. Nenhum lance foi
+              Última simulação: {formatCurrencyFull(amount)}. Nada foi
               registrado.
             </p>
           )}
@@ -234,7 +243,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
         >
           <div className="min-w-0 flex-1">
             <p className="text-caption text-text-secondary">
-              Próximo mínimo · {asset.lot}
+              {direta ? "Preço de venda" : "Próximo mínimo"} · {asset.lot}
             </p>
             <p className="truncate text-title-card text-text-primary tabular">
               {formatCurrencyFull(minimum)}
@@ -246,7 +255,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
               inputRef.current?.focus({ preventScroll: true });
             }}
           >
-            Simular lance
+            {direta ? "Simular compra" : "Simular lance"}
           </Button>
         </div>
       )}
@@ -254,6 +263,7 @@ export function BidPanel({ asset }: { asset: Asset }) {
       {phase && (
         <BidReviewModal
           asset={asset}
+          direta={direta}
           phase={phase}
           bidValue={amount}
           receiptTime={receiptTime}

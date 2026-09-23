@@ -106,6 +106,41 @@ export function formatDeadlineLabel(
   return `Encerra em ${Math.max(minutes, 1)} min`;
 }
 
+/**
+ * Contagem compacta dos cartões ("2d 14h 32m", "14h 32m", "32m 10s"). Mostra
+ * sempre as duas ou três unidades mais significativas, para a largura do
+ * rótulo quase não variar enquanto o relógio anda.
+ */
+export function formatCompactCountdown(
+  deadlineIso: string,
+  nowMs: number = Date.now(),
+): string {
+  const { days, hours, minutes, seconds, isPast } = getCountdownParts(
+    deadlineIso,
+    nowMs,
+  );
+  if (isPast) return "Encerrado";
+  if (days >= 1) return `${days}d ${pad2(hours)}h ${pad2(minutes)}m`;
+  if (hours >= 1) return `${hours}h ${pad2(minutes)}m`;
+  return `${minutes}m ${pad2(seconds)}s`;
+}
+
 export function pad2(value: number): string {
   return value.toString().padStart(2, "0");
+}
+
+/** Iniciais para o monograma de uma empresa ("Metalfor Industrial Ltda." → "MI"). */
+export function companyInitials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter((w) => w.length > 2)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+}
+
+/** Nome sem a natureza jurídica, para rótulos curtos. */
+export function companyShortName(name: string): string {
+  return name.replace(/ (Ltda\.|S\.A\.)$/, "");
 }

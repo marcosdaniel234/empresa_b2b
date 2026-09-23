@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
+import { Header, HeaderSpacer } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
+import { RevealObserver } from "@/components/brand/RevealObserver";
 
 // Plus Jakarta Sans: geométrica de terminais retos e contraforma aberta, com
 // peso extrabold firme o bastante para os títulos de duas linhas da abertura
@@ -37,14 +38,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
-      <body className="flex min-h-screen flex-col font-sans">
+    <html
+      lang="pt-BR"
+      className={`${sans.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Marca a página como capaz de animar antes do primeiro quadro, para
+            que a revelação por rolagem nunca esconda conteúdo sem JavaScript. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
+      <body className="flex min-h-screen flex-col bg-surface-page pb-[calc(60px+env(safe-area-inset-bottom))] font-sans md:pb-0">
         <Header />
-        <main id="conteudo-principal" className="flex-1 pb-24 md:pb-0">
+        <HeaderSpacer />
+        <main id="conteudo-principal" className="flex-1">
           {children}
         </main>
         <Footer />
         <MobileTabBar />
+        <RevealObserver />
       </body>
     </html>
   );

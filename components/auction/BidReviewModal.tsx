@@ -8,6 +8,7 @@ import { Dialog } from "@/components/ui/Dialog";
 export type BidPhase = "review" | "confirming" | "accepted" | "uncertain";
 export function BidReviewModal({
   asset,
+  direta = false,
   phase,
   bidValue,
   receiptTime,
@@ -16,6 +17,8 @@ export function BidReviewModal({
   onBackToBoard,
 }: {
   asset: Asset;
+  /** Venda direta: a revisão é de compra pelo preço, não de lance. */
+  direta?: boolean;
   phase: BidPhase;
   bidValue: number;
   receiptTime?: string;
@@ -29,7 +32,10 @@ export function BidReviewModal({
       ? "Simulação concluída"
       : phase === "uncertain"
         ? "Não foi possível concluir"
-        : "Revise a simulação do lance";
+        : direta
+          ? "Revise a simulação da compra"
+          : "Revise a simulação do lance";
+  const termo = direta ? "pedido" : "lance";
   return (
     <Dialog
       title={title}
@@ -39,7 +45,7 @@ export function BidReviewModal({
       <div className="mb-5 flex items-start gap-2 rounded-control bg-info-surface p-3 text-metadata text-info-text">
         <Info size={18} className="mt-0.5 shrink-0" aria-hidden="true" />
         <p>
-          Esta é uma demonstração. Nenhum lance é registrado e não há
+          Esta é uma demonstração. Nenhum {termo} é registrado e não há
           compromisso de compra.
         </p>
       </div>
@@ -71,7 +77,7 @@ export function BidReviewModal({
           <div className="rounded-control bg-success-surface p-4 text-success-text">
             <p className="flex items-center gap-2 font-medium">
               <CheckCircle2 size={20} aria-hidden="true" />
-              Você concluiu a revisão do lance.
+              Você concluiu a revisão do {termo}.
             </p>
             <p className="mt-2 text-metadata">
               O catálogo permanece com os valores de exemplo.
@@ -83,7 +89,7 @@ export function BidReviewModal({
         )}
         {phase === "uncertain" && (
           <p className="rounded-control bg-warning-surface p-4 text-warning-text">
-            O prazo desta demonstração foi atingido. Nenhum lance foi enviado.
+            O prazo desta demonstração foi atingido. Nenhum {termo} foi enviado.
           </p>
         )}
         {phase === "confirming" && (
@@ -96,7 +102,8 @@ export function BidReviewModal({
         {phase === "review" && (
           <>
             <Button onClick={onConfirm} fullWidth>
-              Simular lance de {formatCurrencyFull(bidValue)}
+              {direta ? "Simular compra de" : "Simular lance de"}{" "}
+              {formatCurrencyFull(bidValue)}
             </Button>
             <Button variant="secondary" onClick={onClose} fullWidth>
               Voltar e editar

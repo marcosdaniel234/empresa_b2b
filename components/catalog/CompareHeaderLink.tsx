@@ -5,8 +5,7 @@ import { useCompareList } from "./CompareToggle";
 
 /**
  * Aparece no cabeçalho só depois que o comprador seleciona algum lote para
- * comparar — o mesmo gatilho usado em catálogos de equipamento (Surplex,
- * Ritchie Bros.), sem ocupar espaço enquanto a lista está vazia.
+ * comparar, sem ocupar espaço enquanto a lista está vazia.
  */
 export function CompareHeaderLink() {
   const selected = useCompareList();
@@ -15,16 +14,13 @@ export function CompareHeaderLink() {
   return (
     <Link
       href="/comparar"
-      className="header-link hidden md:inline-flex"
+      className="relative flex h-11 w-11 items-center justify-center rounded-full text-white/85 transition-colors duration-standard hover:bg-white/10 hover:text-white"
       aria-label={`Comparar ${selected.length} lotes selecionados`}
     >
-      <span className="relative">
-        <Scale size={17} aria-hidden="true" />
-        <span className="absolute -right-1.5 -top-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-action text-[9px] font-bold text-white tabular">
-          {selected.length}
-        </span>
+      <Scale size={19} aria-hidden="true" />
+      <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-copper-solid px-1 text-[10px] font-bold text-brand-900 tabular">
+        {selected.length}
       </span>
-      <span className="hidden lg:inline">Comparar</span>
     </Link>
   );
 }

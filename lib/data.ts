@@ -104,8 +104,21 @@ export interface Company {
   description: string;
 }
 
+/**
+ * Leilão recebe lances até o prazo; venda direta tem preço fixo e fica
+ * disponível até a data indicada, sem disputa.
+ */
+export type Modalidade = "leilao" | "venda_direta";
+
+export const MODALIDADE_LABELS: Record<Modalidade, string> = {
+  leilao: "Em leilão",
+  venda_direta: "Venda direta",
+};
+
 export interface Asset {
   id: string;
+  /** Ausente = leilão, o formato padrão do catálogo. */
+  modalidade?: Modalidade;
   /** Código público do lote, exibido no card, no detalhe e no painel de lance. */
   lot: string;
   slug: string;
@@ -769,6 +782,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a16",
+    modalidade: "venda_direta",
     subcategory: "compressores",
     lot: "LT-1172",
     slug: "bombas-centrifugas-lote-4",
@@ -961,6 +975,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a22",
+    modalidade: "venda_direta",
     subcategory: "passeio",
     lot: "LT-1190",
     slug: "sedans-executivos-lote-5",
@@ -973,7 +988,7 @@ export const ASSETS: Asset[] = [
     currentBid: null,
     startingBid: 164000,
     minIncrement: 2000,
-    bidCount: 7,
+    bidCount: 0,
     deadlineIso: days(7),
     antiSniping: true,
     specs: [
@@ -1089,6 +1104,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a26",
+    modalidade: "venda_direta",
     subcategory: "assentos",
     lot: "LT-1202",
     slug: "cadeiras-operacionais-lote-40",
@@ -1101,7 +1117,7 @@ export const ASSETS: Asset[] = [
     currentBid: null,
     startingBid: 9600,
     minIncrement: 300,
-    bidCount: 6,
+    bidCount: 0,
     deadlineIso: days(4),
     antiSniping: true,
     specs: [
@@ -1121,6 +1137,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a27",
+    modalidade: "venda_direta",
     subcategory: "estacoes-trabalho",
     lot: "LT-1205",
     slug: "bancadas-tecnicas-lote-12",
@@ -1133,7 +1150,7 @@ export const ASSETS: Asset[] = [
     currentBid: null,
     startingBid: 14400,
     minIncrement: 400,
-    bidCount: 3,
+    bidCount: 0,
     deadlineIso: days(6),
     antiSniping: true,
     specs: [
@@ -1153,6 +1170,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a28",
+    modalidade: "venda_direta",
     subcategory: "armazenagem",
     lot: "LT-1208",
     slug: "porta-paletes-500-posicoes",
@@ -1165,7 +1183,7 @@ export const ASSETS: Asset[] = [
     currentBid: null,
     startingBid: 58000,
     minIncrement: 1500,
-    bidCount: 9,
+    bidCount: 0,
     deadlineIso: days(3),
     antiSniping: true,
     specs: [
@@ -1249,6 +1267,7 @@ export const ASSETS: Asset[] = [
   },
   {
     id: "a31",
+    modalidade: "venda_direta",
     subcategory: "movimentacao",
     lot: "LT-1217",
     slug: "ponte-rolante-10t",
@@ -1261,7 +1280,7 @@ export const ASSETS: Asset[] = [
     currentBid: null,
     startingBid: 88000,
     minIncrement: 2000,
-    bidCount: 5,
+    bidCount: 0,
     deadlineIso: days(8),
     antiSniping: true,
     specs: [
@@ -1353,4 +1372,8 @@ export function getStateCounts(): { uf: string; name: string; total: number }[] 
   return [...counts.entries()]
     .map(([uf, total]) => ({ uf, name: STATE_NAMES[uf] ?? uf, total }))
     .sort((a, b) => b.total - a.total || a.name.localeCompare(b.name, "pt-BR"));
+}
+
+export function modalidadeOf(asset: Asset): Modalidade {
+  return asset.modalidade ?? "leilao";
 }

@@ -22,7 +22,7 @@ export function AuctionCard({ event }: { event: AuctionEvent }) {
       <div className="flex gap-px border-b border-border-subtle bg-border-subtle">
         <div className="relative min-w-0 flex-1">
           <ImageSlot
-            src={`/images/assets/${event.lots[0].slug}.png`}
+            src={`/images/assets/${event.lots[0].slug}.webp`}
             ratio="aspect-[4/3]"
             className="h-full w-full border-0"
             label="Imagem do leilão"
@@ -36,11 +36,11 @@ export function AuctionCard({ event }: { event: AuctionEvent }) {
         </div>
 
         <div className="flex w-[30%] shrink-0 flex-col gap-px">
-          <ImageSlot src={`/images/assets/${event.lots[0].slug}.png`} ratio="aspect-[4/3]" size="sm" className="w-full border-0" />
-          <ImageSlot src={`/images/assets/${event.lots[0].slug}.png`} ratio="aspect-[4/3]" size="sm" className="w-full border-0" />
+          <ImageSlot src={`/images/assets/${event.lots[0].slug}.webp`} ratio="aspect-[4/3]" size="sm" className="w-full border-0" />
+          <ImageSlot src={`/images/assets/${event.lots[0].slug}.webp`} ratio="aspect-[4/3]" size="sm" className="w-full border-0" />
           <div className="relative">
             <ImageSlot
-              src={`/images/assets/${event.lots[0].slug}.png`}
+              src={`/images/assets/${event.lots[0].slug}.webp`}
               ratio="aspect-[4/3]"
               size="sm"
               className="w-full border-0"

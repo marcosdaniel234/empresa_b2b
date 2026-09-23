@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --hatch: #d2c2b2;
+    /* Curva de desaceleração longa: o movimento chega e assenta, sem ricochete. */
+    --ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
   * {
     @apply border-border-subtle;
   }
@@ -16,13 +22,13 @@
   }
 
   ::selection {
-    background-color: #ffe0cc;
-    color: #0f1b2a;
+    background-color: #f6e6da;
+    color: #2a0e12;
   }
 
   :focus-visible {
     outline: 2px solid #1d4ed8;
-    outline-offset: 1px;
+    outline-offset: 2px;
   }
 
   .on-dark :focus-visible,
@@ -30,26 +36,23 @@
     outline-color: #ffffff;
   }
 
-  table {
-    font-variant-numeric: tabular-nums;
-  }
-
+  table,
   .tabular {
     font-variant-numeric: tabular-nums;
   }
 
   [id] {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 96px;
   }
 
   input[type="checkbox"] {
-    accent-color: #c2410c;
+    accent-color: #6e1f27;
   }
 }
 
 @layer utilities {
   .container-content {
-    @apply mx-auto w-full max-w-content px-3 sm:px-4 lg:px-6;
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
   }
 
   .skip-link {
@@ -64,6 +67,14 @@
   .scroll-rail::-webkit-scrollbar {
     display: none;
   }
+
+  /* Título com o degradê de cobre das referências ("Novos destinos."). */
+  .text-copper-gradient {
+    background: linear-gradient(100deg, #f0b98f 0%, #d9936a 45%, #b8704a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 @layer components {
@@ -72,136 +83,102 @@
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control bg-action px-5 text-label font-bold text-white transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-hover hover:shadow-raised active:translate-y-px active:bg-action-pressed;
   }
   .secondary-link {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-action bg-white px-5 text-label font-bold text-action transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-action-soft hover:shadow-card active:translate-y-px;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-action/70 bg-transparent px-5 text-label font-bold text-action transition-[background-color,border-color,transform] duration-standard ease-standard hover:border-action hover:bg-action-soft active:translate-y-px;
   }
-  /* Botão de cartão: contorno leve que vira azul sólido no apontamento. */
-  .card-link {
-    @apply inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-control border border-border-strong bg-white px-3 text-label font-semibold text-action transition-[background-color,border-color,color] duration-standard ease-standard group-hover:border-action group-hover:bg-action group-hover:text-white;
+  /* Par de botões sobre o vinho: creme sólido e contorno claro. */
+  .cream-link {
+    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-control bg-[#F6EDE3] px-6 text-body font-bold text-action transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-white hover:shadow-float active:translate-y-px;
+  }
+  .ghost-light-link {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-control border border-[#D9936A]/60 px-6 text-body font-semibold text-white transition-[background-color,border-color] duration-standard ease-standard hover:border-[#D9936A] hover:bg-white/5;
   }
   .text-link {
-    @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action transition-colors duration-quick hover:text-action-hover hover:underline;
+    @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action transition-colors duration-quick hover:text-action-hover;
   }
   .text-link svg {
     @apply transition-transform duration-standard ease-standard;
   }
   .text-link:hover svg {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
 
-  /*
-   * Indicação de clique por régua laranja que cresce da esquerda, no lugar
-   * das antigas divisórias verticais: o traço só aparece no item apontado,
-   * então a barra fica limpa em repouso.
-   */
+  /* Régua de cobre que cresce da esquerda sob o item apontado. */
   .nav-underline {
     @apply relative;
   }
   .nav-underline::after {
     content: "";
-    @apply pointer-events-none absolute inset-x-2 bottom-0 h-[2px] origin-left scale-x-0 bg-action transition-transform duration-standard ease-standard;
+    @apply pointer-events-none absolute inset-x-2 bottom-0 h-[2px] origin-left scale-x-0 bg-copper-solid transition-transform duration-standard ease-standard;
   }
   .nav-underline:hover::after,
   .nav-underline:focus-visible::after,
   .nav-underline[aria-expanded="true"]::after,
-  .nav-underline[data-active="true"]::after {
+  .nav-underline[aria-current="page"]::after {
     @apply scale-x-100;
   }
 
-  /* Aba da barra de seções: sem divisória, régua laranja no apontado. */
-  .nav-tab {
-    @apply nav-underline inline-flex h-11 shrink-0 items-center gap-1.5 px-3 text-label text-text-secondary transition-colors duration-quick hover:text-action;
+  /* ---------- Tipografia de seção ---------- */
+  /* Sobretítulo espacejado em cobre, como "NEGÓCIOS QUE MOVIMENTAM EMPRESAS". */
+  .kicker {
+    @apply text-micro font-semibold uppercase tracking-[.3em] text-copper;
   }
-  .nav-tab[data-active="true"] {
-    @apply font-semibold text-text-primary;
-  }
-  .nav-tab[data-active="true"]::after {
-    @apply scale-x-100;
-  }
-
-  /* Aba da barra de categorias, sobre o marinho. */
-  .nav-tab-dark {
-    @apply inline-flex h-12 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 text-label text-white/70 transition-colors duration-standard ease-standard hover:border-action-bright hover:text-white;
-  }
-  .nav-tab-dark[data-active="true"] {
-    @apply border-action-bright font-semibold text-white;
-  }
-
-  .header-link {
-    @apply nav-underline inline-flex min-h-10 items-center gap-2 px-2.5 text-label text-text-secondary transition-colors duration-quick hover:text-action;
-  }
-
-  /* ---------- Blocos ---------- */
-  .panel {
-    @apply rounded-card border border-border-subtle bg-white;
-  }
-  /* Pílula de especificação: ano, combustível, quilometragem no cartão. */
-  .spec-pill {
-    @apply inline-flex items-center gap-1.5 rounded-control border border-border-subtle bg-surface-subtle px-2 py-1 text-caption text-text-secondary;
-  }
-
-  /* Etiqueta de situação sobre a foto do lote. */
-  .status-pill {
-    @apply inline-flex items-center rounded-full px-2.5 py-1 text-micro font-bold uppercase tracking-[.06em] leading-none;
-  }
-  .panel-head {
-    @apply flex items-center justify-between gap-3 border-b border-border-subtle bg-surface-subtle px-3 py-2;
-  }
-  .panel-title {
-    @apply text-label font-bold uppercase tracking-[.06em] text-text-primary;
+  .kicker-on-dark {
+    @apply text-micro font-semibold uppercase tracking-[.3em] text-copper-bright;
   }
   .section-heading {
-    @apply flex flex-wrap items-center justify-between gap-3;
+    @apply flex flex-wrap items-end justify-between gap-x-6 gap-y-3;
   }
   .section-title {
-    @apply text-[22px] font-extrabold leading-8 tracking-tight text-text-primary md:text-[26px] md:leading-9;
+    @apply text-[28px] font-extrabold leading-[1.1] tracking-[-.03em] text-text-primary sm:text-[36px] lg:text-[42px];
   }
-  /* Sobretítulo do mockup: régua azul curta seguida de versalete. */
-  .kicker {
-    @apply inline-flex items-center gap-2 text-micro font-bold uppercase tracking-[.14em] text-action;
+  /* Índice numerado das seções ("01", "02"), com o traço de cobre embaixo. */
+  .section-index {
+    @apply relative inline-block pb-2 text-label font-semibold text-copper tabular;
   }
-  .kicker::before {
+  .section-index::after {
     content: "";
-    @apply h-[3px] w-7 shrink-0 bg-action;
-  }
-  /* Mesmo sobretítulo sobre o marinho, onde o laranja vivo é legível. */
-  .kicker-on-dark {
-    @apply kicker text-action-bright before:bg-action-bright;
+    @apply absolute bottom-0 left-0 h-[2px] w-full bg-copper-solid;
   }
   .eyebrow {
     @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
   }
 
-  /*
-   * Célula de indicador: número grande e clicável. Um número que não leva a
-   * lugar nenhum é cartaz; este leva ao recorte do catálogo que ele conta.
-   */
-  .stat-cell {
-    @apply nav-underline relative flex min-h-[74px] flex-col justify-center gap-0.5 px-3 py-2.5 transition-colors duration-standard ease-standard hover:bg-surface-subtle;
+  /* ---------- Blocos ---------- */
+  .panel {
+    @apply rounded-card border border-border-subtle bg-surface-card;
   }
-  .stat-label {
-    @apply text-micro font-semibold uppercase tracking-[.09em] text-text-muted;
+  .panel-head {
+    @apply flex items-center justify-between gap-3 border-b border-border-subtle bg-surface-subtle px-4 py-2.5;
   }
-  .stat-value {
-    @apply text-value-mobile text-text-primary tabular md:text-value;
+  .panel-title {
+    @apply text-label font-bold uppercase tracking-[.08em] text-text-primary;
+  }
+  .status-pill {
+    @apply inline-flex items-center gap-1.5 rounded-[5px] px-2 py-1 text-micro font-bold leading-none;
+  }
+  .spec-pill {
+    @apply inline-flex items-center rounded-[5px] border border-border-subtle bg-surface-subtle px-2 py-1 text-caption text-text-secondary;
   }
 
-  /* Cartões: elevação curta no ponteiro, sem deslocar o texto em volta. */
+  /* Cartões: elevação curta e a foto que se aproxima no apontamento. */
   .card-lift {
-    @apply transition-[transform,box-shadow,border-color] duration-standard ease-standard hover:-translate-y-[3px] hover:shadow-elevated;
+    @apply transition-[transform,box-shadow,border-color] duration-panel ease-standard hover:-translate-y-1 hover:shadow-elevated;
+  }
+  .card-lift:hover img {
+    transform: scale(1.045);
   }
 
   /* ---------- Catálogo ---------- */
   .lot-tag {
-    @apply inline-flex items-center rounded-full border border-border-subtle bg-surface-subtle px-2 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
+    @apply inline-flex items-center rounded-[5px] border border-border-subtle bg-surface-subtle px-2 py-0.5 text-micro font-bold uppercase tracking-[.06em] text-text-secondary tabular;
   }
   .chip {
-    @apply inline-flex min-h-10 items-center gap-1.5 rounded-full border border-border-strong bg-white px-4 text-label font-semibold text-text-secondary transition-[color,border-color,background-color,transform] duration-standard ease-standard hover:border-action hover:bg-action-soft hover:text-action active:translate-y-px;
+    @apply inline-flex min-h-10 items-center gap-1.5 rounded-control border border-border-strong bg-surface-card px-4 text-label text-text-secondary transition-[color,border-color,background-color] duration-standard ease-standard hover:border-action hover:text-action;
   }
   .chip-active {
     @apply border-action bg-action text-white hover:border-action-hover hover:bg-action-hover hover:text-white;
   }
 
-  /* Tabela de dados: cabeçalho fixo em areia, linhas zebradas discretas. */
   .data-table {
     @apply w-full border-collapse text-left;
   }
@@ -218,7 +195,6 @@
     @apply bg-surface-subtle;
   }
 
-  /* Ficha técnica: pares rótulo/valor zebrados. */
   .spec-table {
     @apply w-full border-collapse text-left;
   }
@@ -235,7 +211,7 @@
 
   /* ---------- Formulários ---------- */
   .field {
-    @apply h-11 w-full min-w-0 rounded-control border border-border-strong bg-white px-3 text-label text-text-primary transition-colors duration-quick placeholder:text-text-muted hover:border-border-control;
+    @apply h-12 w-full min-w-0 rounded-control border border-border-strong bg-surface-card px-3.5 text-body text-text-primary transition-[border-color,box-shadow] duration-quick placeholder:text-text-muted hover:border-border-control focus:border-action focus:shadow-[0_0_0_3px_rgba(110,31,39,.12)] focus:outline-none;
   }
   .field-label {
     @apply text-label font-semibold text-text-primary;
@@ -244,39 +220,37 @@
   /* ---------- Empresa ---------- */
   .company-monogram {
     @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-control text-label font-extrabold;
-    background: #fff1e8;
-    color: #c2410c;
-  }
-  .company-tone-1 {
-    background: #fff1e8;
-    color: #c2410c;
-  }
-  .company-tone-2 {
-    background: #eaeef4;
-    color: #22384f;
-  }
-  .company-tone-3 {
-    background: #ecfdf5;
-    color: #047857;
-  }
-  .company-tone-4 {
-    background: #eef1f6;
-    color: #47566b;
+    background: #f6e6da;
+    color: #6e1f27;
   }
 
   /* ---------- Diálogos ---------- */
   .app-dialog {
-    @apply fixed m-auto max-w-[560px] rounded-modal border border-border-strong bg-white p-4 text-text-primary shadow-modal sm:p-5;
+    @apply fixed m-auto max-w-[560px] rounded-modal border border-border-strong bg-surface-card p-4 text-text-primary shadow-modal sm:p-5;
     width: calc(100% - 32px);
     max-height: calc(100dvh - 32px);
     overflow-y: auto;
     overscroll-behavior: contain;
   }
   .app-dialog::backdrop {
-    background: rgba(14, 27, 42, 0.6);
+    background: rgba(42, 14, 18, 0.6);
   }
-  .app-dialog.wide-dialog {
-    max-width: 900px;
+
+  /*
+   * Revelação por rolagem. O estado oculto só vale quando o script já marcou
+   * <html class="js"> — sem JavaScript o conteúdo aparece normalmente.
+   */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.8s var(--ease-arrive),
+      transform 0.9s var(--ease-arrive);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -288,5 +262,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

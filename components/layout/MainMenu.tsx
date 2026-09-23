@@ -3,57 +3,36 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { ASSETS, CATEGORY_SHORT, Category } from "@/lib/data";
+import { Contours } from "@/components/brand/Contours";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
-const SECTIONS: { title: string; links: { href: string; label: string }[] }[] = [
-  {
-    title: "Comprar",
-    links: [
-      { href: "/resultados", label: "Catálogo de lotes" },
-      { href: "/leiloes", label: "Leilões em andamento" },
-      { href: "/resultados?status=encerrando", label: "Encerrando em 24h" },
-      { href: "/favoritos", label: "Favoritos" },
-      { href: "/comparar", label: "Comparar lotes" },
-    ],
-  },
-  {
-    title: "Vender",
-    links: [
-      { href: "/anunciar", label: "Anunciar ativo" },
-      { href: "/como-funciona", label: "Como funciona" },
-      { href: "/entrar", label: "Área da empresa" },
-    ],
-  },
-  {
-    title: "Suporte",
-    links: [
-      { href: "/ajuda", label: "Perguntas frequentes" },
-      { href: "/termos", label: "Termos de uso" },
-      { href: "/privacidade", label: "Privacidade" },
-    ],
-  },
+const PRINCIPAL = [
+  { href: "/resultados", label: "Explorar ativos" },
+  { href: "/leiloes", label: "Leilões" },
+  { href: "/lojas", label: "Lojas" },
+  { href: "/como-funciona", label: "Como funciona" },
+];
+
+const CONTA = [
+  { href: "/favoritos", label: "Favoritos" },
+  { href: "/comparar", label: "Comparar lotes" },
+  { href: "/entrar", label: "Entrar" },
+  { href: "/ajuda", label: "Ajuda" },
 ];
 
 function lotsIn(category: Category) {
   return ASSETS.filter(
-    (asset) => asset.status !== "cancelado" && asset.category === category,
+    (a) => a.status !== "cancelado" && a.category === category,
   ).length;
 }
 
 /**
- * Único ponto de navegação do topo: um botão de menu que abre o mapa do site.
- *
- * O painel lista seções e as quatro categorias — não a taxonomia inteira. Um
- * menu que despeja 20 subcategorias, metade delas com "0 lotes", anuncia o
- * vazio do catálogo e obriga o comprador a ler uma lista para achar o que já
- * sabia. As subcategorias ficam onde são úteis: no explorador da home e no
- * filtro lateral do catálogo, junto dos resultados.
- *
- * Abre por clique (nunca por hover), fecha com Escape, clique fora ou troca de
- * página, e devolve o foco ao botão.
+ * Menu de telas estreitas. Abre por clique, fecha com Escape, clique fora ou
+ * troca de página, e devolve o foco ao botão. Enquanto aberto, a página por
+ * trás não rola.
  */
 export function MainMenu() {
   const [open, setOpen] = useState(false);
@@ -69,6 +48,8 @@ export function MainMenu() {
 
   useEffect(() => {
     if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setOpen(false);
@@ -77,15 +58,13 @@ export function MainMenu() {
     }
     function onPointerDown(event: PointerEvent) {
       const target = event.target as Node;
-      if (
-        !panelRef.current?.contains(target) &&
-        !buttonRef.current?.contains(target)
-      )
+      if (!panelRef.current?.contains(target) && !buttonRef.current?.contains(target))
         setOpen(false);
     }
     document.addEventListener("keydown", onKeyDown);
     document.addEventListener("pointerdown", onPointerDown);
     return () => {
+      document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
     };
@@ -99,87 +78,79 @@ export function MainMenu() {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="menu-principal"
-        aria-label={open ? "Fechar menu" : "Abrir menu de navegação"}
-        className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-control px-2.5 text-label font-semibold text-white transition-colors duration-standard ease-standard sm:px-3 ${
-          open ? "bg-white/15" : "hover:bg-white/10"
-        }`}
+        aria-label={open ? "Fechar menu" : "Abrir menu"}
+        className="flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors duration-standard hover:bg-white/10"
       >
-        <span className="relative flex h-[18px] w-[18px] items-center justify-center">
-          <Menu
-            size={18}
-            aria-hidden="true"
-            className={`absolute transition-[opacity,transform] duration-standard ease-standard ${
-              open ? "rotate-90 opacity-0" : "rotate-0 opacity-100"
-            }`}
-          />
-          <X
-            size={18}
-            aria-hidden="true"
-            className={`absolute transition-[opacity,transform] duration-standard ease-standard ${
-              open ? "rotate-0 opacity-100" : "-rotate-90 opacity-0"
-            }`}
-          />
-        </span>
-        <span className="hidden sm:inline">Menu</span>
+        {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
       </button>
 
       {open && (
         <div
           ref={panelRef}
           id="menu-principal"
-          className="absolute inset-x-0 top-full z-40 max-h-[calc(100dvh-110px)] animate-panel-down overflow-y-auto border-b border-border-strong bg-white shadow-elevated"
+          className="fixed inset-x-0 bottom-0 top-[68px] z-40 animate-fade-in overflow-y-auto bg-brand-900 md:top-[76px]"
         >
-          <div className="container-content grid gap-x-8 gap-y-5 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,340px)]">
-            <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3">
-              {SECTIONS.map((section) => (
-                <nav key={section.title} aria-label={section.title}>
-                  <h2 className="border-b-2 border-action pb-1 text-label font-extrabold uppercase tracking-[.06em] text-text-primary">
-                    {section.title}
-                  </h2>
-                  <ul className="mt-1.5">
-                    {section.links.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          className="nav-underline flex min-h-9 items-center px-0.5 text-metadata text-text-secondary transition-colors duration-quick hover:text-action"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              ))}
-            </div>
+          <Contours className="opacity-70" />
+          <div className="container-content relative py-6">
+            <nav aria-label="Principal">
+              <ul>
+                {PRINCIPAL.map((item, i) => (
+                  <li
+                    key={item.href}
+                    className="animate-rise border-b border-white/10"
+                    style={{ animationDelay: `${60 + i * 50}ms` }}
+                  >
+                    <Link
+                      href={item.href}
+                      aria-current={pathname.startsWith(item.href) ? "page" : undefined}
+                      className="flex min-h-14 items-center justify-between text-[22px] font-bold tracking-[-.02em] text-white"
+                    >
+                      {item.label}
+                      <ArrowRight size={18} aria-hidden="true" className="text-copper-bright" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-            <nav aria-label="Categorias do catálogo">
-              <h2 className="border-b-2 border-action pb-1 text-label font-extrabold uppercase tracking-[.06em] text-text-primary">
-                Categorias
-              </h2>
-              <ul className="mt-1.5 grid gap-x-6 sm:grid-cols-2">
-                {CATEGORIES.map((category) => {
-                  const total = lotsIn(category);
-                  return (
-                    <li key={category}>
+            <Link
+              href="/anunciar"
+              className="cream-link mt-6 w-full animate-rise"
+              style={{ animationDelay: "280ms" }}
+            >
+              Anunciar ativo <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+
+            <div className="mt-8 grid grid-cols-2 gap-6">
+              <nav aria-label="Categorias">
+                <p className="kicker-on-dark">Categorias</p>
+                <ul className="mt-3 space-y-1">
+                  {CATEGORIES.map((c) => (
+                    <li key={c}>
                       <Link
-                        href={`/resultados?categoria=${category}`}
-                        className="nav-underline flex min-h-11 items-baseline justify-between gap-3 px-0.5 text-metadata text-text-secondary transition-colors duration-quick hover:text-action"
+                        href={`/resultados?categoria=${c}`}
+                        className="flex min-h-10 items-center justify-between gap-2 text-body text-white/80"
                       >
-                        <span className="font-semibold text-text-primary">
-                          {CATEGORY_SHORT[category]}
-                        </span>
-                        <span className="text-caption text-text-muted tabular">
-                          {total} {total === 1 ? "lote" : "lotes"}
-                        </span>
+                        {CATEGORY_SHORT[c]}
+                        <span className="text-caption text-white/45 tabular">{lotsIn(c)}</span>
                       </Link>
                     </li>
-                  );
-                })}
-              </ul>
-              <Link href="/resultados" className="text-link mt-1">
-                Catálogo completo
-              </Link>
-            </nav>
+                  ))}
+                </ul>
+              </nav>
+              <nav aria-label="Sua conta">
+                <p className="kicker-on-dark">Sua conta</p>
+                <ul className="mt-3 space-y-1">
+                  {CONTA.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} className="flex min-h-10 items-center text-body text-white/80">
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       )}

@@ -1,16 +1,16 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tokens do ATIVOS B2B.
+ * Tokens do ATIVOS B2B — direção "vinho e cobre".
  *
- * Direção visual: marinho profundo como base institucional (topo, abertura,
- * faixas e rodapé) e laranja como única cor de ação — botão, preço, régua de
- * sobretítulo e estado ativo. O corpo do catálogo fica claro, para que as
- * fotos e as fichas de lote respirem entre as faixas escuras.
+ * Três materiais: o vinho profundo (`brand`) das faixas institucionais, com
+ * as curvas de nível em cobre; o creme (`surface`) do corpo do catálogo, que
+ * faz a fotografia parecer impressa; e o cobre (`copper`), a assinatura da
+ * marca — sobretítulo, destaque de título, contagem regressiva.
  *
- * O laranja existe em dois tons por uma razão de contraste: `action` é o
- * sólido que aceita texto branco em cima; `action-bright` é o vivo que só
- * aparece como texto sobre o marinho. Trocar um pelo outro quebra AA.
+ * A ação é o vinho sólido (`action`), não o cobre: o cobre não sustenta texto
+ * branco em cima, e reservá-lo à assinatura evita que tudo vire destaque.
+ * `copper-bright` só existe sobre o vinho; `copper` só sobre o creme.
  *
  * Razões de contraste em scripts/check-contrast.mjs — todas passam WCAG AA.
  */
@@ -24,38 +24,46 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#0E1B2A",
-          800: "#16283C",
-          700: "#22384F",
-          600: "#33506D",
+          900: "#2A0E12",
+          800: "#3A1418",
+          700: "#4F1C21",
+          600: "#6B2A2F",
         },
         action: {
-          DEFAULT: "#C2410C",
-          hover: "#9A3412",
-          pressed: "#7C2D12",
-          bright: "#F97316",
-          soft: "#FFF1E8",
+          DEFAULT: "#6E1F27",
+          hover: "#561820",
+          pressed: "#43121A",
+          bright: "#D9936A",
+          soft: "#F6E6DA",
+        },
+        copper: {
+          DEFAULT: "#9C4A22",
+          bright: "#D9936A",
+          solid: "#C9824F",
+          soft: "#F6E6DA",
         },
         accent: {
-          soft: "#FFF1E8",
-          strong: "#F97316",
+          soft: "#F6E6DA",
+          strong: "#C9824F",
         },
+        auction: "#B42329",
+        direct: "#1F5FBF",
         surface: {
-          page: "#F5F7FA",
-          card: "#FFFFFF",
-          subtle: "#EEF1F6",
-          raised: "#EAEEF4",
+          page: "#F6F0E9",
+          card: "#FFFDFA",
+          subtle: "#EFE6DC",
+          raised: "#E7DCD0",
         },
         text: {
-          primary: "#0F1B2A",
-          secondary: "#47566B",
-          muted: "#5A6A80",
+          primary: "#1E1315",
+          secondary: "#54433F",
+          muted: "#6E5D58",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#E3E8EF",
-          strong: "#C9D2DE",
-          control: "#7C8899",
+          subtle: "#E6DBCF",
+          strong: "#D2C2B2",
+          control: "#8C7A72",
         },
         focus: {
           ring: "#1D4ED8",
@@ -101,19 +109,19 @@ const config: Config = {
       },
       borderRadius: {
         control: "8px",
-        card: "12px",
-        panel: "16px",
-        modal: "16px",
+        card: "10px",
+        panel: "14px",
+        modal: "14px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(14, 27, 42, 0.06)",
-        raised: "0 4px 12px rgba(14, 27, 42, 0.08)",
-        elevated: "0 12px 28px rgba(14, 27, 42, 0.13)",
-        float: "0 18px 40px rgba(14, 27, 42, 0.18)",
-        modal: "0 24px 60px rgba(14, 27, 42, 0.26)",
+        card: "0 1px 2px rgba(42, 14, 18, 0.06)",
+        raised: "0 6px 16px rgba(42, 14, 18, 0.08)",
+        elevated: "0 16px 34px rgba(42, 14, 18, 0.14)",
+        float: "0 24px 60px rgba(42, 14, 18, 0.22)",
+        modal: "0 24px 60px rgba(42, 14, 18, 0.28)",
       },
       maxWidth: {
-        content: "1440px",
+        content: "1360px",
       },
       transitionDuration: {
         micro: "100ms",
@@ -142,12 +150,22 @@ const config: Config = {
           from: { transform: "scaleX(0)" },
           to: { transform: "scaleX(1)" },
         },
+        "rise": {
+          from: { opacity: "0", transform: "translateY(22px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "ken-burns": {
+          from: { transform: "scale(1.08)" },
+          to: { transform: "scale(1)" },
+        },
       },
       animation: {
         "panel-down": "panel-down 200ms cubic-bezier(0.2, 0, 0, 1) both",
         "fade-up": "fade-up 260ms cubic-bezier(0.2, 0, 0, 1) both",
         "fade-in": "fade-in 180ms linear both",
-        "rule-in": "rule-in 320ms cubic-bezier(0.2, 0, 0, 1) both",
+        "rule-in": "rule-in 520ms cubic-bezier(0.2, 0, 0, 1) both",
+        rise: "rise 720ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "ken-burns": "ken-burns 7s cubic-bezier(0.16, 1, 0.3, 1) both",
       },
     },
   },

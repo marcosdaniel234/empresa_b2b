@@ -7,6 +7,8 @@
  * desenvolvimento.
  */
 
+import { photoSources } from "@/lib/images";
+
 type AdFormat = "leaderboard" | "billboard" | "rectangle" | "skyscraper" | "infeed";
 
 const HEIGHT_CLASS: Record<AdFormat, string> = {
@@ -18,11 +20,11 @@ const HEIGHT_CLASS: Record<AdFormat, string> = {
 };
 
 const AD_IMAGES: Record<AdFormat, string> = {
-  leaderboard: "/images/ads/leaderboard-empilhadeiras.png",
-  billboard: "/images/ads/billboard-maquinas.png",
-  rectangle: "/images/ads/rectangle-tecnologia.png",
-  skyscraper: "/images/ads/skyscraper-industria.png",
-  infeed: "/images/ads/infeed-mobiliario.png",
+  leaderboard: "/images/ads/leaderboard-empilhadeiras.webp",
+  billboard: "/images/ads/billboard-maquinas.webp",
+  rectangle: "/images/ads/rectangle-tecnologia.webp",
+  skyscraper: "/images/ads/skyscraper-industria.webp",
+  infeed: "/images/ads/infeed-mobiliario.webp",
 };
 
 export function AdSlot({
@@ -35,7 +37,7 @@ export function AdSlot({
   slotId: string;
   className?: string;
 }) {
-  const imageSrc = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${AD_IMAGES[format]}`;
+  const photo = photoSources(AD_IMAGES[format]);
 
   return (
     <div
@@ -44,7 +46,16 @@ export function AdSlot({
       title={slotId}
       className={`relative flex items-center justify-center overflow-hidden border border-border-strong bg-surface-subtle ${HEIGHT_CLASS[format]} ${className}`}
     >
-      <img src={imageSrc} alt="" className="absolute inset-0 size-full object-cover" />
+      {/* eslint-disable-next-line @next/next/no-img-element -- exportação estática */}
+      <img
+        src={photo.src}
+        srcSet={photo.srcSet}
+        sizes="(min-width: 1024px) 970px, 100vw"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 size-full object-cover"
+      />
       <span className="absolute left-2 top-2 shrink-0 rounded-[2px] bg-white/90 px-1.5 py-0.5 text-micro font-bold uppercase tracking-[.08em] text-text-muted">
         Publicidade
       </span>

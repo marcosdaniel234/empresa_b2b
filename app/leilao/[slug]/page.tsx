@@ -142,7 +142,7 @@ export default async function LeilaoPage({ params }: PageProps) {
           <Gallery
             count={asset.gallery}
             title={asset.title}
-            src={`/images/assets/${asset.slug}.png`}
+            src={`/images/assets/${asset.slug}.webp`}
           />
         </div>
 

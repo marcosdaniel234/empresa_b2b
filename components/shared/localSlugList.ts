@@ -12,6 +12,8 @@ export function createSlugListStore(
   storageKey: string,
   changeEvent: string,
   max: number,
+  /** Validação da lista lida; por padrão, só slugs. */
+  parse: (raw: string, max: number) => string[] = parseSlugList,
 ) {
   let memory = "[]";
   let unavailable = false;
@@ -50,7 +52,7 @@ export function createSlugListStore(
 
   function useList(): string[] {
     const raw = useSyncExternalStore(subscribe, readRaw, server);
-    return useMemo(() => parseSlugList(raw, max), [raw]);
+    return useMemo(() => parse(raw, max), [raw]);
   }
 
   return { readRaw, write, useList };
