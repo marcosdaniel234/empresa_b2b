@@ -12,12 +12,18 @@
  * a direita, para nunca cruzar títulos e textos. No celular fica só o
  * degradê.
  *
+ * `variant="metal"` e `variant="industrial"` usam fotografias de fundo — aço
+ * escovado e um pátio logístico à noite — em versões regradas para a paleta
+ * (scripts/grade-backgrounds.mjs, sufixo "-atlantico").
+ *
  * `fade="left"` prende o degradê à esquerda, nas aberturas com foto à
  * direita, para não tingir a fotografia.
  *
  * O caminho do SVG entra por estilo inline, e não em CSS, porque precisa do
  * basePath da publicação no GitHub Pages.
  */
+import { photoSources } from "@/lib/images";
+
 const STEEL = "34, 80, 111"; // #22506F, brand-600
 
 const GLOW = `radial-gradient(ellipse 70% 58% at 28% 50%, rgba(${STEEL}, .6), rgba(${STEEL}, 0))`;
@@ -49,10 +55,37 @@ export function Backdrop({
   fade = "edges",
 }: {
   className?: string;
-  variant?: "degrade" | "rotas";
+  variant?: "degrade" | "rotas" | "metal" | "industrial";
   fade?: keyof typeof MASKS;
 }) {
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const material = variant === "metal" || variant === "industrial"
+    ? photoSources(`/images/backgrounds/${variant === "metal" ? "metal-cobre" : "panorama-industrial"}-atlantico.webp`)
+    : null;
+  if (material) {
+    return (
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+        style={masked([MASKS[fade]])}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- assets responsivos na exportação estática */}
+        <img
+          src={material.src}
+          srcSet={material.srcSet}
+          sizes="100vw"
+          alt=""
+          width={1600}
+          height={900}
+          loading={fade === "left" ? "eager" : "lazy"}
+          decoding="async"
+          className={`absolute inset-0 size-full object-cover ${variant === "metal" ? "opacity-75" : "opacity-65"}`}
+          style={{ objectPosition: "right center" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/50 via-brand-900/20 to-brand-900/10" />
+      </div>
+    );
+  }
   return (
     <>
       <div

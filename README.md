@@ -61,6 +61,9 @@ Outros arquivos gerados por script, versionados já prontos:
   componente `Backdrop` põe por baixo de toda faixa um degradê de uma cor fixa
   (o azul-aço `#22506F` em transparências), protege o lado do texto (as rotas só
   aparecem do meio para a direita) e, no celular, deixa só o degradê.
+- `public/images/backgrounds/*-atlantico.webp` — os fundos fotográficos (aço
+  escovado e pátio logístico) regrados em duotom azul-atlântico → verde-mar
+  por `node scripts/grade-backgrounds.mjs`, a partir dos originais em cobre.
 - `lib/brazilMap.ts` — traçado das 27 UFs para o mapa clicável da página
   inicial (`node scripts/generate-brazil-map.mjs`, a partir de `@svg-maps/brazil`).
 - `public/images/states/*.webp` — bandeiras das UFs, rasterizadas de

@@ -63,7 +63,7 @@ function lojaExemplo() {
 
 export default function AnunciarPage() {
   const { loja, lotes } = lojaExemplo();
-  const foto = photoSources("/images/institutional/acompanhamento-lotes.webp");
+  const foto = photoSources("/images/institutional/supervisor-galpao.webp");
 
   return (
     <>
@@ -79,13 +79,13 @@ export default function AnunciarPage() {
             width={1600}
             height={1000}
             fetchPriority="high"
-            className="size-full animate-ken-burns object-cover"
+            className="size-full animate-ken-burns object-cover object-[65%_center]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-brand-900 via-brand-900/50 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 via-transparent to-brand-900/50" />
           <div className="absolute inset-0 bg-brand-900/75 lg:hidden" />
         </div>
-        <Backdrop fade="left" className="-z-10" />
+        <Backdrop variant="metal" fade="left" className="-z-10" />
 
         <div className="container-content grid gap-12 pb-16 pt-[116px] md:pt-[140px] lg:min-h-[720px] lg:grid-cols-[minmax(0,600px)_minmax(0,1fr)] lg:pb-20">
           <div>

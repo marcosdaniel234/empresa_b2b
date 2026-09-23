@@ -10,6 +10,19 @@ export function assetPhoto(slug: string): string {
   return `/images/assets/${slug}.webp`;
 }
 
+/** Fotos institucionais já produzidas para as fachadas das lojas. */
+const COMPANY_PHOTOS = new Set([
+  "cerrado-agroindustrial",
+  "metalfor-industrial",
+  "novadata-tecnologia",
+  "transnorte-logistica",
+]);
+
+/** Capa própria quando disponível; lojas sem foto mantêm a imagem do lote. */
+export function companyPhoto(slug: string): string | undefined {
+  return COMPANY_PHOTOS.has(slug) ? `/images/companies/${slug}.webp` : undefined;
+}
+
 /**
  * Resolve `src` e `srcSet` de uma foto publicada. Arquivos que não seguem a
  * convenção de duas larguras (SVG, por exemplo) voltam só com `src`.
