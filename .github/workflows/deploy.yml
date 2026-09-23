@@ -9,15 +9,19 @@ on:
   schedule:
     - cron: "0 6 * * *"
 
+# Publicação oficial do GitHub Pages: o build vira um artefato e a ação
+# deploy-pages o publica. Requer Settings > Pages > Source = "GitHub Actions".
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: publicar-site
+  group: pages
   cancel-in-progress: false
 
 jobs:
-  publicar:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -35,23 +39,32 @@ jobs:
           npm run lint
           npm test
 
-      # O GitHub Pages serve o projeto em /<nome-do-repositório>.
+      # Informa o endereço e o caminho base em que o Pages serve o site
+      # (/<repositório>, ou a raiz quando há domínio próprio).
+      - name: Configurar o Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Gerar o site estático
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
 
-      # Publica o resultado no branch gh-pages, de onde o Pages serve o site.
-      # `.nojekyll` impede que o GitHub processe a saída com o Jekyll.
-      - name: Publicar no branch gh-pages
-        run: |
-          touch out/.nojekyll
-          cd out
-          git init -q -b gh-pages
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -q -m "Publica o site (${GITHUB_SHA::7})"
-          git push -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}" gh-pages
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # `.nojekyll` impede que o Pages ignore as pastas que começam com "_".
+      - run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

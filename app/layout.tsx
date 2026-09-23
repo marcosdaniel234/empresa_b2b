@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { Header, HeaderSpacer } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 import { RevealObserver } from "@/components/brand/RevealObserver";
+import { SITE_URL } from "@/lib/site";
 
 // Plus Jakarta Sans: geométrica de terminais retos e contraforma aberta, com
 // peso extrabold firme o bastante para os títulos de duas linhas da abertura
@@ -23,13 +24,38 @@ const mono = Roboto_Mono({
   display: "swap",
 });
 
+const DESCRICAO =
+  "Leilão e venda direta de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário, com ficha técnica, localização e prazo de cada lote.";
+
+// Sem o endereço público (desenvolvimento), a imagem sai com o caminho base.
+const OG_IMAGE = `${SITE_URL || (process.env.NEXT_PUBLIC_BASE_PATH ?? "")}/og.jpg`;
+
 export const metadata: Metadata = {
+  ...(SITE_URL ? { metadataBase: new URL(`${SITE_URL}/`) } : {}),
   title: {
-    default: "ATIVOS B2B | Leilão de ativos industriais entre empresas",
+    default: "ATIVOS B2B | Grandes ativos. Novos destinos.",
     template: "%s · ATIVOS B2B",
   },
-  description:
-    "Catálogo de leilão de ativos corporativos entre empresas: máquinas, veículos, tecnologia e mobiliário, com ficha técnica, localização e prazo de cada lote.",
+  description: DESCRICAO,
+  applicationName: "ATIVOS B2B",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "ATIVOS B2B",
+    title: "ATIVOS B2B | Grandes ativos. Novos destinos.",
+    description: DESCRICAO,
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: "ATIVOS B2B — Grandes ativos. Novos destinos." }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ATIVOS B2B | Grandes ativos. Novos destinos.",
+    description: DESCRICAO,
+    images: [OG_IMAGE],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2A0E12",
 };
 
 export default function RootLayout({

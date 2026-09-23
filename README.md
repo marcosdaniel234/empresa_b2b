@@ -24,6 +24,7 @@ Para o inventário completo do que **não** foi construído e o roteiro sugerido
 - **Tailwind CSS**, com os tokens de cor/tipografia/espaçamento/raio/sombra do design system mapeados em `tailwind.config.ts`
 - **lucide-react** para ícones (família única de linha, conforme especificação)
 - Fontes **Plus Jakarta Sans** (variável) e **Roboto Mono** via `next/font/google`
+- `sharp` (desenvolvimento) para o pipeline de imagens
 - Sem backend, sem banco de dados, sem chamadas de rede além dos assets estáticos
 
 Zero dependências com vulnerabilidades conhecidas (`npm audit` limpo no momento da entrega).
@@ -37,112 +38,142 @@ npm run build      # gera o site estático em out/
 npm run typecheck  # tsc --noEmit
 npm run lint       # eslint
 npm test           # testes de domínio (Node test runner)
+npm run images     # reprocessa as fotos de assets-src/ para public/images/
+node scripts/check-contrast.mjs   # confere as combinações de cor em WCAG AA
 ```
 
 O build usa `output: "export"`: o resultado é um site estático em `out/`, que pode
 ser servido por qualquer hospedagem de arquivos.
 
-## Publicação
+### Imagens
 
-O site é publicado no GitHub Pages a partir do branch `gh-pages`, que contém
-apenas o resultado do build. O workflow
-[`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) roda as
-checagens, gera o export estático e atualiza esse branch a cada push.
+As fotos originais ficam em `assets-src/` (PNG, fora do site publicado).
+`npm run images` gera, para cada uma, dois WebP em `public/images/`: 1600 px e
+640 px (`-640.webp`). Os componentes servem as duas por `srcset`, então um
+cartão baixa a versão pequena e a abertura, a grande. O conjunto caiu de
+86,5 MB para cerca de 6 MB.
 
-**Passo único de configuração** (só o dono do repositório pode fazer): em
-`Settings > Pages > Build and deployment`, escolher **Deploy from a branch**,
-branch `gh-pages`, pasta `/ (root)`. Feito isso, o site fica disponível em
-`https://<usuário>.github.io/empresa_b2b/` e passa a ser atualizado
-automaticamente.
+Outros arquivos gerados por script, versionados já prontos:
 
-Como o Pages serve o projeto em um subdiretório, o build aceita a variável
-`NEXT_PUBLIC_BASE_PATH` (o workflow preenche com o nome do repositório). Para
-reproduzir a publicação localmente:
+- `public/images/curvas.svg` — textura de curvas de nível das faixas vinho
+  (`node scripts/generate-contours.mjs`, determinístico).
+- `public/og.jpg` — imagem de compartilhamento 1200×630
+  (`node scripts/generate-og.cjs`, com o site servido em `localhost:4210`;
+  requer Playwright).
+
+## Publicação no GitHub Pages
+
+O workflow [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml)
+usa o fluxo oficial do Pages: `checkout` → `setup-node` → `npm ci` →
+tipos, lint e testes → `configure-pages` → `npm run build` →
+`upload-pages-artifact` → `deploy-pages`. Ele roda a cada push no branch de
+desenvolvimento, sob demanda (`workflow_dispatch`) e uma vez por dia.
+
+**Guia rápido (uma vez, feito pelo dono do repositório):**
+
+1. Em **Settings → Pages → Build and deployment**, escolha **Source: GitHub
+   Actions**.
+2. Em **Actions**, abra “Publicar site” e clique em **Run workflow** (ou faça
+   um push).
+3. Ao fim do job `deploy`, o endereço aparece no resumo da execução — em geral
+   `https://<usuário>.github.io/empresa_b2b/`.
+
+Observações:
+
+- Em repositório **privado**, o GitHub Pages exige plano pago (Pro, Team ou
+  Enterprise). No plano gratuito, torne o repositório público ou publique
+  `out/` em outro host estático.
+- O `configure-pages` informa o caminho base (`/empresa_b2b`, ou a raiz com
+  domínio próprio) e o endereço público; o build recebe os dois como
+  `NEXT_PUBLIC_BASE_PATH` e `NEXT_PUBLIC_SITE_URL`, usados nos links, no
+  `sitemap.xml`, no `robots.txt` e nas metatags de compartilhamento.
+- A reconstrução diária é proposital: as datas dos leilões de demonstração
+  são calculadas no momento do build, e ela mantém os prazos sempre válidos.
+
+Para reproduzir a publicação localmente:
 
 ```bash
 NEXT_PUBLIC_BASE_PATH=/empresa_b2b npm run build
+npx serve out   # e abra http://localhost:3000/empresa_b2b/
 ```
-
-O workflow também roda uma vez por dia. Isso é proposital: as datas dos leilões
-de demonstração são calculadas a partir do momento do build, então a
-reconstrução diária mantém os prazos do catálogo sempre válidos.
 
 ## Estrutura do projeto
 
 ```
-app/                       Rotas (App Router)
-  page.tsx                 Home / Explorar (T01)
-  resultados/               Catálogo com filtros (T02)
-  leilao/[slug]/            Página de leilão + painel de lance (T03/T04)
-  loja/[slug]/               Loja da empresa (T05)
-  favoritos/                 Favoritos (client-side, localStorage)
-  como-funciona/              Explicação do fluxo e limites atuais
-  entrar/ anunciar/           Placeholders honestos ("ainda não implementado")
-  termos/ privacidade/ ajuda/  Páginas institucionais mínimas
-  not-found.tsx               404 (T12)
+app/                         Rotas (App Router)
+  page.tsx                   Início: abertura com lotes em destaque, busca,
+                             oportunidades, categorias e lojas
+  resultados/                Catálogo com filtros (modalidade, categoria,
+                             situação, estado, cidade, valor)
+  leilao/[slug]/             Ficha do lote + painel de lance ou de compra
+  leiloes/ leiloes/[slug]/   Leilões por empresa
+  lojas/ loja/[slug]/        Diretório de lojas e loja da empresa
+  anunciar/                  Página de quem vende + pré-cadastro
+  favoritos/ comparar/       Seleções pessoais (localStorage)
+  como-funciona/ ajuda/ entrar/ termos/ privacidade/
+  robots.ts sitemap.ts       SEO estático
 
 components/
-  layout/                   Header, busca, menu principal, rodapé, tab bar
-  home/                     Explorador de categorias e depoimentos da home
-  ads/                      Espaços reservados de publicidade (formatos IAB)
-  catalog/                  Card de ativo (grade/lista), navegador do catálogo,
-                            filtros, favoritos, vitrines e abas de loja
-  auction/                  Galeria, painel de lance, modal de revisão, relógio
-  ui/                       Botão, chip de status, estado vazio, ilustração de ativo
+  brand/      Curvas de nível, mapa do Brasil, revelação por rolagem
+  layout/     Cabeçalho, menu, rodapé, faixa de abertura interna, tab bar
+  home/       Abertura em carrossel, painel de busca, faixa de confiança,
+              oportunidades, categorias, faixa de empresas
+  seller/     Formulário de pré-cadastro
+  catalog/    Cartão de ativo, catálogo, filtros, favoritos, seguir loja,
+              diretório de lojas, comparação
+  auction/    Galeria, painel de lance, revisão, contagem regressiva
+  ads/ ui/    Espaços de publicidade e peças básicas
 
 lib/
-  data.ts                   Dados de demonstração (ativos e empresas fictícios)
-  filters.ts                Lógica de filtro/ordenação do catálogo
-  format.ts                 Formatação de moeda, data/hora e contagem regressiva
+  data.ts      Dados de demonstração (ativos, empresas, modalidade)
+  filters.ts   Filtro e ordenação do catálogo (URL ↔ estado)
+  cadastro.ts  Máscara e validação de CNPJ e e-mail
+  images.ts    Caminhos e srcset das fotos
+  format.ts    Moeda, datas, contagem regressiva, nomes de empresa
 ```
 
-## Direção visual: marketplace de ativos empresariais
+## Direção visual: vinho, cobre e creme
 
-A interface segue a referência visual da marca: marinho profundo como base
-institucional e laranja como única cor de ação.
+A interface reconstrói as três referências da marca (abertura com carrossel,
+página de quem vende e seções numeradas de oportunidades, categorias e
+empresas).
 
-- **Regra de cor**: o marinho (`brand`) carrega topo, abertura, faixas e
-  rodapé; o laranja (`action`) fica reservado a botão, preço, régua de
-  sobretítulo e aba corrente. O corpo do catálogo é claro, para que as fichas
-  de lote respirem entre as faixas escuras. O laranja existe em dois tons por
-  contraste: `action` é o sólido que aceita texto branco, `action-bright` é o
-  vivo que só aparece como texto sobre o marinho — trocar um pelo outro
-  quebra AA.
-- **Cabeçalho em três faixas**: utilitária (institucional e conta), principal
-  (marca, busca e atalhos) e a barra de categorias. Abaixo de `md` a busca
-  ganha linha própria e a navegação recolhe no botão de menu.
-- **Abertura em duas colunas**: à esquerda a promessa e as três garantias, à
-  direita o lote que encerra primeiro com contagem regressiva ao vivo.
-- **Cartão de lote**: foto, etiqueta de situação, favorito, código do lote,
-  localização, pílulas de especificação e o valor em laranja ao lado do
-  prazo. O mesmo cartão serve a abertura, a busca e as vitrines.
-- **Blocos da abertura**: compra por estado, categorias em destaque, lotes em
-  destaque com abas de ordenação reais, faixa de venda, números do catálogo e
-  a assinatura de fechamento.
-- **Geometria**: cantos de 8 px nos controles, 12 px nos cartões e 16 px nos
-  painéis; sombras baixas; contêiner central de até 1440 px.
-- **Movimento contido**: transições de 100–260 ms com uma única curva
-  (`ease-standard`), elevação curta nos cartões e painéis que descem com
-  `animate-panel-down`. Tudo sob o bloco `prefers-reduced-motion: reduce`.
-- Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`; os
-  componentes não usam cores soltas. `node scripts/check-contrast.mjs` valida
-  as 29 combinações de texto em WCAG AA.
+- **Cor**: vinho profundo (`brand-900` #2A0E12) nas faixas, cabeçalho e rodapé;
+  cobre (`copper`) em sobretítulos, índices numerados e no gradiente do
+  destaque; creme (`surface-page` #F6F0E9) no corpo; vinho médio (`action`
+  #6E1F27) como cor de ação. Vermelho e azul só nos selos “Em leilão” e
+  “Venda direta”. As 31 combinações de texto passam WCAG AA
+  (`scripts/check-contrast.mjs`).
+- **Tipografia**: Plus Jakarta Sans em extrabold com tracking negativo nos
+  títulos; Roboto Mono reservada a códigos e números tabulares.
+- **Textura**: curvas de nível em cobre sobre o vinho e o contorno do Brasil
+  como marca d'água.
+- **Movimento**: entrada escalonada da abertura, aproximação lenta da foto
+  (Ken Burns), troca do lote em destaque a cada 8 s — pausada sob o ponteiro,
+  com foco, com a aba oculta e sempre para quem pede movimento reduzido — e
+  revelação por rolagem com um único IntersectionObserver. Sem JavaScript, o
+  conteúdo aparece normalmente.
+- Todos os tokens vivem em `tailwind.config.ts` e `app/globals.css`.
 
-### Dois pontos em que a referência não foi seguida ao pé da letra
+### Onde a referência não foi seguida ao pé da letra
 
-Nos dois casos copiar o desenho significaria afirmar algo falso:
+Copiar o desenho, nesses pontos, significaria afirmar algo falso:
 
-1. **Selo "lote verificado"** — não há processo de verificação nesta
-   demonstração. No lugar dele entra a situação real do lote (aberto,
-   encerrando, agendado, encerrado).
-2. **Números de tração** (compradores cadastrados, volume transacionado,
-   percentual verificado) — nenhum existe. A faixa traz os quatro números que
-   o próprio catálogo produz, cada um ligado ao recorte que ele conta.
+1. **Selo de empresa verificada** — não há verificação nesta demonstração; os
+   cartões de empresa não levam o selo.
+2. **Números de mercado** — nenhum número de tração é exibido. Contagens de
+   lotes, lojas e ativos vêm do próprio catálogo.
+3. **Seis categorias** — o catálogo tem quatro; a vitrine mostra as quatro.
+4. **Foto do trabalhador na página de quem vende** e **fotos das sedes das
+   empresas** — não existem no acervo; entram a peça institucional e as fotos
+   dos próprios lotes.
 
-Fotografia: o catálogo traz uma imagem por lote em `public/images/assets/`,
-nomeada pelo slug, além das bandeiras das UFs, da peça institucional e das
-criações de anúncio. Onde ainda não houver arquivo, `ImageSlot` mantém a
-moldura reservada, hachurada, na proporção em que a foto entrará.
+## Créditos
+
+- Contorno do Brasil: [@svg-maps/brazil](https://github.com/VictorCazanave/svg-maps),
+  de Victor Cazanave, licença CC-BY-4.0 (simplificado para 1 casa decimal).
+- Ícones: [Lucide](https://lucide.dev), licença ISC.
+- Fontes: Plus Jakarta Sans e Roboto Mono, licença SIL OFL.
 
 ## Decisões de design
 
@@ -153,7 +184,7 @@ moldura reservada, hachurada, na proporção em que a foto entrará.
 - **Painel de lance** segue a ordem obrigatória de informação definida em `TELAS_E_JORNADAS.md` §4 (status → valor → mínimo/incremento → contagem de lances → prazo → regra de prorrogação → campo de valor).
 - **Modal de revisão de lance** segue o storyboard de `ANIMACOES_E_MICROINTERACOES.md` §4: revisão → confirmando → aceito/incerto, sem fechamento automático, sem duplo envio, com foco gerenciado.
 - **Movimento**: sem confete, sem som, sem parallax; skeleton estático (sem shimmer); preferência por movimento reduzido respeitada globalmente em `app/globals.css`.
-- **Imagem**: como a demonstração não possui fotos reais, os ativos recebem ilustrações editoriais por categoria, claramente identificadas. Isso evita confundir material de exemplo com um anúncio real.
+- **Imagem**: cada lote tem uma foto ilustrativa nomeada pelo slug; a galeria repete essa foto e avisa que é ilustrativa. Onde faltar arquivo, `ImageSlot` mantém a moldura reservada na proporção certa.
 
 ## Simplificações atuais
 
@@ -163,5 +194,5 @@ Documentadas em detalhe em `MVP_ESCOPO.md`, resumidamente:
 - Favoritos persistem apenas no `localStorage` do navegador, não em conta de usuário.
 - Os códigos de lote (`LT-****`) são fixos nos dados de demonstração; em produção
   viriam do cadastro do ativo.
-- O catálogo não tem paginação: os lotes de demonstração cabem em uma tela de
-  resultados.
+- O pré-cadastro de vendedor valida os dados no navegador e mostra a
+  conferência, mas não envia nada.
