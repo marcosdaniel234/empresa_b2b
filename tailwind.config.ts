@@ -1,16 +1,17 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Tokens do ATIVOS B2B — direção "vinho e cobre".
+ * Tokens do ATIVOS B2B — direção "Atlantic Industrial".
  *
- * Três materiais: o vinho profundo (`brand`) das faixas institucionais, com
- * as curvas de nível em cobre; o creme (`surface`) do corpo do catálogo, que
- * faz a fotografia parecer impressa; e o cobre (`copper`), a assinatura da
- * marca — sobretítulo, destaque de título, contagem regressiva.
+ * Três materiais: o azul-atlântico profundo (`brand`) das faixas
+ * institucionais, como casco de navio e aço pintado de estaleiro; o concreto
+ * frio (`surface`) do corpo do catálogo, neutro para a fotografia dos lotes;
+ * e o verde-mar (`accent`), a assinatura da marca — sobretítulo, índice das
+ * seções, destaque de título, contagem regressiva.
  *
- * A ação é o vinho sólido (`action`), não o cobre: o cobre não sustenta texto
- * branco em cima, e reservá-lo à assinatura evita que tudo vire destaque.
- * `copper-bright` só existe sobre o vinho; `copper` só sobre o creme.
+ * A ação é o azul-petróleo sólido (`action`), não o verde-mar: reservar o
+ * verde-mar à assinatura evita que tudo vire destaque. `accent-bright` só
+ * existe sobre o azul profundo; `accent` só sobre o concreto.
  *
  * Razões de contraste em scripts/check-contrast.mjs — todas passam WCAG AA.
  */
@@ -24,46 +25,43 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          900: "#2A0E12",
-          800: "#3A1418",
-          700: "#4F1C21",
-          600: "#6B2A2F",
+          900: "#0B1D2A",
+          800: "#10293B",
+          700: "#173A52",
+          600: "#22506F",
         },
         action: {
-          DEFAULT: "#6E1F27",
-          hover: "#561820",
-          pressed: "#43121A",
-          bright: "#D9936A",
-          soft: "#F6E6DA",
-        },
-        copper: {
-          DEFAULT: "#9C4A22",
-          bright: "#D9936A",
-          solid: "#C9824F",
-          soft: "#F6E6DA",
+          DEFAULT: "#0E4A6E",
+          hover: "#0B3C5A",
+          pressed: "#082F47",
+          bright: "#7FCFC6",
+          soft: "#E0EEF2",
         },
         accent: {
-          soft: "#F6E6DA",
-          strong: "#C9824F",
+          DEFAULT: "#1B6E6C",
+          bright: "#7FCFC6",
+          solid: "#4FB3AA",
+          soft: "#DDF0EE",
+          strong: "#4FB3AA",
         },
         auction: "#B42329",
         direct: "#1F5FBF",
         surface: {
-          page: "#F6F0E9",
-          card: "#FFFDFA",
-          subtle: "#EFE6DC",
-          raised: "#E7DCD0",
+          page: "#F1F4F5",
+          card: "#FCFDFD",
+          subtle: "#E7EDF0",
+          raised: "#DCE4E8",
         },
         text: {
-          primary: "#1E1315",
-          secondary: "#54433F",
-          muted: "#6E5D58",
+          primary: "#0E1B24",
+          secondary: "#3F4F5A",
+          muted: "#526069",
           inverse: "#FFFFFF",
         },
         border: {
-          subtle: "#E6DBCF",
-          strong: "#D2C2B2",
-          control: "#8C7A72",
+          subtle: "#D9E1E5",
+          strong: "#BFCBD2",
+          control: "#7A8A94",
         },
         focus: {
           ring: "#1D4ED8",
@@ -114,11 +112,11 @@ const config: Config = {
         modal: "14px",
       },
       boxShadow: {
-        card: "0 1px 2px rgba(42, 14, 18, 0.06)",
-        raised: "0 6px 16px rgba(42, 14, 18, 0.08)",
-        elevated: "0 16px 34px rgba(42, 14, 18, 0.14)",
-        float: "0 24px 60px rgba(42, 14, 18, 0.22)",
-        modal: "0 24px 60px rgba(42, 14, 18, 0.28)",
+        card: "0 1px 2px rgba(11, 29, 42, 0.06)",
+        raised: "0 6px 16px rgba(11, 29, 42, 0.08)",
+        elevated: "0 16px 34px rgba(11, 29, 42, 0.14)",
+        float: "0 24px 60px rgba(11, 29, 42, 0.22)",
+        modal: "0 24px 60px rgba(11, 29, 42, 0.28)",
       },
       maxWidth: {
         content: "1360px",

@@ -61,7 +61,7 @@ export function CategoryShowcase() {
                   />
                   <span className="on-dark absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-5">
                     <span>
-                      <span className="block text-[13px] font-semibold uppercase tracking-[.2em] text-copper-bright">
+                      <span className="block text-[13px] font-semibold uppercase tracking-[.2em] text-accent-bright">
                         {total} {total === 1 ? "lote" : "lotes"}
                       </span>
                       <span className="mt-1.5 block text-[21px] font-extrabold leading-tight tracking-[-.02em] text-white">
@@ -73,7 +73,7 @@ export function CategoryShowcase() {
                     </span>
                     <span
                       aria-hidden="true"
-                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/30 text-white transition-colors duration-standard group-hover:border-copper-bright group-hover:bg-copper-bright group-hover:text-brand-900"
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/30 text-white transition-colors duration-standard group-hover:border-accent-bright group-hover:bg-accent-bright group-hover:text-brand-900"
                     >
                       <ArrowRight size={18} />
                     </span>

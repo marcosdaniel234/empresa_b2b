@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --hatch: #d2c2b2;
+    --hatch: #bfcbd2;
     /* Curva de desaceleração longa: o movimento chega e assenta, sem ricochete. */
     --ease-arrive: cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -22,8 +22,8 @@
   }
 
   ::selection {
-    background-color: #f6e6da;
-    color: #2a0e12;
+    background-color: #ddf0ee;
+    color: #0b1d2a;
   }
 
   :focus-visible {
@@ -46,7 +46,7 @@
   }
 
   input[type="checkbox"] {
-    accent-color: #6e1f27;
+    accent-color: #0e4a6e;
   }
 }
 
@@ -68,9 +68,9 @@
     display: none;
   }
 
-  /* Título com o degradê de cobre das referências ("Novos destinos."). */
-  .text-copper-gradient {
-    background: linear-gradient(100deg, #f0b98f 0%, #d9936a 45%, #b8704a 100%);
+  /* Título com o degradê verde-mar da marca ("Novos destinos."). */
+  .text-accent-gradient {
+    background: linear-gradient(100deg, #b4ebe4 0%, #7fcfc6 45%, #4fa9a1 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -85,12 +85,12 @@
   .secondary-link {
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-control border border-action/70 bg-transparent px-5 text-label font-bold text-action transition-[background-color,border-color,transform] duration-standard ease-standard hover:border-action hover:bg-action-soft active:translate-y-px;
   }
-  /* Par de botões sobre o vinho: creme sólido e contorno claro. */
+  /* Par de botões sobre o azul profundo: concreto claro sólido e contorno verde-mar. */
   .cream-link {
-    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-control bg-[#F6EDE3] px-6 text-body font-bold text-action transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-white hover:shadow-float active:translate-y-px;
+    @apply inline-flex min-h-12 items-center justify-center gap-3 rounded-control bg-[#EEF3F4] px-6 text-body font-bold text-action transition-[background-color,transform,box-shadow] duration-standard ease-standard hover:bg-white hover:shadow-float active:translate-y-px;
   }
   .ghost-light-link {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-control border border-[#D9936A]/60 px-6 text-body font-semibold text-white transition-[background-color,border-color] duration-standard ease-standard hover:border-[#D9936A] hover:bg-white/5;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-control border border-[#7FCFC6]/60 px-6 text-body font-semibold text-white transition-[background-color,border-color] duration-standard ease-standard hover:border-[#7FCFC6] hover:bg-white/5;
   }
   .text-link {
     @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 text-label font-semibold text-action transition-colors duration-quick hover:text-action-hover;
@@ -102,13 +102,13 @@
     transform: translateX(4px);
   }
 
-  /* Régua de cobre que cresce da esquerda sob o item apontado. */
+  /* Régua verde-mar que cresce da esquerda sob o item apontado. */
   .nav-underline {
     @apply relative;
   }
   .nav-underline::after {
     content: "";
-    @apply pointer-events-none absolute inset-x-2 bottom-0 h-[2px] origin-left scale-x-0 bg-copper-solid transition-transform duration-standard ease-standard;
+    @apply pointer-events-none absolute inset-x-2 bottom-0 h-[2px] origin-left scale-x-0 bg-accent-solid transition-transform duration-standard ease-standard;
   }
   .nav-underline:hover::after,
   .nav-underline:focus-visible::after,
@@ -118,12 +118,12 @@
   }
 
   /* ---------- Tipografia de seção ---------- */
-  /* Sobretítulo espacejado em cobre, como "NEGÓCIOS QUE MOVIMENTAM EMPRESAS". */
+  /* Sobretítulo espacejado em verde-mar, como "NEGÓCIOS QUE MOVIMENTAM EMPRESAS". */
   .kicker {
-    @apply text-micro font-semibold uppercase tracking-[.3em] text-copper;
+    @apply text-micro font-semibold uppercase tracking-[.3em] text-accent;
   }
   .kicker-on-dark {
-    @apply text-micro font-semibold uppercase tracking-[.3em] text-copper-bright;
+    @apply text-micro font-semibold uppercase tracking-[.3em] text-accent-bright;
   }
   .section-heading {
     @apply flex flex-wrap items-end justify-between gap-x-6 gap-y-3;
@@ -131,13 +131,13 @@
   .section-title {
     @apply text-[28px] font-extrabold leading-[1.1] tracking-[-.03em] text-text-primary sm:text-[36px] lg:text-[42px];
   }
-  /* Índice numerado das seções ("01", "02"), com o traço de cobre embaixo. */
+  /* Índice numerado das seções ("01", "02"), com o traço verde-mar embaixo. */
   .section-index {
-    @apply relative inline-block pb-2 text-label font-semibold text-copper tabular;
+    @apply relative inline-block pb-2 text-label font-semibold text-accent tabular;
   }
   .section-index::after {
     content: "";
-    @apply absolute bottom-0 left-0 h-[2px] w-full bg-copper-solid;
+    @apply absolute bottom-0 left-0 h-[2px] w-full bg-accent-solid;
   }
   .eyebrow {
     @apply text-micro font-bold uppercase tracking-[.12em] text-text-muted;
@@ -211,7 +211,7 @@
 
   /* ---------- Formulários ---------- */
   .field {
-    @apply h-12 w-full min-w-0 rounded-control border border-border-strong bg-surface-card px-3.5 text-body text-text-primary transition-[border-color,box-shadow] duration-quick placeholder:text-text-muted hover:border-border-control focus:border-action focus:shadow-[0_0_0_3px_rgba(110,31,39,.12)] focus:outline-none;
+    @apply h-12 w-full min-w-0 rounded-control border border-border-strong bg-surface-card px-3.5 text-body text-text-primary transition-[border-color,box-shadow] duration-quick placeholder:text-text-muted hover:border-border-control focus:border-action focus:shadow-[0_0_0_3px_rgba(14,74,110,.14)] focus:outline-none;
   }
   .field-label {
     @apply text-label font-semibold text-text-primary;
@@ -220,8 +220,8 @@
   /* ---------- Empresa ---------- */
   .company-monogram {
     @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-control text-label font-extrabold;
-    background: #f6e6da;
-    color: #6e1f27;
+    background: #ddf0ee;
+    color: #0e4a6e;
   }
 
   /* ---------- Diálogos ---------- */
@@ -233,7 +233,7 @@
     overscroll-behavior: contain;
   }
   .app-dialog::backdrop {
-    background: rgba(42, 14, 18, 0.6);
+    background: rgba(11, 29, 42, 0.6);
   }
 
   /*
@@ -262,7 +262,7 @@
 }
 .estados .uf-link:hover .uf-ativo,
 .estados .uf-link:focus-visible .uf-ativo {
-  fill: #f0b98f;
+  fill: #b4ebe4;
   fill-opacity: 1;
 }
 .estados .uf-link:focus-visible {

@@ -98,7 +98,7 @@ export function Footer() {
 
       <div className="container-content relative">
         <div className="flex items-center gap-4 border-t border-white/10 py-6">
-          <BrazilMap solid className="w-9 shrink-0 bg-copper-bright" />
+          <BrazilMap solid className="w-9 shrink-0 bg-accent-bright" />
           <p className="text-[12px] font-semibold uppercase tracking-[.26em] text-white/80">
             Ativos para um Brasil mais produtivo
           </p>

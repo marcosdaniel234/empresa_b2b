@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Backdrop } from "@/components/brand/Backdrop";
 
 /**
- * Faixa de abertura das páginas internas: vinho com o Brasil em pontos e rotas, trilha,
- * título grande e uma linha de apoio — a mesma voz da página inicial, em
- * escala menor.
+ * Faixa de abertura das páginas internas: azul profundo com o Brasil em
+ * pontos e rotas, trilha, título grande e uma linha de apoio — a mesma voz da
+ * página inicial, em escala menor.
  */
 export function PageIntro({
   crumbs,

@@ -38,12 +38,12 @@ export function CompaniesBand() {
       <div className="container-content relative grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))]">
         <div data-reveal>
           <div className="flex items-start gap-5">
-            <span className="section-index mt-2 text-copper-bright">04</span>
+            <span className="section-index mt-2 text-accent-bright">04</span>
             <div>
               <h2 id="titulo-empresas" className="section-title text-white">
                 Empresas que movimentam o mercado
               </h2>
-              <p className="mt-4 text-[19px] font-bold text-copper-bright">
+              <p className="mt-4 text-[19px] font-bold text-accent-bright">
                 Parcerias que constroem o futuro.
               </p>
               <p className="mt-3 max-w-sm text-[16px] leading-relaxed text-white/75">
@@ -54,7 +54,7 @@ export function CompaniesBand() {
                 href="/lojas"
                 className="mt-6 inline-flex min-h-11 items-center gap-2 text-[15px] font-semibold text-white underline-offset-4 hover:underline"
               >
-                Ver todas as lojas <ArrowRight size={17} aria-hidden="true" className="text-copper-bright" />
+                Ver todas as lojas <ArrowRight size={17} aria-hidden="true" className="text-accent-bright" />
               </Link>
             </div>
           </div>
@@ -68,7 +68,7 @@ export function CompaniesBand() {
               <li
                 key={company.slug}
                 data-reveal={String(i + 1)}
-                className="relative flex flex-col rounded-panel border border-white/10 bg-white/[.06] p-5 backdrop-blur-sm transition-colors duration-standard hover:border-copper-bright/50 sm:p-6"
+                className="relative flex flex-col rounded-panel border border-white/10 bg-white/[.06] p-5 backdrop-blur-sm transition-colors duration-standard hover:border-accent-bright/50 sm:p-6"
               >
                 <div className="flex items-start gap-4">
                   <span className="company-monogram h-14 w-14 text-[18px]">
@@ -78,14 +78,14 @@ export function CompaniesBand() {
                     <h3 className="text-[19px] font-extrabold leading-tight tracking-[-.01em] text-white">
                       <Link
                         href={`/loja/${company.slug}`}
-                        className="after:absolute after:inset-0 after:rounded-panel hover:text-copper-bright"
+                        className="after:absolute after:inset-0 after:rounded-panel hover:text-accent-bright"
                       >
                         {companyShortName(company.name)}
                       </Link>
                     </h3>
                     <p className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px] text-white/70">
                       <span className="inline-flex items-center gap-1">
-                        <MapPin size={14} aria-hidden="true" className="text-copper-bright" />
+                        <MapPin size={14} aria-hidden="true" className="text-accent-bright" />
                         {company.city} - {company.state}
                       </span>
                       <span>Desde {company.since}</span>

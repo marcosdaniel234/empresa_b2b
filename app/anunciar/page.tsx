@@ -97,7 +97,7 @@ export default function AnunciarPage() {
               style={{ animationDelay: "160ms" }}
             >
               Seu próximo negócio começa{" "}
-              <span className="text-copper-gradient">com o que você já tem.</span>
+              <span className="text-accent-gradient">com o que você já tem.</span>
             </h1>
             <p
               className="mt-5 max-w-[500px] animate-rise text-[18px] leading-[1.5] text-white/80 sm:text-[20px]"
@@ -121,7 +121,7 @@ export default function AnunciarPage() {
             <ul className="mt-12 grid animate-rise gap-6 sm:grid-cols-3" style={{ animationDelay: "440ms" }}>
               {RECURSOS.map((r) => (
                 <li key={r.titulo} className="border-t border-white/15 pt-4">
-                  <r.icon size={26} strokeWidth={1.5} aria-hidden="true" className="text-copper-bright" />
+                  <r.icon size={26} strokeWidth={1.5} aria-hidden="true" className="text-accent-bright" />
                   <p className="mt-3 text-[15px] font-bold text-white">{r.titulo}</p>
                   <p className="mt-1 text-[14px] leading-snug text-white/70">{r.texto}</p>
                 </li>
@@ -144,7 +144,7 @@ export default function AnunciarPage() {
                     {companyShortName(loja.name)}
                   </h2>
                   <p className="mt-0.5 flex items-center gap-1 text-[14px] text-white/70">
-                    <MapPin size={14} aria-hidden="true" className="text-copper-bright" />
+                    <MapPin size={14} aria-hidden="true" className="text-accent-bright" />
                     {loja.city} - {loja.state} · {loja.segment}
                   </p>
                 </div>
@@ -163,7 +163,7 @@ export default function AnunciarPage() {
                 </p>
                 <Link
                   href={`/loja/${loja.slug}`}
-                  className="inline-flex min-h-10 items-center gap-1.5 text-[14px] font-semibold text-copper-bright hover:text-white"
+                  className="inline-flex min-h-10 items-center gap-1.5 text-[14px] font-semibold text-accent-bright hover:text-white"
                 >
                   Ver loja de exemplo <ArrowRight size={15} aria-hidden="true" />
                 </Link>
@@ -191,10 +191,10 @@ export default function AnunciarPage() {
                 className="relative rounded-panel border border-border-subtle bg-surface-card p-6 shadow-card sm:p-7"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-[44px] font-extrabold leading-none tracking-[-.04em] text-copper tabular">
+                  <span className="text-[44px] font-extrabold leading-none tracking-[-.04em] text-accent tabular">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-copper-soft text-action">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-soft text-action">
                     <e.icon size={22} aria-hidden="true" />
                   </span>
                 </div>
@@ -232,7 +232,7 @@ export default function AnunciarPage() {
         className="on-dark relative overflow-hidden bg-brand-800 py-16 lg:py-24"
       >
         <Backdrop variant="rotas" />
-        <BrazilMap className="absolute -left-20 bottom-0 hidden w-[460px] bg-copper-bright/[.1] lg:block" />
+        <BrazilMap className="absolute -left-20 bottom-0 hidden w-[460px] bg-accent-bright/[.1] lg:block" />
         <div className="container-content relative grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div data-reveal>
             <p className="kicker-on-dark">Cadastro de vendedor</p>

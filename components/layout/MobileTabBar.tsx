@@ -23,7 +23,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Navegação principal"
-      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-border-subtle bg-surface-card/95 shadow-[0_-6px_20px_rgba(42,14,18,.06)] backdrop-blur md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-border-subtle bg-surface-card/95 shadow-[0_-6px_20px_rgba(11,29,42,.06)] backdrop-blur md:hidden"
       style={{
         paddingBottom: "env(safe-area-inset-bottom)",
         minHeight: "calc(60px + env(safe-area-inset-bottom))",
@@ -44,7 +44,7 @@ export function MobileTabBar() {
             {active && (
               <span
                 aria-hidden="true"
-                className="absolute inset-x-5 top-0 h-[3px] rounded-b-full bg-copper-solid"
+                className="absolute inset-x-5 top-0 h-[3px] rounded-b-full bg-accent-solid"
               />
             )}
             <Icon

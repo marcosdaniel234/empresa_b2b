@@ -54,7 +54,7 @@ function SideRail({ side, text, slug }: { side: "left" | "right"; text: string; 
         }`}
       >
         {text}
-        <span className="mt-3 block h-[2px] w-7 bg-copper-bright" />
+        <span className="mt-3 block h-[2px] w-7 bg-accent-bright" />
       </p>
     </div>
   );

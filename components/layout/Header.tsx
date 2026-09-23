@@ -16,13 +16,13 @@ export function isHeroPath(pathname: string) {
   return HERO_PATHS.includes(clean);
 }
 
-/** Assinatura da marca: "ATIVOS" em branco, "B2B" no degradê de cobre. */
+/** Assinatura da marca: "ATIVOS" em branco, "B2B" no degradê verde-mar. */
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span
       className={`whitespace-nowrap text-[24px] font-extrabold leading-none tracking-[-.035em] text-white md:text-[28px] ${className}`}
     >
-      ATIVOS <span className="text-copper-gradient">B2B</span>
+      ATIVOS <span className="text-accent-gradient">B2B</span>
     </span>
   );
 }
@@ -35,7 +35,7 @@ const NAV = [
 ];
 
 /**
- * Cabeçalho fixo. Sobre as aberturas em vinho ele começa transparente e só
+ * Cabeçalho fixo. Sobre as aberturas em azul profundo ele começa transparente e só
  * ganha fundo depois que a página rola — a foto da abertura passa por baixo,
  * como na referência. Nas demais páginas já nasce sólido e traz a busca aberta.
  */
@@ -73,7 +73,7 @@ export function Header() {
     <header
       className={`on-dark fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,border-color] duration-panel ease-standard ${
         solid
-          ? "border-b border-white/10 bg-brand-900/[.97] shadow-[0_10px_30px_rgba(20,6,8,.35)] backdrop-blur"
+          ? "border-b border-white/10 bg-brand-900/[.97] shadow-[0_10px_30px_rgba(4,12,18,.35)] backdrop-blur"
           : "border-b border-white/15 bg-transparent"
       }`}
     >
@@ -145,7 +145,7 @@ export function Header() {
           </Link>
           <Link
             href="/anunciar"
-            className="group ml-1 hidden min-h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-control border border-copper-bright/70 px-4 text-[15px] font-semibold text-white transition-[background-color,border-color] duration-standard hover:border-copper-bright hover:bg-copper-bright/10 sm:inline-flex"
+            className="group ml-1 hidden min-h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-control border border-accent-bright/70 px-4 text-[15px] font-semibold text-white transition-[background-color,border-color] duration-standard hover:border-accent-bright hover:bg-accent-bright/10 sm:inline-flex"
           >
             Anunciar ativo
             <ArrowRight

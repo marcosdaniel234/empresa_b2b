@@ -18,7 +18,7 @@ export function CompareHeaderLink() {
       aria-label={`Comparar ${selected.length} lotes selecionados`}
     >
       <Scale size={19} aria-hidden="true" />
-      <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-copper-solid px-1 text-[10px] font-bold text-brand-900 tabular">
+      <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent-solid px-1 text-[10px] font-bold text-brand-900 tabular">
         {selected.length}
       </span>
     </Link>

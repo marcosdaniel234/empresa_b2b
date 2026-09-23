@@ -2,8 +2,8 @@
  * Contorno do Brasil com as divisas estaduais, usado como marca d'água.
  *
  * O SVG (public/images/brasil.svg) entra como máscara: assim a cor vem da
- * classe de fundo e o mesmo arquivo serve ao cobre da abertura e ao cobre
- * esmaecido do rodapé. Traçado: @svg-maps/brazil, Victor Cazanave, CC-BY-4.0.
+ * classe de fundo e o mesmo arquivo serve ao verde-mar vivo dos ícones e ao
+ * verde-mar esmaecido do rodapé. Traçado: @svg-maps/brazil, Victor Cazanave, CC-BY-4.0.
  *
  * `solid` troca o traçado das divisas pela silhueta cheia, que é a forma
  * legível em tamanho de ícone.

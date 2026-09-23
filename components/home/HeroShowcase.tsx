@@ -117,14 +117,14 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, #2A0E12 0%, rgba(42,14,18,.72) 16%, rgba(42,14,18,.18) 42%, rgba(42,14,18,0) 62%)",
+              "linear-gradient(90deg, #0B1D2A 0%, rgba(11,29,42,.72) 16%, rgba(11,29,42,.18) 42%, rgba(11,29,42,0) 62%)",
           }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(0deg, #2A0E12 0%, rgba(42,14,18,.55) 20%, rgba(42,14,18,0) 48%), linear-gradient(180deg, rgba(42,14,18,.6) 0%, rgba(42,14,18,0) 22%)",
+              "linear-gradient(0deg, #0B1D2A 0%, rgba(11,29,42,.55) 20%, rgba(11,29,42,0) 48%), linear-gradient(180deg, rgba(11,29,42,.6) 0%, rgba(11,29,42,0) 22%)",
           }}
         />
         <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
@@ -144,7 +144,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
             style={{ animationDelay: "160ms" }}
           >
             Grandes ativos.
-            <span className="text-copper-gradient block pb-1">
+            <span className="text-accent-gradient block pb-1">
               Novos destinos.
             </span>
           </h1>
@@ -184,7 +184,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                   size={30}
                   strokeWidth={1.4}
                   aria-hidden="true"
-                  className="text-copper-bright"
+                  className="text-accent-bright"
                 />
                 <span className="whitespace-pre-line text-[11px] font-semibold uppercase leading-[1.35] tracking-[.14em] text-white/80">
                   {p.label}
@@ -192,7 +192,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
               </li>
             ))}
             <li className="flex items-center gap-3 border-l border-white/15 pl-6">
-              <BrazilMap solid className="w-8 bg-copper-bright" />
+              <BrazilMap solid className="w-8 bg-accent-bright" />
               <span className="whitespace-pre-line text-[11px] font-semibold uppercase leading-[1.35] tracking-[.14em] text-white/80">
                 {"Um Brasil mais\nprodutivo"}
               </span>
@@ -217,9 +217,9 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
             key={asset.id}
             aria-roledescription="slide"
             aria-label={`${index + 1} de ${total}`}
-            className="relative w-full shrink-0 animate-fade-in rounded-[10px] border border-copper-bright/35 bg-brand-900/85 p-5 pt-6 shadow-float backdrop-blur-md lg:max-w-[400px] xl:w-[400px]"
+            className="relative w-full shrink-0 animate-fade-in rounded-[10px] border border-accent-bright/35 bg-brand-900/85 p-5 pt-6 shadow-float backdrop-blur-md lg:max-w-[400px] xl:w-[400px]"
           >
-            <span className="absolute -top-3 left-5 rounded-[4px] bg-copper-solid px-2.5 py-1 text-[11px] font-bold uppercase tracking-[.08em] text-brand-900">
+            <span className="absolute -top-3 left-5 rounded-[4px] bg-accent-solid px-2.5 py-1 text-[11px] font-bold uppercase tracking-[.08em] text-brand-900">
               {asset.modalidade === "venda_direta"
                 ? "Venda em destaque"
                 : "Lote em destaque"}
@@ -229,7 +229,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
             <h2 className="line-clamp-2 min-h-14 text-[20px] font-bold leading-7 tracking-[-.01em]">
               <Link
                 href={`/leilao/${asset.slug}`}
-                className="after:absolute after:inset-0 after:content-[''] hover:text-copper-bright"
+                className="after:absolute after:inset-0 after:content-[''] hover:text-accent-bright"
               >
                 {asset.title}
                 {current.year ? ` • ${current.year}` : ""}
@@ -278,7 +278,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
               </p>
               <span
                 aria-hidden="true"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-copper-bright/60 text-copper-bright transition-colors duration-standard"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent-bright/60 text-accent-bright transition-colors duration-standard"
               >
                 <ArrowRight size={18} />
               </span>
@@ -298,7 +298,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                     aria-label={`Ver ${slide.asset.title}`}
                     className={`group relative block w-full overflow-hidden rounded-[8px] border-2 text-left transition-colors duration-panel ease-standard ${
                       i === index
-                        ? "border-copper-bright"
+                        ? "border-accent-bright"
                         : "border-white/25 hover:border-white/60"
                     }`}
                   >
@@ -338,7 +338,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                   type="button"
                   onClick={() => go(index - 1)}
                   aria-label="Lote anterior"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/50 text-white transition-colors duration-standard hover:border-copper-bright hover:bg-copper-bright hover:text-brand-900"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/50 text-white transition-colors duration-standard hover:border-accent-bright hover:bg-accent-bright hover:text-brand-900"
                 >
                   <ChevronLeft size={19} aria-hidden="true" />
                 </button>
@@ -346,7 +346,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                   type="button"
                   onClick={() => go(index + 1)}
                   aria-label="Próximo lote"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/50 text-white transition-colors duration-standard hover:border-copper-bright hover:bg-copper-bright hover:text-brand-900"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/50 text-white transition-colors duration-standard hover:border-accent-bright hover:bg-accent-bright hover:text-brand-900"
                 >
                   <ChevronRight size={19} aria-hidden="true" />
                 </button>

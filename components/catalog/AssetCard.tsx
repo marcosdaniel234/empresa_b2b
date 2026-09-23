@@ -119,7 +119,7 @@ export function AssetCard({
                 {formatCurrencyCard(amount)}
               </span>
               {showClock && (
-                <span className="mt-1 flex items-center gap-1 text-caption font-semibold text-copper sm:justify-end">
+                <span className="mt-1 flex items-center gap-1 text-caption font-semibold text-accent sm:justify-end">
                   <Timer size={12} aria-hidden="true" />
                   <CompactCountdown deadlineIso={asset.deadlineIso} />
                 </span>
@@ -190,7 +190,7 @@ export function AssetCard({
             </span>
           </div>
           {showClock && (
-            <span className="inline-flex items-center gap-1.5 rounded-[6px] bg-copper-soft px-2.5 py-1.5 text-caption font-semibold text-copper">
+            <span className="inline-flex items-center gap-1.5 rounded-[6px] bg-accent-soft px-2.5 py-1.5 text-caption font-semibold text-accent">
               <Timer size={14} aria-hidden="true" />
               <span className="sr-only">Encerra em </span>
               <CompactCountdown deadlineIso={asset.deadlineIso} />

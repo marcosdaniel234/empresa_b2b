@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Gera public/images/rotas.svg, o fundo das faixas em vinho: um Brasil em
- * retícula de pontos (meio-tom), cruzado por rotas pontilhadas entre os
- * estados que têm lotes — a ideia de "novos destinos": ativos que saem de
+ * Gera public/images/rotas.svg, o fundo das faixas em azul profundo: um
+ * Brasil em retícula de pontos (meio-tom), cruzado por rotas pontilhadas entre
+ * os estados que têm lotes — a ideia de "novos destinos": ativos que saem de
  * uma empresa e seguem para outra.
  *
  * O meio-tom não é aleatório: os pontos crescem e acendem perto dos polos de
@@ -13,7 +13,7 @@ import { STATES, inside } from "./brazil-geometry.mjs";
 
 const W = 1600;
 const H = 900;
-const COLOR = "#E0A47C";
+const COLOR = "#7FCFC6";
 
 // Posição do mapa no quadro: à direita, com a costa inteira visível.
 const SCALE = 1.42;
@@ -85,7 +85,7 @@ const nodes = Object.values(hub)
     return (
       `<circle cx="${cx}" cy="${cy}" r="17" stroke-opacity=".14"/>` +
       `<circle cx="${cx}" cy="${cy}" r="9" stroke-opacity=".38"/>` +
-      `<circle cx="${cx}" cy="${cy}" r="3.6" fill="#F0B98F" stroke="none"/>`
+      `<circle cx="${cx}" cy="${cy}" r="3.6" fill="#B4EBE4" stroke="none"/>`
     );
   })
   .join("");

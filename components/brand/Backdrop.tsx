@@ -1,8 +1,8 @@
 /**
- * Fundo das faixas em vinho.
+ * Fundo das faixas em azul profundo.
  *
- * A base é sempre um degradê de uma cor fixa — o vinho `#6B2A2F` em
- * transparências diferentes sobre o vinho profundo da faixa —, um brilho
+ * A base é sempre um degradê de uma cor fixa — o azul-aço `#22506F` em
+ * transparências diferentes sobre o azul-atlântico da faixa —, um brilho
  * suave atrás do texto que some antes das bordas. Por sumir antes das
  * bordas, duas faixas vizinhas nunca mostram emenda.
  *
@@ -18,9 +18,9 @@
  * O caminho do SVG entra por estilo inline, e não em CSS, porque precisa do
  * basePath da publicação no GitHub Pages.
  */
-const WINE = "107, 42, 47"; // #6B2A2F, brand-600
+const STEEL = "34, 80, 111"; // #22506F, brand-600
 
-const GLOW = `radial-gradient(ellipse 70% 58% at 28% 50%, rgba(${WINE}, .6), rgba(${WINE}, 0))`;
+const GLOW = `radial-gradient(ellipse 70% 58% at 28% 50%, rgba(${STEEL}, .6), rgba(${STEEL}, 0))`;
 
 const MASKS = {
   edges: "linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent)",

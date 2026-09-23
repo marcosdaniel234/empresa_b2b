@@ -3,7 +3,7 @@ import { useId } from "react";
 import { Search } from "lucide-react";
 
 /**
- * Busca do cabeçalho: campo translúcido sobre o vinho. Envia por GET para
+ * Busca do cabeçalho: campo translúcido sobre o azul profundo. Envia por GET para
  * /resultados, de modo que a consulta continua sendo uma URL compartilhável.
  * A busca completa, com categoria, estado e modalidade, fica no painel da
  * página inicial (components/home/SearchPanel.tsx).
@@ -28,7 +28,7 @@ export function SearchBar({
       action={action}
       role="search"
       aria-label="Buscar no catálogo"
-      className={`flex h-11 w-full items-center gap-2.5 rounded-control border border-white/20 bg-white/[.06] px-3.5 transition-[border-color,background-color] duration-standard focus-within:border-copper-bright/70 focus-within:bg-white/10 ${className}`}
+      className={`flex h-11 w-full items-center gap-2.5 rounded-control border border-white/20 bg-white/[.06] px-3.5 transition-[border-color,background-color] duration-standard focus-within:border-accent-bright/70 focus-within:bg-white/10 ${className}`}
     >
       <Search size={17} aria-hidden="true" className="shrink-0 text-white/60" />
       <label htmlFor={id} className="sr-only">

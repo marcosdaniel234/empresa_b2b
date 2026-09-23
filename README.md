@@ -55,11 +55,11 @@ cartão baixa a versão pequena e a abertura, a grande. O conjunto caiu de
 
 Outros arquivos gerados por script, versionados já prontos:
 
-- `public/images/rotas.svg` — fundo das faixas vinho
+- `public/images/rotas.svg` — fundo das faixas azul profundo
   (`node scripts/generate-backdrop.mjs`, determinístico): o Brasil em retícula
   de pontos, com rotas pontilhadas entre os estados que têm lotes. O
   componente `Backdrop` põe por baixo de toda faixa um degradê de uma cor fixa
-  (o vinho `#6B2A2F` em transparências), protege o lado do texto (as rotas só
+  (o azul-aço `#22506F` em transparências), protege o lado do texto (as rotas só
   aparecem do meio para a direita) e, no celular, deixa só o degradê.
 - `lib/brazilMap.ts` — traçado das 27 UFs para o mapa clicável da página
   inicial (`node scripts/generate-brazil-map.mjs`, a partir de `@svg-maps/brazil`).
@@ -141,22 +141,24 @@ lib/
   format.ts    Moeda, datas, contagem regressiva, nomes de empresa
 ```
 
-## Direção visual: vinho, cobre e creme
+## Direção visual: Atlantic Industrial
 
 A interface reconstrói as três referências da marca (abertura com carrossel,
 página de quem vende e seções numeradas de oportunidades, categorias e
 empresas).
 
-- **Cor**: vinho profundo (`brand-900` #2A0E12) nas faixas, cabeçalho e rodapé;
-  cobre (`copper`) em sobretítulos, índices numerados e no gradiente do
-  destaque; creme (`surface-page` #F6F0E9) no corpo; vinho médio (`action`
-  #6E1F27) como cor de ação. Vermelho e azul só nos selos “Em leilão” e
+- **Cor**: azul-atlântico profundo (`brand-900` #0B1D2A) nas faixas,
+  cabeçalho e rodapé, como casco de navio e aço pintado de estaleiro;
+  verde-mar (`accent`, #7FCFC6 sobre o azul e #1B6E6C sobre o claro) em
+  sobretítulos, índices numerados, mapa e no degradê do destaque; concreto
+  frio (`surface-page` #F1F4F5) no corpo; azul-petróleo (`action` #0E4A6E)
+  como cor de ação. Vermelho e azul só nos selos “Em leilão” e
   “Venda direta”. As 31 combinações de texto passam WCAG AA
   (`scripts/check-contrast.mjs`).
 - **Tipografia**: Plus Jakarta Sans em extrabold com tracking negativo nos
   títulos; Roboto Mono reservada a códigos e números tabulares.
-- **Fundo**: degradê de uma cor fixa (vinho `#6B2A2F`) em todas as faixas. Nas
-  aberturas internas e no rodapé, o Brasil em pontos de cobre, cruzado por
+- **Fundo**: degradê de uma cor fixa (azul-aço `#22506F`) em todas as faixas. Nas
+  aberturas internas e no rodapé, o Brasil em pontos verde-mar, cruzado por
   rotas entre os estados com lotes — “novos destinos”.
   Prompts para gerar versões fotográficas: [`docs/design/PROMPTS_IMAGENS.md`](./docs/design/PROMPTS_IMAGENS.md).
 - **Estados**: a seção “Ativos em todo o Brasil” liga mapa e bandeiras ao

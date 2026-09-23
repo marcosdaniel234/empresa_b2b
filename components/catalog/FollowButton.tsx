@@ -40,8 +40,8 @@ export function FollowButton({
   const palette =
     tone === "dark"
       ? active
-        ? "border-copper-bright bg-copper-bright text-brand-900"
-        : "border-white/35 text-white hover:border-copper-bright hover:text-copper-bright"
+        ? "border-accent-bright bg-accent-bright text-brand-900"
+        : "border-white/35 text-white hover:border-accent-bright hover:text-accent-bright"
       : active
         ? "border-action bg-action text-white"
         : "border-border-strong text-text-primary hover:border-action hover:text-action";

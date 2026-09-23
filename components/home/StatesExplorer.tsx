@@ -22,8 +22,8 @@ export function StatesExplorer() {
   const css = counts
     .map(
       ({ uf }) =>
-        `.estados:has([data-flag="${uf}"]:is(:hover,:focus-visible)) [data-map="${uf}"]{fill:#F0B98F;fill-opacity:1}` +
-        `.estados:has([data-map-link="${uf}"]:is(:hover,:focus-visible)) [data-flag="${uf}"]{border-color:rgba(217,147,106,.7);background:rgba(255,255,255,.09)}`,
+        `.estados:has([data-flag="${uf}"]:is(:hover,:focus-visible)) [data-map="${uf}"]{fill:#B4EBE4;fill-opacity:1}` +
+        `.estados:has([data-map-link="${uf}"]:is(:hover,:focus-visible)) [data-flag="${uf}"]{border-color:rgba(127,207,198,.7);background:rgba(255,255,255,.09)}`,
     )
     .join("");
 
@@ -38,12 +38,12 @@ export function StatesExplorer() {
       <div className="container-content relative grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
         <div>
           <div className="flex items-start gap-5 sm:gap-8" data-reveal>
-            <span className="section-index mt-2 text-copper-bright sm:mt-3">02</span>
+            <span className="section-index mt-2 text-accent-bright sm:mt-3">02</span>
             <div>
               <h2 id="titulo-estados" className="section-title text-white">
                 Ativos em todo o Brasil
               </h2>
-              <p className="mt-3 text-[19px] font-bold text-copper-bright">
+              <p className="mt-3 text-[19px] font-bold text-accent-bright">
                 Encontre oportunidades perto da sua operação.
               </p>
               <p className="mt-3 max-w-md text-[16px] leading-relaxed text-white/75">
@@ -59,7 +59,7 @@ export function StatesExplorer() {
                 <Link
                   href={destino(uf)}
                   data-flag={uf}
-                  className="group flex min-h-[60px] items-center gap-2.5 rounded-control border border-white/10 bg-white/[.04] px-2.5 py-2.5 sm:gap-3.5 sm:px-3.5 transition-[background-color,border-color] duration-standard hover:border-copper-bright/70 hover:bg-white/[.09]"
+                  className="group flex min-h-[60px] items-center gap-2.5 rounded-control border border-white/10 bg-white/[.04] px-2.5 py-2.5 sm:gap-3.5 sm:px-3.5 transition-[background-color,border-color] duration-standard hover:border-accent-bright/70 hover:bg-white/[.09]"
                 >
                   <StateFlag uf={uf} className="w-9 sm:w-11" />
                   <span className="min-w-0 flex-1">
@@ -73,7 +73,7 @@ export function StatesExplorer() {
                   <ArrowRight
                     size={17}
                     aria-hidden="true"
-                    className="hidden shrink-0 text-copper-bright transition-transform duration-standard group-hover:translate-x-1 sm:block"
+                    className="hidden shrink-0 text-accent-bright transition-transform duration-standard group-hover:translate-x-1 sm:block"
                   />
                 </Link>
               </li>
@@ -114,9 +114,9 @@ export function StatesExplorer() {
                     d={s.d}
                     data-map={s.uf}
                     className="uf-ativo"
-                    fill="#D9936A"
+                    fill="#4FB3AA"
                     fillOpacity={0.38 + 0.5 * (n / max)}
-                    stroke="#2A0E12"
+                    stroke="#0B1D2A"
                     strokeWidth={1}
                     strokeLinejoin="round"
                   />
@@ -125,7 +125,7 @@ export function StatesExplorer() {
             })}
             {BRAZIL_STATES.filter((s) => total.has(s.uf)).map((s) => (
               <g key={s.uf} aria-hidden="true" className="pointer-events-none">
-                <circle cx={s.x} cy={s.y} r={11} fill="#F6EDE3" />
+                <circle cx={s.x} cy={s.y} r={11} fill="#EEF3F4" />
                 <text
                   x={s.x}
                   y={s.y}
@@ -133,7 +133,7 @@ export function StatesExplorer() {
                   textAnchor="middle"
                   fontSize={11}
                   fontWeight={800}
-                  fill="#6E1F27"
+                  fill="#0E4A6E"
                 >
                   {total.get(s.uf)}
                 </text>
@@ -142,7 +142,7 @@ export function StatesExplorer() {
           </svg>
           <figcaption className="mt-5 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[13px] text-white/65">
             <span className="inline-flex items-center gap-2">
-              <span aria-hidden="true" className="h-3 w-3 rounded-[3px] bg-copper-bright/80" />
+              <span aria-hidden="true" className="h-3 w-3 rounded-[3px] bg-accent-bright/80" />
               Estado com lotes (número no marcador)
             </span>
             <span className="inline-flex items-center gap-2">

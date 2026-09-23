@@ -90,7 +90,7 @@ export default async function LojaPage({ params }: PageProps) {
                       <MapPin
                         size={15}
                         aria-hidden="true"
-                        className="text-copper-bright"
+                        className="text-accent-bright"
                       />
                       {company.city} - {company.state}
                     </span>
@@ -136,7 +136,7 @@ export default async function LojaPage({ params }: PageProps) {
           <p className="mt-6 flex items-start gap-2 text-[13px] text-white/60">
             <Info
               size={14}
-              className="mt-0.5 shrink-0 text-copper-bright"
+              className="mt-0.5 shrink-0 text-accent-bright"
               aria-hidden="true"
             />
             Perfil demonstrativo. Não há verificação cadastral, avaliação ou

@@ -106,7 +106,7 @@ export function MainMenu() {
                       className="flex min-h-14 items-center justify-between text-[22px] font-bold tracking-[-.02em] text-white"
                     >
                       {item.label}
-                      <ArrowRight size={18} aria-hidden="true" className="text-copper-bright" />
+                      <ArrowRight size={18} aria-hidden="true" className="text-accent-bright" />
                     </Link>
                   </li>
                 ))}
