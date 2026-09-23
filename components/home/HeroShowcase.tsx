@@ -60,7 +60,9 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
   );
 
   useEffect(() => {
-    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    reduced.current = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
   }, []);
 
   useEffect(() => {
@@ -86,7 +88,10 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
       onBlurCapture={() => setPaused(false)}
     >
       {/* Fotografias: todas carregadas, só a ativa visível, com aproximação lenta. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden lg:left-[34%]">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 overflow-hidden lg:left-[34%]"
+      >
         {slides.map((slide, i) => {
           const photo = photoSources(assetPhoto(slide.asset.slug));
           return (
@@ -128,7 +133,10 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
 
       <div className="container-content grid gap-10 pb-36 pt-[116px] md:pt-[140px] lg:min-h-[760px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:pb-40">
         <div className="relative">
-          <p className="kicker-on-dark animate-rise" style={{ animationDelay: "80ms" }}>
+          <p
+            className="kicker-on-dark animate-rise"
+            style={{ animationDelay: "80ms" }}
+          >
             Negócios que movimentam empresas
           </p>
           <h1
@@ -136,7 +144,9 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
             style={{ animationDelay: "160ms" }}
           >
             Grandes ativos.
-            <span className="text-copper-gradient block pb-1">Novos destinos.</span>
+            <span className="text-copper-gradient block pb-1">
+              Novos destinos.
+            </span>
           </h1>
           <p
             className="mt-5 max-w-[470px] animate-rise text-[18px] leading-[1.45] text-white/80 sm:text-[21px]"
@@ -170,7 +180,12 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                 key={p.label}
                 className="flex items-center gap-3 border-white/15 pr-6 [&:not(:first-child)]:border-l [&:not(:first-child)]:pl-6"
               >
-                <p.icon size={30} strokeWidth={1.4} aria-hidden="true" className="text-copper-bright" />
+                <p.icon
+                  size={30}
+                  strokeWidth={1.4}
+                  aria-hidden="true"
+                  className="text-copper-bright"
+                />
                 <span className="whitespace-pre-line text-[11px] font-semibold uppercase leading-[1.35] tracking-[.14em] text-white/80">
                   {p.label}
                 </span>
@@ -194,103 +209,125 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
           </p>
         </div>
 
-        {/* Lado direito: miniaturas, cartão do lote ativo e navegação. */}
-        <div className="relative flex flex-col justify-end gap-5 lg:items-end">
-          <div className="hidden gap-3 lg:absolute lg:right-0 lg:top-0 lg:flex lg:flex-col">
-            {slides.map((slide, i) => {
-              const photo = photoSources(assetPhoto(slide.asset.slug));
-              return (
-                <button
-                  key={slide.asset.id}
-                  type="button"
-                  onClick={() => go(i)}
-                  aria-pressed={i === index}
-                  aria-label={`Ver ${slide.asset.title}`}
-                  className={`group relative block w-[180px] overflow-hidden rounded-[8px] border-2 text-left transition-[border-color,transform] duration-panel ease-standard xl:w-[196px] ${
-                    i === index
-                      ? "border-copper-bright"
-                      : "border-white/25 hover:-translate-x-1 hover:border-white/60"
-                  }`}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element -- exportação estática */}
-                  <img
-                    src={photo.srcSet ? photo.src.replace(/\.webp$/, "-640.webp") : photo.src}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className="aspect-[16/10] w-full object-cover"
-                  />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-brand-900/95 to-transparent px-2.5 pb-2 pt-6 text-[12px] font-medium leading-4">
-                    {slide.asset.title}
-                    {slide.year ? ` • ${slide.year}` : ""}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="flex w-full flex-col gap-4 lg:w-auto lg:flex-row lg:items-end">
-            <article
-              key={asset.id}
-              aria-roledescription="slide"
-              aria-label={`${index + 1} de ${total}`}
-              className="relative w-full animate-fade-in rounded-[10px] border border-copper-bright/35 bg-brand-900/85 p-5 pt-6 shadow-float backdrop-blur-md lg:w-[400px]"
-            >
-              <span className="absolute -top-3 left-5 rounded-[4px] bg-copper-solid px-2.5 py-1 text-[11px] font-bold uppercase tracking-[.08em] text-brand-900">
-                {asset.modalidade === "venda_direta" ? "Venda em destaque" : "Lote em destaque"}
-              </span>
-              <h2 className="text-[20px] font-bold leading-7 tracking-[-.01em]">
-                <Link
-                  href={`/leilao/${asset.slug}`}
-                  className="after:absolute after:inset-0 after:content-[''] hover:text-copper-bright"
-                >
-                  {asset.title}
-                  {current.year ? ` • ${current.year}` : ""}
-                </Link>
-              </h2>
-              <div className="mt-3 flex items-end gap-5">
-                <div>
-                  <p className="text-[14px] text-white/70">
-                    {aberto ? "Lance atual" : "Lance inicial"}
-                  </p>
-                  <p className="text-[30px] font-extrabold leading-9 tracking-[-.03em] tabular">
-                    {formatCurrencyCard(asset.currentBid ?? asset.startingBid)}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2.5 border-l border-white/20 pl-5">
-                  <Timer size={22} strokeWidth={1.6} aria-hidden="true" className="text-white/80" />
-                  <p className="text-[13px] leading-tight text-white/70">
-                    Encerra em
-                    <span className="block text-[17px] font-bold text-white">
-                      <CompactCountdown deadlineIso={asset.deadlineIso} />
-                    </span>
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 flex items-center justify-between gap-3">
-                <p className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 text-[13px] text-white/75">
-                  <span className="inline-flex items-center gap-1.5">
-                    <MapPin size={15} aria-hidden="true" className="text-white" />
-                    {asset.city} - {asset.state}
-                  </span>
-                  {current.detail && (
-                    <span className="inline-flex min-w-0 items-center gap-1.5 border-l border-white/20 pl-3">
-                      <Tag size={14} aria-hidden="true" className="shrink-0 text-white" />
-                      <span className="truncate">{current.detail}</span>
-                    </span>
-                  )}
+        {/* Lado direito: cartão do lote ativo ao lado da coluna de miniaturas
+            e navegação. Os dois lados têm largura e altura fixas e ficam lado
+            a lado, então o cartão nunca cobre uma miniatura. */}
+        <div className="flex flex-col justify-end gap-5 lg:items-end xl:flex-row xl:justify-end">
+          <article
+            key={asset.id}
+            aria-roledescription="slide"
+            aria-label={`${index + 1} de ${total}`}
+            className="relative w-full shrink-0 animate-fade-in rounded-[10px] border border-copper-bright/35 bg-brand-900/85 p-5 pt-6 shadow-float backdrop-blur-md lg:max-w-[400px] xl:w-[400px]"
+          >
+            <span className="absolute -top-3 left-5 rounded-[4px] bg-copper-solid px-2.5 py-1 text-[11px] font-bold uppercase tracking-[.08em] text-brand-900">
+              {asset.modalidade === "venda_direta"
+                ? "Venda em destaque"
+                : "Lote em destaque"}
+            </span>
+            {/* O título sempre reserva duas linhas: o cartão tem a mesma altura
+                em todos os lotes, curtos ou longos. */}
+            <h2 className="line-clamp-2 min-h-14 text-[20px] font-bold leading-7 tracking-[-.01em]">
+              <Link
+                href={`/leilao/${asset.slug}`}
+                className="after:absolute after:inset-0 after:content-[''] hover:text-copper-bright"
+              >
+                {asset.title}
+                {current.year ? ` • ${current.year}` : ""}
+              </Link>
+            </h2>
+            <div className="mt-3 flex items-end gap-5">
+              <div>
+                <p className="text-[14px] text-white/70">
+                  {aberto ? "Lance atual" : "Lance inicial"}
                 </p>
-                <span
-                  aria-hidden="true"
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-copper-bright/60 text-copper-bright transition-colors duration-standard"
-                >
-                  <ArrowRight size={18} />
-                </span>
+                <p className="text-[30px] font-extrabold leading-9 tracking-[-.03em] tabular">
+                  {formatCurrencyCard(asset.currentBid ?? asset.startingBid)}
+                </p>
               </div>
-            </article>
+              <div className="flex items-center gap-2.5 border-l border-white/20 pl-5">
+                <Timer
+                  size={22}
+                  strokeWidth={1.6}
+                  aria-hidden="true"
+                  className="text-white/80"
+                />
+                <p className="text-[13px] leading-tight text-white/70">
+                  Encerra em
+                  <span className="block text-[17px] font-bold text-white">
+                    <CompactCountdown deadlineIso={asset.deadlineIso} />
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <p className="flex min-w-0 items-center gap-3 text-[13px] text-white/75">
+                <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+                  <MapPin size={15} aria-hidden="true" className="text-white" />
+                  {asset.city} - {asset.state}
+                </span>
+                {current.detail && (
+                  <span className="inline-flex min-w-0 items-center gap-1.5 border-l border-white/20 pl-3">
+                    <Tag
+                      size={14}
+                      aria-hidden="true"
+                      className="shrink-0 text-white"
+                    />
+                    <span className="truncate">{current.detail}</span>
+                  </span>
+                )}
+              </p>
+              <span
+                aria-hidden="true"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-copper-bright/60 text-copper-bright transition-colors duration-standard"
+              >
+                <ArrowRight size={18} />
+              </span>
+            </div>
+          </article>
 
-            <div className="flex items-center justify-between gap-4 lg:flex-col lg:items-end">
-              <p className="text-[15px] tabular text-white/70" aria-hidden="true">
+          <div className="flex w-full items-center justify-between gap-4 lg:max-w-[400px] xl:w-[176px] xl:shrink-0 xl:flex-col xl:items-stretch">
+            <div className="hidden flex-col gap-3 xl:flex">
+              {slides.map((slide, i) => {
+                const photo = photoSources(assetPhoto(slide.asset.slug));
+                return (
+                  <button
+                    key={slide.asset.id}
+                    type="button"
+                    onClick={() => go(i)}
+                    aria-pressed={i === index}
+                    aria-label={`Ver ${slide.asset.title}`}
+                    className={`group relative block w-full overflow-hidden rounded-[8px] border-2 text-left transition-colors duration-panel ease-standard ${
+                      i === index
+                        ? "border-copper-bright"
+                        : "border-white/25 hover:border-white/60"
+                    }`}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element -- exportação estática */}
+                    <img
+                      src={
+                        photo.srcSet
+                          ? photo.src.replace(/\.webp$/, "-640.webp")
+                          : photo.src
+                      }
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-[16/9] w-full object-cover"
+                    />
+                    <span className="absolute inset-x-0 bottom-0 line-clamp-2 bg-gradient-to-t from-brand-900/95 to-transparent px-2.5 pb-2 pt-6 text-[12px] font-medium leading-4">
+                      {slide.asset.title}
+                      {slide.year ? ` • ${slide.year}` : ""}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="flex w-full items-center justify-between gap-4">
+              <p
+                className="text-[15px] tabular text-white/70"
+                aria-hidden="true"
+              >
                 <span className="text-[20px] font-semibold text-white">
                   {String(index + 1).padStart(2, "0")}
                 </span>{" "}
