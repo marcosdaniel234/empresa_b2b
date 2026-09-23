@@ -17,11 +17,17 @@ function simplify(pts, tol) {
   if (pts.length < 3) return pts;
   const [ax, ay] = pts[0];
   const [bx, by] = pts[pts.length - 1];
-  const len = Math.hypot(bx - ax, by - ay) || 1;
+  const len = Math.hypot(bx - ax, by - ay);
   let far = 0;
   let idx = 0;
   for (let i = 1; i < pts.length - 1; i++) {
-    const dist = Math.abs((by - ay) * pts[i][0] - (bx - ax) * pts[i][1] + bx * ay - by * ax) / len;
+    // Anel que fecha no ponto de partida (caso de SC, com diferença só de
+    // arredondamento, ~1e-13): não há segmento de referência, então vale a
+    // distância até o ponto inicial.
+    const dist =
+      len < 1e-6
+        ? Math.hypot(pts[i][0] - ax, pts[i][1] - ay)
+        : Math.abs((by - ay) * pts[i][0] - (bx - ax) * pts[i][1] + bx * ay - by * ax) / len;
     if (dist > far) {
       far = dist;
       idx = i;
