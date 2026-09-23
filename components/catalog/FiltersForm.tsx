@@ -1,12 +1,14 @@
 "use client";
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, MapPin } from "lucide-react";
+import { StateFlag } from "@/components/brand/StateFlag";
 import {
   CATEGORY_SHORT,
   Category,
   MODALIDADE_LABELS,
   Modalidade,
+  STATE_NAMES,
   SUBCATEGORIES,
 } from "@/lib/data";
 import {
@@ -54,6 +56,9 @@ export function FiltersForm({
     categorias: [],
     subcategorias: [],
   });
+
+  // Contagem por UF com os demais filtros aplicados, menos o de estado.
+  const stateFacets = applyFilters({ ...draft, uf: "" });
 
   function navigate(value: FilterState) {
     const qs = filtersToQueryString(value);
@@ -260,23 +265,46 @@ export function FiltersForm({
           </div>
         </fieldset>
 
-        <div className="py-2.5">
-          <label htmlFor={id + "uf"} className="field-label">
-            Estado
-          </label>
-          <select
-            id={id + "uf"}
-            value={draft.uf}
-            onChange={(e) => setDraft((d) => ({ ...d, uf: e.target.value }))}
-            className="field mt-1"
-          >
-            <option value="">Todos os estados</option>
-            {AVAILABLE_UFS.map((uf) => (
-              <option key={uf}>{uf}</option>
+        <fieldset className="py-2.5">
+          <legend className="field-label">Estado</legend>
+          <div className="mt-1.5 grid grid-cols-2 gap-1.5">
+            {[{ uf: "", total: stateFacets.length }, ...AVAILABLE_UFS.map((uf) => ({
+              uf,
+              total: stateFacets.filter((a) => a.state === uf).length,
+            }))].map(({ uf, total }) => (
+              <label key={uf || "todos"} className={`relative cursor-pointer ${uf ? "" : "col-span-2"}`}>
+                <input
+                  type="radio"
+                  name={id + "uf"}
+                  checked={draft.uf === uf}
+                  onChange={() => setDraft((d) => ({ ...d, uf }))}
+                  className="peer sr-only"
+                />
+                <span className="flex min-h-10 items-center gap-2 rounded-control border border-border-subtle bg-surface-card px-2 text-metadata text-text-primary transition-colors duration-quick hover:border-border-control peer-checked:border-action peer-checked:bg-action-soft peer-checked:font-semibold peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus-ring">
+                  {uf ? (
+                    <StateFlag uf={uf} className="w-6" />
+                  ) : (
+                    <MapPin size={15} aria-hidden="true" className="ml-1 text-text-muted" />
+                  )}
+                  <span className="min-w-0 flex-1 truncate" title={uf ? STATE_NAMES[uf] : undefined}>
+                    {uf ? (
+                      <>
+                        <span aria-hidden="true">{uf}</span>
+                        <span className="sr-only">{STATE_NAMES[uf] ?? uf}</span>
+                      </>
+                    ) : (
+                      "Todos os estados"
+                    )}
+                  </span>
+                  <span className="text-caption text-text-muted tabular">{total}</span>
+                </span>
+              </label>
             ))}
-          </select>
+          </div>
+        </fieldset>
 
-          <label htmlFor={id + "cidade"} className="field-label mt-2.5 block">
+        <div className="py-2.5">
+          <label htmlFor={id + "cidade"} className="field-label block">
             Cidade
           </label>
           <input

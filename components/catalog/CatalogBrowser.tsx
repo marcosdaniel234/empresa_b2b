@@ -23,8 +23,10 @@ import {
   CATEGORY_SHORT,
   Category,
   MODALIDADE_LABELS,
+  STATE_NAMES,
   getSubcategoryLabel,
 } from "@/lib/data";
+import { StateFlag } from "@/components/brand/StateFlag";
 import {
   applyFilters,
   countActiveFilters,
@@ -77,7 +79,7 @@ export function CatalogBrowser() {
     return `/resultados${qs ? `?${qs}` : ""}`;
   };
 
-  const chips = [
+  const chips: { label: string; href: string; flag?: string }[] = [
     ...(filters.q
       ? [{ label: `Busca: ${filters.q}`, href: chipLink({ ...filters, q: "" }) }]
       : []),
@@ -113,8 +115,9 @@ export function CatalogBrowser() {
     ...(filters.uf
       ? [
           {
-            label: `Estado: ${filters.uf}`,
+            label: STATE_NAMES[filters.uf] ?? filters.uf,
             href: chipLink({ ...filters, uf: "" }),
+            flag: filters.uf,
           },
         ]
       : []),
@@ -161,7 +164,16 @@ export function CatalogBrowser() {
       <div className="mt-3 flex flex-wrap items-end justify-between gap-3 border-b border-border-subtle pb-4">
         <div className="min-w-0">
           <h1 className="text-[28px] font-extrabold leading-[1.08] tracking-[-.03em] text-text-primary sm:text-[36px]">
-            {filters.q ? `Busca: “${filters.q}”` : "Catálogo de lotes"}
+            {filters.q ? (
+              `Busca: “${filters.q}”`
+            ) : filters.uf ? (
+              <span className="inline-flex items-center gap-3">
+                <StateFlag uf={filters.uf} className="w-10 sm:w-12" />
+                Lotes em {STATE_NAMES[filters.uf] ?? filters.uf}
+              </span>
+            ) : (
+              "Catálogo de lotes"
+            )}
           </h1>
           <p role="status" className="mt-1.5 text-[15px] text-text-secondary">
             <strong className="font-bold text-text-primary tabular">
@@ -210,6 +222,7 @@ export function CatalogBrowser() {
                 aria-label={`Remover filtro ${chip.label}`}
                 className="inline-flex min-h-9 items-center gap-1.5 rounded-control border border-border-subtle bg-surface-subtle px-2.5 text-caption text-text-primary transition-colors duration-quick hover:border-action hover:text-action"
               >
+                {chip.flag && <StateFlag uf={chip.flag} className="w-5" />}
                 {chip.label}
                 <X size={12} aria-hidden="true" />
               </Link>

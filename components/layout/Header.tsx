@@ -92,7 +92,7 @@ export function Header() {
 
         <span aria-hidden="true" className="hidden h-7 w-px bg-white/20 lg:block" />
 
-        <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Principal" className="hidden shrink-0 items-center gap-1 lg:flex">
           {NAV.map((item) => {
             const current = pathname.startsWith(item.href);
             return (
@@ -100,7 +100,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={current ? "page" : undefined}
-                className={`nav-underline inline-flex h-11 items-center px-2.5 text-[15px] transition-colors duration-quick xl:px-3.5 ${
+                className={`nav-underline inline-flex h-11 items-center whitespace-nowrap px-2.5 text-[15px] transition-colors duration-quick xl:px-3.5 ${
                   current ? "text-white" : "text-white/80 hover:text-white"
                 }`}
               >
@@ -110,9 +110,9 @@ export function Header() {
           })}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2">
+        <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-1 sm:gap-2">
           {inlineSearch && (
-            <div className="hidden w-[300px] xl:block 2xl:w-[340px]">
+            <div className="hidden min-w-0 max-w-[320px] flex-1 xl:block">
               <SearchBar variant="on-dark" />
             </div>
           )}
@@ -139,13 +139,13 @@ export function Header() {
           <span aria-hidden="true" className="hidden h-6 w-px bg-white/20 md:block" />
           <Link
             href="/entrar"
-            className="hidden px-2 text-[15px] text-white/85 transition-colors hover:text-white md:inline-flex"
+            className="hidden shrink-0 whitespace-nowrap px-2 text-[15px] text-white/85 transition-colors hover:text-white md:inline-flex"
           >
             Entrar
           </Link>
           <Link
             href="/anunciar"
-            className="group ml-1 hidden min-h-11 items-center gap-2 rounded-control border border-copper-bright/70 px-4 text-[15px] font-semibold text-white transition-[background-color,border-color] duration-standard hover:border-copper-bright hover:bg-copper-bright/10 sm:inline-flex"
+            className="group ml-1 hidden min-h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-control border border-copper-bright/70 px-4 text-[15px] font-semibold text-white transition-[background-color,border-color] duration-standard hover:border-copper-bright hover:bg-copper-bright/10 sm:inline-flex"
           >
             Anunciar ativo
             <ArrowRight

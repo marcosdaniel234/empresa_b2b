@@ -32,11 +32,13 @@ export function CompaniesBand() {
       aria-labelledby="titulo-empresas"
       className="on-dark relative overflow-hidden bg-brand-900 py-16 lg:py-24"
     >
-      <Contours className="opacity-80" />
-      <div className="container-content relative grid gap-10 lg:grid-cols-[minmax(0,.9fr)_minmax(0,2fr)] lg:gap-14">
+      <Contours />
+      {/* Mesma grade do rodapé logo abaixo: o texto ocupa a primeira coluna e os
+          cartões começam exatamente onde começa "Explorar". */}
+      <div className="container-content relative grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))]">
         <div data-reveal>
           <div className="flex items-start gap-5">
-            <span className="section-index mt-2 text-copper-bright">03</span>
+            <span className="section-index mt-2 text-copper-bright">04</span>
             <div>
               <h2 id="titulo-empresas" className="section-title text-white">
                 Empresas que movimentam o mercado
@@ -58,7 +60,7 @@ export function CompaniesBand() {
           </div>
         </div>
 
-        <ul className="grid gap-5 md:grid-cols-2">
+        <ul className="grid items-start gap-5 md:grid-cols-2 lg:col-span-3">
           {destaque.map(({ company, lotes }, i) => {
             const fotos = lotes.slice(0, 3);
             const extra = lotes.length - fotos.length;

@@ -8,6 +8,10 @@
  * `<nome>-640.webp` (para cartões e miniaturas). O `ImageSlot` escolhe entre
  * eles por `srcset`.
  *
+ * As bandeiras das UFs (assets-src/states/*.svg) seguem outra regra: algumas
+ * trazem brasões com centenas de KB de vetor, e aparecem com ~48 px. Viram um
+ * único WebP de 160 px de largura, nítido até em tela 3x.
+ *
  * Rodar após adicionar ou trocar uma foto: `npm run images`.
  */
 import { mkdir, readdir, stat } from "node:fs/promises";
@@ -30,6 +34,17 @@ for (const dir of await readdir(SRC)) {
   await mkdir(path.join(OUT, dir), { recursive: true });
 
   for (const file of await readdir(from)) {
+    if (/\.svg$/i.test(file)) {
+      const input = path.join(from, file);
+      const output = path.join(OUT, dir, file.replace(/\.svg$/i, ".webp"));
+      before += (await stat(input)).size;
+      await sharp(input, { density: 144 })
+        .resize({ width: 160 })
+        .webp({ quality: 88, effort: 5 })
+        .toFile(output);
+      after += (await stat(output)).size;
+      continue;
+    }
     if (!/\.(png|jpe?g)$/i.test(file)) continue;
     const input = path.join(from, file);
     const name = file.replace(/\.(png|jpe?g)$/i, "");

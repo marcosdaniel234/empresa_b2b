@@ -42,9 +42,8 @@ const SOCIAIS = [
 
 export function Footer() {
   return (
-    <footer className="on-dark relative overflow-hidden bg-brand-900 text-white/70">
-      <Contours className="opacity-60" />
-      <BrazilMap className="absolute -right-24 top-6 hidden w-[520px] bg-copper-bright/[.09] lg:block" />
+    <footer className="on-dark relative overflow-hidden border-t border-white/[.07] bg-brand-900 text-white/70">
+      <Contours />
 
       <div className="container-content relative grid gap-10 pb-10 pt-14 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))] lg:pt-20">
         <div>

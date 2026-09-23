@@ -22,11 +22,11 @@ function disponiveis(c: Category) {
 
 export function CategoryShowcase() {
   return (
-    <section aria-labelledby="titulo-categorias" className="pb-16 lg:pb-24">
+    <section aria-labelledby="titulo-categorias" className="py-16 lg:py-24">
       <div className="container-content">
         <div className="section-heading" data-reveal>
           <div className="flex items-start gap-5 sm:gap-8">
-            <span className="section-index mt-2 sm:mt-3">02</span>
+            <span className="section-index mt-2 sm:mt-3">03</span>
             <div>
               <h2 id="titulo-categorias" className="section-title">
                 Navegue por categoria

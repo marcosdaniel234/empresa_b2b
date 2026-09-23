@@ -3,6 +3,7 @@ import { HeroShowcase, ShowcaseSlide } from "@/components/home/HeroShowcase";
 import { SearchPanel } from "@/components/home/SearchPanel";
 import { TrustRow } from "@/components/home/TrustRow";
 import { Opportunities } from "@/components/home/Opportunities";
+import { StatesExplorer } from "@/components/home/StatesExplorer";
 import { CategoryShowcase } from "@/components/home/CategoryShowcase";
 import { CompaniesBand } from "@/components/home/CompaniesBand";
 
@@ -34,6 +35,7 @@ export default function HomePage() {
       <SearchPanel states={getStateCounts()} />
       <TrustRow />
       <Opportunities assets={ASSETS} />
+      <StatesExplorer />
       <CategoryShowcase />
       <CompaniesBand />
     </>

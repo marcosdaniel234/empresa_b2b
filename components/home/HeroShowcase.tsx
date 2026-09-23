@@ -106,12 +106,25 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
             />
           );
         })}
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-900 via-brand-900/55 to-brand-900/5" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-transparent to-brand-900/60" />
+        {/* Véus: a foto só escurece onde há texto por cima — borda esquerda,
+            faixa do cabeçalho e rodapé da abertura —, sem tingir o centro. */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, #2A0E12 0%, rgba(42,14,18,.72) 16%, rgba(42,14,18,.18) 42%, rgba(42,14,18,0) 62%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(0deg, #2A0E12 0%, rgba(42,14,18,.55) 20%, rgba(42,14,18,0) 48%), linear-gradient(180deg, rgba(42,14,18,.6) 0%, rgba(42,14,18,0) 22%)",
+          }}
+        />
         <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
       </div>
-      <Contours className="-z-10 opacity-80 [mask-image:linear-gradient(90deg,#000_30%,transparent_70%)]" />
-      <BrazilMap className="absolute left-[18%] top-24 -z-10 hidden w-[340px] bg-copper-bright/[.14] lg:block" />
+      <Contours fade="left" className="-z-10" />
 
       <div className="container-content grid gap-10 pb-36 pt-[116px] md:pt-[140px] lg:min-h-[760px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:pb-40">
         <div className="relative">

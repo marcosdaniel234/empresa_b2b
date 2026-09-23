@@ -34,7 +34,7 @@ export default function LojasPage() {
   return (
     <>
       <section className="on-dark relative overflow-hidden bg-brand-900 py-12 text-white lg:py-16">
-        <Contours className="opacity-80" />
+        <Contours />
         <div className="container-content relative">
           <p className="kicker-on-dark animate-rise">Lojas</p>
           <h1
