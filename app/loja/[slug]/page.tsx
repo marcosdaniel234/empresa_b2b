@@ -8,7 +8,7 @@ import { ImageSlot } from "@/components/ui/ImageSlot";
 import { Backdrop } from "@/components/brand/Backdrop";
 import { FollowButton } from "@/components/catalog/FollowButton";
 import { companyInitials, companyShortName } from "@/lib/format";
-import { assetPhoto } from "@/lib/images";
+import { assetPhoto, companyPhoto } from "@/lib/images";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -36,18 +36,19 @@ export default async function LojaPage({ params }: PageProps) {
     (a) => a.status !== "cancelado" && !a.status.startsWith("encerrado"),
   );
   const capa = disponiveis[0] ?? assets[0];
+  const capaDaLoja = companyPhoto(company.slug);
   const nome = companyShortName(company.name);
 
   return (
     <>
       <section className="on-dark relative isolate overflow-hidden bg-brand-900 text-white">
-        {capa && (
+        {(capaDaLoja || capa) && (
           <div
             aria-hidden="true"
             className="absolute inset-0 -z-10 lg:left-1/2"
           >
             <ImageSlot
-              src={assetPhoto(capa.slug)}
+              src={capaDaLoja ?? assetPhoto(capa!.slug)}
               ratio="h-full"
               sizes="50vw"
               className="h-full"

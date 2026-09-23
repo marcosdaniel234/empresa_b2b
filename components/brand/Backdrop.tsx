@@ -18,6 +18,8 @@
  * O caminho do SVG entra por estilo inline, e não em CSS, porque precisa do
  * basePath da publicação no GitHub Pages.
  */
+import { photoSources } from "@/lib/images";
+
 const WINE = "107, 42, 47"; // #6B2A2F, brand-600
 
 const GLOW = `radial-gradient(ellipse 70% 58% at 28% 50%, rgba(${WINE}, .6), rgba(${WINE}, 0))`;
@@ -49,10 +51,37 @@ export function Backdrop({
   fade = "edges",
 }: {
   className?: string;
-  variant?: "degrade" | "rotas";
+  variant?: "degrade" | "rotas" | "metal" | "industrial";
   fade?: keyof typeof MASKS;
 }) {
   const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+  const material = variant === "metal" || variant === "industrial"
+    ? photoSources(`/images/backgrounds/${variant === "metal" ? "metal-cobre" : "panorama-industrial"}.webp`)
+    : null;
+  if (material) {
+    return (
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
+        style={masked([MASKS[fade]])}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- assets responsivos na exportação estática */}
+        <img
+          src={material.src}
+          srcSet={material.srcSet}
+          sizes="100vw"
+          alt=""
+          width={1600}
+          height={900}
+          loading={fade === "left" ? "eager" : "lazy"}
+          decoding="async"
+          className={`absolute inset-0 size-full object-cover ${variant === "metal" ? "opacity-75" : "opacity-65"}`}
+          style={{ objectPosition: "right center" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-900/50 via-brand-900/20 to-brand-900/10" />
+      </div>
+    );
+  }
   return (
     <>
       <div

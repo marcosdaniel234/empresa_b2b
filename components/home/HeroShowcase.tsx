@@ -129,7 +129,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
         />
         <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
       </div>
-      <Backdrop fade="left" className="-z-10" />
+      <Backdrop variant="metal" fade="left" className="-z-10" />
 
       <div className="container-content grid gap-10 pb-36 pt-[116px] md:pt-[140px] lg:min-h-[760px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:pb-40">
         <div className="relative">
