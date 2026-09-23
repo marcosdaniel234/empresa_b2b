@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getStateCounts } from "@/lib/data";
 import { BRAZIL_STATES, BRAZIL_VIEWBOX } from "@/lib/brazilMap";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 import { StateFlag } from "@/components/brand/StateFlag";
 
 const destino = (uf: string) => `/resultados?uf=${uf}`;
@@ -33,7 +33,7 @@ export function StatesExplorer() {
       className="estados on-dark relative overflow-hidden bg-brand-900 py-16 lg:py-24"
     >
       <style dangerouslySetInnerHTML={{ __html: css }} />
-      <Contours />
+      <Backdrop variant="pontos" />
 
       <div className="container-content relative grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
         <div>

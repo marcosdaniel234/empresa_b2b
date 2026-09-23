@@ -5,7 +5,7 @@ import { COMPANIES, getAssetsByCompany, getCompanyBySlug } from "@/lib/data";
 import { getAuctionEventByCompany } from "@/lib/auctions";
 import { CompanyAssetTabs } from "@/components/catalog/CompanyAssetTabs";
 import { ImageSlot } from "@/components/ui/ImageSlot";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 import { FollowButton } from "@/components/catalog/FollowButton";
 import { companyInitials, companyShortName } from "@/lib/format";
 import { assetPhoto } from "@/lib/images";
@@ -57,7 +57,7 @@ export default async function LojaPage({ params }: PageProps) {
             <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
           </div>
         )}
-        <Contours fade="left" className="-z-10" />
+        <Backdrop variant="pontos" fade="left" className="-z-10" />
 
         <div className="container-content py-10 lg:py-14">
           <nav

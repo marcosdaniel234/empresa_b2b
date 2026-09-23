@@ -55,11 +55,12 @@ cartão baixa a versão pequena e a abertura, a grande. O conjunto caiu de
 
 Outros arquivos gerados por script, versionados já prontos:
 
-- `public/images/curvas.svg` — textura de curvas de nível das faixas vinho
-  (`node scripts/generate-contours.mjs`, determinístico): isolinhas reais de
-  um relevo contínuo, extraídas por marching squares, com curva mestra a cada
-  cinco. Nas bordas de cada faixa a textura se dissolve, para que faixas
-  vizinhas nunca mostrem as linhas cortadas na emenda.
+- `public/images/rotas.svg` — fundo das faixas vinho
+  (`node scripts/generate-backdrop.mjs`, determinístico): o Brasil em retícula
+  de pontos, com rotas pontilhadas entre os estados que têm lotes. O
+  componente `Backdrop` protege o lado do texto (o desenho só aparece do meio
+  para a direita), dissolve o fundo nas bordas de cada faixa e, no celular,
+  troca as rotas por uma malha fina de pontos.
 - `lib/brazilMap.ts` — traçado das 27 UFs para o mapa clicável da página
   inicial (`node scripts/generate-brazil-map.mjs`, a partir de `@svg-maps/brazil`).
 - `public/images/states/*.webp` — bandeiras das UFs, rasterizadas de
@@ -154,7 +155,9 @@ empresas).
   (`scripts/check-contrast.mjs`).
 - **Tipografia**: Plus Jakarta Sans em extrabold com tracking negativo nos
   títulos; Roboto Mono reservada a códigos e números tabulares.
-- **Textura**: curvas de nível em cobre sobre o vinho.
+- **Fundo**: o Brasil em pontos de cobre, cruzado por rotas entre os estados
+  com lotes — “novos destinos”. Onde já há foto ou mapa, só a malha de pontos.
+  Prompts para gerar versões fotográficas: [`docs/design/PROMPTS_IMAGENS.md`](./docs/design/PROMPTS_IMAGENS.md).
 - **Estados**: a seção “Ativos em todo o Brasil” liga mapa e bandeiras ao
   catálogo filtrado por UF; passar o ponteiro numa bandeira acende o estado no
   mapa (só CSS, com `:has`). No catálogo, o filtro de estado usa as bandeiras,

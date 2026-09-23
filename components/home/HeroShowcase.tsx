@@ -17,7 +17,7 @@ import { formatCurrencyCard } from "@/lib/format";
 import { assetPhoto, photoSources } from "@/lib/images";
 import { CompactCountdown } from "@/components/auction/CountdownClock";
 import { BrazilMap } from "@/components/brand/BrazilMap";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 
 export interface ShowcaseSlide {
   asset: Asset;
@@ -124,7 +124,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
         />
         <div className="absolute inset-0 bg-brand-900/70 lg:hidden" />
       </div>
-      <Contours fade="left" className="-z-10" />
+      <Backdrop variant="pontos" fade="left" className="-z-10" />
 
       <div className="container-content grid gap-10 pb-36 pt-[116px] md:pt-[140px] lg:min-h-[760px] lg:grid-cols-[minmax(0,560px)_minmax(0,1fr)] lg:pb-40">
         <div className="relative">

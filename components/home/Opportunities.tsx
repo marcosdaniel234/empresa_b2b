@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { Asset, CATEGORY_SHORT, Category } from "@/lib/data";
 import { assetPhoto, photoSources } from "@/lib/images";
 import { AssetCard } from "@/components/catalog/AssetCard";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
@@ -47,7 +47,7 @@ function SideRail({ side, text, slug }: { side: "left" | "right"; text: string; 
         loading="lazy"
         className="absolute inset-0 size-full object-cover opacity-30 mix-blend-luminosity"
       />
-      <Contours fade="none" className="opacity-80" />
+      <Backdrop variant="pontos" fade="none" />
       <p
         className={`relative mt-14 whitespace-pre-line px-6 text-[11px] font-semibold uppercase leading-5 tracking-[.26em] text-white/75 ${
           side === "right" ? "text-left" : ""

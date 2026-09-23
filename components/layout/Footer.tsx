@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 import { Wordmark } from "./Header";
 import { BrazilMap } from "@/components/brand/BrazilMap";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -43,7 +43,7 @@ const SOCIAIS = [
 export function Footer() {
   return (
     <footer className="on-dark relative overflow-hidden border-t border-white/[.07] bg-brand-900 text-white/70">
-      <Contours />
+      <Backdrop className="opacity-60" />
 
       <div className="container-content relative grid gap-10 pb-10 pt-14 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))] lg:pt-20">
         <div>

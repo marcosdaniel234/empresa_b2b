@@ -9,36 +9,9 @@
  * idêntica no tamanho em que o mapa aparece, com cerca de metade do peso.
  */
 import { writeFileSync } from "node:fs";
-import brazil from "@svg-maps/brazil";
+import { brazil, STATES } from "./brazil-geometry.mjs";
 
 const TOLERANCE = 0.35;
-
-function rings(d) {
-  const tokens = d.trim().split(/[\s,]+|(?=[mz])|(?<=[mz])/i).filter(Boolean);
-  const out = [];
-  let cur = null;
-  let x = 0;
-  let y = 0;
-  for (let i = 0; i < tokens.length; i++) {
-    const t = tokens[i];
-    if (t === "m") {
-      x += Number(tokens[++i]);
-      y += Number(tokens[++i]);
-      cur = [[x, y]];
-      out.push(cur);
-    } else if (t === "z" || t === "Z") {
-      cur = null;
-    } else {
-      x += Number(t);
-      y += Number(tokens[++i]);
-      if (!cur) {
-        cur = [[x, y]];
-        out.push(cur);
-      } else cur.push([x, y]);
-    }
-  }
-  return out;
-}
 
 function simplify(pts, tol) {
   if (pts.length < 3) return pts;
@@ -60,31 +33,13 @@ function simplify(pts, tol) {
 
 const r = (n) => Number(n.toFixed(1));
 
-// Centroide do maior anel: onde o mapa ancora o marcador de cada UF.
-function centroid(ring) {
-  let a = 0;
-  let cx = 0;
-  let cy = 0;
-  for (let i = 0; i < ring.length; i++) {
-    const [x0, y0] = ring[i];
-    const [x1, y1] = ring[(i + 1) % ring.length];
-    const f = x0 * y1 - x1 * y0;
-    a += f;
-    cx += (x0 + x1) * f;
-    cy += (y0 + y1) * f;
-  }
-  return { area: Math.abs(a / 2), x: cx / (3 * a), y: cy / (3 * a) };
-}
-
-const states = brazil.locations.map((loc) => {
-  const all = rings(loc.path);
-  const main = all.map(centroid).sort((p, q) => q.area - p.area)[0];
-  const d = all
+const states = STATES.map((st) => {
+  const d = st.rings
     .map((ring) => simplify(ring, TOLERANCE))
     .filter((ring) => ring.length > 2)
     .map((ring) => "M" + ring.map(([px, py]) => `${r(px)} ${r(py)}`).join("L") + "Z")
     .join("");
-  return { uf: loc.id.toUpperCase(), name: loc.name, x: r(main.x), y: r(main.y), d };
+  return { uf: st.uf, name: st.name, x: r(st.x), y: r(st.y), d };
 });
 
 const file = `/**

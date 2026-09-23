@@ -14,7 +14,7 @@ import { ASSETS, COMPANIES } from "@/lib/data";
 import { companyInitials, companyShortName } from "@/lib/format";
 import { assetPhoto, photoSources } from "@/lib/images";
 import { AnnouncementChecklist } from "@/components/catalog/AnnouncementChecklist";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 import { BrazilMap } from "@/components/brand/BrazilMap";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 import { SellerForm } from "@/components/seller/SellerForm";
@@ -85,7 +85,7 @@ export default function AnunciarPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-brand-900/90 via-transparent to-brand-900/50" />
           <div className="absolute inset-0 bg-brand-900/75 lg:hidden" />
         </div>
-        <Contours fade="left" className="-z-10" />
+        <Backdrop variant="pontos" fade="left" className="-z-10" />
 
         <div className="container-content grid gap-12 pb-16 pt-[116px] md:pt-[140px] lg:min-h-[720px] lg:grid-cols-[minmax(0,600px)_minmax(0,1fr)] lg:pb-20">
           <div>
@@ -231,7 +231,7 @@ export default function AnunciarPage() {
         aria-labelledby="titulo-cadastro"
         className="on-dark relative overflow-hidden bg-brand-800 py-16 lg:py-24"
       >
-        <Contours />
+        <Backdrop />
         <BrazilMap className="absolute -left-20 bottom-0 hidden w-[460px] bg-copper-bright/[.1] lg:block" />
         <div className="container-content relative grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div data-reveal>

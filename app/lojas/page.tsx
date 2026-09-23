@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ASSETS, COMPANIES } from "@/lib/data";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 import { StoreDirectory, StoreEntry } from "@/components/catalog/StoreDirectory";
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function LojasPage() {
   return (
     <>
       <section className="on-dark relative overflow-hidden bg-brand-900 py-12 text-white lg:py-16">
-        <Contours />
+        <Backdrop />
         <div className="container-content relative">
           <p className="kicker-on-dark animate-rise">Lojas</p>
           <h1

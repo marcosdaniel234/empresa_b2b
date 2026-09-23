@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { ASSETS, CATEGORY_SHORT, Category } from "@/lib/data";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 
 const CATEGORIES = Object.keys(CATEGORY_SHORT) as Category[];
 
@@ -90,7 +90,7 @@ export function MainMenu() {
           id="menu-principal"
           className="fixed inset-x-0 bottom-0 top-[68px] z-40 animate-fade-in overflow-y-auto bg-brand-900 md:top-[76px]"
         >
-          <Contours />
+          <Backdrop variant="pontos" />
           <div className="container-content relative py-6">
             <nav aria-label="Principal">
               <ul>

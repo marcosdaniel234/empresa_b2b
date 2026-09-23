@@ -3,7 +3,7 @@ import { ArrowRight, MapPin } from "lucide-react";
 import { ASSETS, COMPANIES, Company } from "@/lib/data";
 import { companyInitials, companyShortName } from "@/lib/format";
 import { assetPhoto } from "@/lib/images";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 import { FollowButton } from "@/components/catalog/FollowButton";
 import { ImageSlot } from "@/components/ui/ImageSlot";
 
@@ -32,7 +32,7 @@ export function CompaniesBand() {
       aria-labelledby="titulo-empresas"
       className="on-dark relative overflow-hidden bg-brand-900 py-16 lg:py-24"
     >
-      <Contours />
+      <Backdrop variant="pontos" />
       {/* Mesma grade do rodapé logo abaixo: o texto ocupa a primeira coluna e os
           cartões começam exatamente onde começa "Explorar". */}
       <div className="container-content relative grid items-start gap-10 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,.7fr))]">

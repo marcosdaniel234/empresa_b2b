@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Contours } from "@/components/brand/Contours";
+import { Backdrop } from "@/components/brand/Backdrop";
 
 /**
- * Faixa de abertura das páginas internas: vinho com curvas de nível, trilha,
+ * Faixa de abertura das páginas internas: vinho com o Brasil em pontos e rotas, trilha,
  * título grande e uma linha de apoio — a mesma voz da página inicial, em
  * escala menor.
  */
@@ -19,7 +19,7 @@ export function PageIntro({
 }) {
   return (
     <section className="on-dark relative overflow-hidden bg-brand-900 text-white">
-      <Contours />
+      <Backdrop />
       <div className="container-content relative pb-10 pt-6 lg:pb-12">
         <nav aria-label="Trilha de navegação" className="text-[13px] text-white/65">
           <Link href="/" className="hover:text-white hover:underline">
