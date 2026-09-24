@@ -182,6 +182,19 @@ test("every lot points at a subcategory that exists in the taxonomy", () => {
   assert.equal(new Set(lots).size, lots.length, "códigos de lote duplicados");
 });
 
+test("Sea-Doo and Can-Am product lines are available as direct sales", () => {
+  const branded = ASSETS.filter((asset) =>
+    ["sea-doo-", "can-am-"].some((prefix) => asset.slug.startsWith(prefix)),
+  );
+  assert.equal(branded.length, 4);
+  assert.ok(branded.every((asset) => asset.modalidade === "venda_direta"));
+  assert.ok(branded.every((asset) => asset.category === "veiculos"));
+  assert.deepEqual(
+    new Set(branded.map((asset) => asset.subcategory)),
+    new Set(["motonautica", "quadriciclos"]),
+  );
+});
+
 test("sale modality filters and survives the URL round trip", () => {
   const diretas = applyFilters({ ...EMPTY_FILTERS, modalidade: "venda_direta" });
   const leiloes = applyFilters({ ...EMPTY_FILTERS, modalidade: "leilao" });

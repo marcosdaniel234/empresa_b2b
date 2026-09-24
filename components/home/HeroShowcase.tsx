@@ -12,7 +12,7 @@ import {
   Tag,
   Timer,
 } from "lucide-react";
-import { Asset } from "@/lib/data";
+import { Asset, modalidadeOf } from "@/lib/data";
 import { formatCurrencyCard } from "@/lib/format";
 import { assetPhoto, photoSources } from "@/lib/images";
 import { CompactCountdown } from "@/components/auction/CountdownClock";
@@ -33,6 +33,12 @@ const PILARES = [
   { icon: BarChart3, label: "Mais negócios\npara hoje" },
   { icon: Gem, label: "Mais valor\npara amanhã" },
 ];
+
+function showcaseTitle(slide: ShowcaseSlide) {
+  return slide.year && !slide.asset.title.includes(slide.year)
+    ? `${slide.asset.title} • ${slide.year}`
+    : slide.asset.title;
+}
 
 /**
  * Abertura da página inicial: a promessa da marca à esquerda e, ao fundo, a
@@ -75,12 +81,14 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
 
   if (!current) return null;
   const { asset } = current;
+  const vendaDireta = modalidadeOf(asset) === "venda_direta";
   const aberto = asset.currentBid !== null;
+  const title = showcaseTitle(current);
 
   return (
     <section
       aria-roledescription="carrossel"
-      aria-label="Lotes em destaque"
+      aria-label="Produtos em destaque"
       className="on-dark relative isolate overflow-hidden bg-brand-900 text-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -231,14 +239,17 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                 href={`/leilao/${asset.slug}`}
                 className="after:absolute after:inset-0 after:content-[''] hover:text-accent-bright"
               >
-                {asset.title}
-                {current.year ? ` • ${current.year}` : ""}
+                {title}
               </Link>
             </h2>
             <div className="mt-3 flex items-end gap-5">
               <div>
                 <p className="text-[14px] text-white/70">
-                  {aberto ? "Lance atual" : "Lance inicial"}
+                  {vendaDireta
+                    ? "Preço"
+                    : aberto
+                      ? "Lance atual"
+                      : "Lance inicial"}
                 </p>
                 <p className="text-[30px] font-extrabold leading-9 tracking-[-.03em] tabular">
                   {formatCurrencyCard(asset.currentBid ?? asset.startingBid)}
@@ -252,7 +263,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                   className="text-white/80"
                 />
                 <p className="text-[13px] leading-tight text-white/70">
-                  Encerra em
+                  {vendaDireta ? "Disponível por" : "Encerra em"}
                   <span className="block text-[17px] font-bold text-white">
                     <CompactCountdown deadlineIso={asset.deadlineIso} />
                   </span>
@@ -315,8 +326,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
                       className="aspect-[16/9] w-full object-cover"
                     />
                     <span className="absolute inset-x-0 bottom-0 line-clamp-2 bg-gradient-to-t from-brand-900/95 to-transparent px-2.5 pb-2 pt-6 text-[12px] font-medium leading-4">
-                      {slide.asset.title}
-                      {slide.year ? ` • ${slide.year}` : ""}
+                      {showcaseTitle(slide)}
                     </span>
                   </button>
                 );
@@ -357,7 +367,7 @@ export function HeroShowcase({ slides }: { slides: ShowcaseSlide[] }) {
       </div>
 
       <p className="sr-only" aria-live={announce ? "polite" : "off"}>
-        {`Lote ${index + 1} de ${total}: ${asset.title}`}
+        {`Produto ${index + 1} de ${total}: ${asset.title}`}
       </p>
     </section>
   );

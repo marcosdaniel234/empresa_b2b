@@ -1,4 +1,4 @@
-import { ASSETS, Asset, getStateCounts, modalidadeOf } from "@/lib/data";
+import { ASSETS, Asset, getStateCounts } from "@/lib/data";
 import { HeroShowcase, ShowcaseSlide } from "@/components/home/HeroShowcase";
 import { SearchPanel } from "@/components/home/SearchPanel";
 import { TrustRow } from "@/components/home/TrustRow";
@@ -14,13 +14,17 @@ function spec(asset: Asset, test: (label: string) => boolean) {
   return asset.specs.find((s) => test(s.label))?.value;
 }
 
-/** Os três leilões abertos de maior valor abrem a página. */
+const HERO_PRODUCT_SLUGS = [
+  "sea-doo-wake-pro-230-2026",
+  "sea-doo-gtx-170-2026",
+  "can-am-outlander-max-xt-700-2026",
+  "can-am-renegade-xmr-1000r-2026",
+];
+
+/** Produtos selecionados para a vitrine principal. */
 function destaques(): ShowcaseSlide[] {
-  return ASSETS.filter(
-    (a) => modalidadeOf(a) === "leilao" && (a.status === "aberto" || a.status === "encerrando"),
-  )
-    .sort((a, b) => (b.currentBid ?? b.startingBid) - (a.currentBid ?? a.startingBid))
-    .slice(0, 3)
+  return HERO_PRODUCT_SLUGS.map((slug) => ASSETS.find((a) => a.slug === slug))
+    .filter((asset): asset is Asset => Boolean(asset))
     .map((asset) => ({
       asset,
       year: spec(asset, (l) => l.startsWith("Ano"))?.split("/")[0],
